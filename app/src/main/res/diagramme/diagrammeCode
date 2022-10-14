@@ -1,0 +1,60 @@
+@startuml
+
+class GestionnaireMaison{
+
+}
+GestionnaireMaison --"*"Maison
+
+
+
+class Maison {
+   +int id
+
+}
+Maison -- "*"Piece
+
+class Piece {
+   +String nom
+   +String id
+
+
+}
+Piece -- "4" Mur
+
+
+class Mur{
+   +String id
+   +Bitmap photo
+
+
+
+}
+Mur -- "*"Porte
+Mur --"1"Orientation
+
+
+class Porte{
+     +String id
+     +Rectangle rectangle
+
+}
+Porte --"1"Piece
+
+class FabriqueIdentifiant{
+  +int numMur
+  +int numPorte
+  +int numPiece
+
+}
+FabriqueIdentifiant --"1"FabriqueIdentifiant
+
+Enum Orientation{
+   NORD
+   EST
+   SUD
+   OUEST
+
+ Orientation(String oriantation)
+}
+
+@enduml
