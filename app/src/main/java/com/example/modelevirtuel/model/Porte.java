@@ -4,6 +4,8 @@ public class Porte {
     private Piece arriver;
     private String id;
 
+    private Piece pieceArriver;
+
 
     /**
      * Constructeur
