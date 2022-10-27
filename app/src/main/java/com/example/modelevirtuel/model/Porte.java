@@ -16,4 +16,28 @@ public class Porte {
         this.arriver = arriver;
         this.id = id;
     }
+
+    public Piece getArriver() {
+        return arriver;
+    }
+
+    public void setArriver(Piece arriver) {
+        this.arriver = arriver;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Piece getPieceArriver() {
+        return pieceArriver;
+    }
+
+    public void setPieceArriver(Piece pieceArriver) {
+        this.pieceArriver = pieceArriver;
+    }
 }

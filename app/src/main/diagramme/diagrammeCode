@@ -2,6 +2,8 @@
 
 class GestionnaireMaison{
 
+GestionnaireMaison()
+ajouterUneMaison(Maison m)
 }
 GestionnaireMaison --"*"Maison
 
@@ -9,6 +11,8 @@ GestionnaireMaison --"*"Maison
 
 class Maison {
    +int id
+Maison(String nom, String id)
+void nouvellePiece(Piece p)
 
 }
 Maison -- "*"Piece
@@ -16,6 +20,7 @@ Maison -- "*"Piece
 class Piece {
    +String nom
    +String id
+Piece(String nom, String id)
 
 
 }
@@ -25,6 +30,9 @@ Piece -- "4" Mur
 class Mur{
    +String id
    +Bitmap photo
+
+Mur()
+nouvellePorte(Porte p)
 
 
 
@@ -36,6 +44,7 @@ Mur --"1"Orientation
 class Porte{
      +String id
      +Rectangle rectangle
+Porte(Piece arriver, String id)
 
 }
 Porte --"1"Piece
@@ -44,6 +53,8 @@ class FabriqueIdentifiant{
   +int numMur
   +int numPorte
   +int numPiece
+FabriqueIdentifiant()
+FabriqueIdentifiant getInstance()
 
 }
 FabriqueIdentifiant --"1"FabriqueIdentifiant

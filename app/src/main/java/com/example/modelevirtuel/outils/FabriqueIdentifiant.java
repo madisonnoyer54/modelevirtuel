@@ -4,6 +4,8 @@ public class FabriqueIdentifiant {
     private int idPiece;
     private int idPorte;
     private int idMur;
+
+    private int idMaison;
     private static FabriqueIdentifiant fabriqueIdentifiant = new FabriqueIdentifiant();
 
 
@@ -14,6 +16,7 @@ public class FabriqueIdentifiant {
         this.idMur = 0;
         this.idPorte = 0;
         this.idPiece = 0;
+        this.idMaison = 0;
     }
 
 
@@ -30,6 +33,7 @@ public class FabriqueIdentifiant {
      * @return
      */
     public int getIdPiece() {
+        idPiece++;
         return idPiece;
     }
 
@@ -39,6 +43,7 @@ public class FabriqueIdentifiant {
      * @return
      */
     public int getIdPorte() {
+        idPorte++;
         return idPorte;
     }
 
@@ -48,7 +53,13 @@ public class FabriqueIdentifiant {
      * @return
      */
     public int getIdMur() {
+        idMur++;
         return idMur;
+    }
+
+    public int getIdMaison(){
+        idMaison++;
+        return  idMaison;
     }
 
 }
