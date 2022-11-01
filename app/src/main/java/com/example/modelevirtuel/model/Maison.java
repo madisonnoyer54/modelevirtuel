@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Maison {
     private String nom;
 
-    private String id;
+    private int id;
     private HashMap<String,Piece> listPiece;
 
     /**
@@ -15,6 +15,7 @@ public class Maison {
     public Maison(String nom, int id) {
         listPiece = new HashMap<>();
         this.nom = nom;
+        this.id = id;
     }
 
 
@@ -34,11 +35,11 @@ public class Maison {
         this.nom = nom;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

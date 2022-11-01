@@ -16,7 +16,7 @@ public class FabriqueIdentifiant {
         this.idMur = 0;
         this.idPorte = 0;
         this.idPiece = 0;
-        this.idMaison = 0;
+        this.idMaison = -1;
     }
 
 

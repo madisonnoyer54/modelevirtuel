@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GestionnaireMaison {
-    private HashMap<String,Maison> listMaison;
+    private HashMap<Integer,Maison> listMaison;
 
     /**
      * Constructeur
@@ -18,12 +18,18 @@ public class GestionnaireMaison {
         listMaison.put(m.getId(),m);
     }
 
-    public HashMap<String, Maison> getListMaison() {
+    public HashMap<Integer, Maison> getListMaison() {
         return listMaison;
     }
 
-    public void setListMaison(HashMap<String,Maison> listMaison) {
+    public Maison getMaison(int i){
+        return listMaison.get(i);
+    }
+
+    public void setListMaison(HashMap<Integer,Maison> listMaison) {
         this.listMaison = listMaison;
     }
+
+
 }
 
