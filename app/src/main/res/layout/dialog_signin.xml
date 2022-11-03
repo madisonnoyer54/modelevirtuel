@@ -4,6 +4,7 @@
                                                    android:layout_gravity="center"
                                                    android:gravity="center"
                                                    android:layout_height="match_parent">
+
     <TextView
             android:text="Choisiser les informations de la maison"
             android:layout_width="wrap_content"

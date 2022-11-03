@@ -1,10 +1,12 @@
 package com.example.modelevirtuel;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,9 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.*;
 import com.example.modelevirtuel.model.GestionnaireMaison;
 import com.example.modelevirtuel.model.Maison;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
@@ -28,44 +28,67 @@ import com.example.modelevirtuel.outils.MaisonAdapter;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    GestionnaireMaison maison;
+    GestionnaireMaison listMaison;
     Dialog dialog;
     TextView aucune;
+    MaisonAdapter maisonAdapter;
     private static final int DIALOG_ALERT = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // On bloque en mode portrait
         this.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
 
 
         setContentView(R.layout.activity_main);
-        maison = new GestionnaireMaison();
+        listMaison = new GestionnaireMaison();
 
          aucune = findViewById(R.id.AucunEnregistrer);
 
-        if(maison.getListMaison().isEmpty()){
+        if(listMaison.getListMaison().isEmpty()){
             aucune.setVisibility(View.VISIBLE);
         }else{
             aucune.setVisibility(View.INVISIBLE);
         }
 
-        miseAJourRecy();
+
+        // Liste des maisons
+        RecyclerView recycler =  findViewById(R.id.RecyMaison);
+        maisonAdapter = new MaisonAdapter(listMaison);
+        recycler.setAdapter(maisonAdapter);
+
+        // Mettre la recy horizontalement
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recycler.setLayoutManager(linearLayoutManager);
+
+
+    }
+
+    public void maisonSelectionner(View view){
+        view.setBackground(Drawable.createFromPath("@drawable/background_corner"));
+        TextView num =  view.findViewById(R.id.item_Num);
+        Toast.makeText((Context) MainActivity.this,"le nom select "  + num.getText(), Toast.LENGTH_SHORT).show();
+
+        int id =Integer.parseInt((String) num.getText()) ;
+        listMaison.setSelectMaison(listMaison.getMaison(id));
+
+        Intent ic = new Intent(MainActivity.this, MaisonActivity.class);
+        startActivity(ic);
+
     }
 
 
+    @SuppressLint("ResourceType")
     public void ajouterMaison(View view){
         String id = null;
 
         showDialog(DIALOG_ALERT);
-      //  Maison maison = new Maison(id,nom);
-
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_signin);
 
-
         dialog.show();
-
     }
 
     public void continuer(View view){
@@ -73,43 +96,26 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = dialog.findViewById(R.id.username);
         editText.getText();
         nom = editText.getText().toString().trim();
-        Toast.makeText((Context) MainActivity.this, (CharSequence) nom, Toast.LENGTH_SHORT).show();
 
         int num =FabriqueIdentifiant.getInstance().getIdMaison();
-        Log.i("main", maison.getListMaison().toString() );
-        maison.ajouterUneMaison(new Maison(nom, num));
+        listMaison.ajouterUneMaison(new Maison(nom, num));
 
         dialog.cancel();
 
-        if(maison.getListMaison().isEmpty()){
+        if(listMaison.getListMaison().isEmpty()){
             aucune.setVisibility(View.VISIBLE);
         }else{
             aucune.setVisibility(View.INVISIBLE);
         }
-        miseAJourRecy();
 
-
-
+        // Mise a jour de la Recy
+        maisonAdapter.notifyDataSetChanged();
     }
 
     public void annuler(View view){
         dialog.cancel();
     }
 
-
-
-    public void miseAJourRecy(){
-        RecyclerView recycler =  findViewById(R.id.RecyMaison);
-
-
-        MaisonAdapter adapteur = new MaisonAdapter(maison);
-        recycler.setAdapter(adapteur);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-
-        DividerItemDecoration deco = new DividerItemDecoration(recycler.getContext(), DividerItemDecoration.VERTICAL);
-        recycler.addItemDecoration(deco);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){

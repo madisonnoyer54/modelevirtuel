@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         tools:context=".MainActivity">
     <TextView
             android:text="Vos maisons enregistrée : "
@@ -12,20 +13,23 @@
             android:textSize="20dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="#121211"
+            android:textColor="#10100E"
             android:layout_height="107dp" android:id="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_gravity="center"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:layout_width="328dp"
-            android:layout_height="229dp"
+            android:layout_width="333dp"
+            android:layout_height="199dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
             app:layout_constraintBottom_toTopOf="@+id/AjouterMaison"
             app:layout_constraintTop_toBottomOf="@+id/textView2" app:layout_constraintVertical_bias="0.0"
             tools:ignore="NotSibling,UnknownId" android:id="@+id/RecyMaison"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp" android:background="#00DC7373">
     </androidx.recyclerview.widget.RecyclerView>
     <Button
@@ -40,10 +44,11 @@
             android:id="@+id/AjouterMaison"
             tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/AucunEnregistrer"
+            android:layout_marginTop="32dp"/>
     <TextView
             android:layout_width="163dp"
-            android:textColor="#121211"
+            android:textColor="#10100F"
             android:text="Aucune maison enregistée"
             android:layout_gravity="center"
             android:gravity="center"

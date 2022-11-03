@@ -1,5 +1,6 @@
 package com.example.modelevirtuel.outils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
 
     public MaisonAdapter(GestionnaireMaison maison){
         this.list = maison;
+
     }
 
 
@@ -29,15 +31,15 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.fragment_maison_item, parent, false);
 
-        return new MaisonItemViewHolder(view);
+
+        return new MaisonItemViewHolder(context,view);
     }
+
 
     // UPDATE VIEW HOLDER WITH A GITHUBUSER
     @Override
     public void onBindViewHolder(MaisonItemViewHolder viewHolder, int position) {
 
-        Log.i("dd", String.valueOf(position));
-        Log.i("maison nom", String.valueOf(this.list.getMaison(position)));
         viewHolder.updateMaison(this.list.getMaison(position));
     }
 
