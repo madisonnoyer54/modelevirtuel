@@ -11,7 +11,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="126dp"
-            android:onClick="maisonSelectionner"
             android:background="@drawable/background_corner"
             android:layout_height="174dp">
 

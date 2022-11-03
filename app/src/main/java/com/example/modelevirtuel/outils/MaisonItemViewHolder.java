@@ -15,15 +15,15 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
     private TextView nom;
     private TextView num;
     private Maison maison;
-    private Context context;
 
 
 
-    public MaisonItemViewHolder( Context context,View itemView ) {
+
+    public MaisonItemViewHolder( View itemView ) {
         super(itemView);
-        nom = itemView.findViewById(R.id.item_Nom_piece);
-        num = itemView.findViewById(R.id.item_num_piece);
-        this.context = context;
+        nom = itemView.findViewById(R.id.item_Nom_maison);
+        num = itemView.findViewById(R.id.item_num_maison);
+
 
     }
 
@@ -32,7 +32,6 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
     public void updateMaison(Maison maison){
         this.maison = maison;
         this.nom.setText(maison.getNom());
-        Log.i("id", String.valueOf(maison.getId()));
         this.num.setText(String.valueOf(maison.getId()));
 
     }

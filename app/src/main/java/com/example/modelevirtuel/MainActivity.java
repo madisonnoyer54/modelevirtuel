@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void maisonSelectionner(View view){
-        TextView num =  view.findViewById(R.id.item_num_piece);
+        TextView num =  view.findViewById(R.id.item_num_maison);
         Toast.makeText((Context) MainActivity.this,"le nom select "  + num.getText(), Toast.LENGTH_SHORT).show();
 
         int id =Integer.parseInt((String) num.getText()) ;

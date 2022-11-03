@@ -31,7 +31,7 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
         View view = inflater.inflate(R.layout.fragment_maison_item, parent, false);
 
 
-        return new MaisonItemViewHolder(context,view);
+        return new MaisonItemViewHolder(view);
     }
 
 
