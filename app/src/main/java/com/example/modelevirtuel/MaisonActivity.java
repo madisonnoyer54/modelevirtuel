@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import com.example.modelevirtuel.model.GestionnaireMaison;
 import com.example.modelevirtuel.model.Maison;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
+import com.example.modelevirtuel.outils.MaisonAdapter;
 
 public class MaisonActivity extends AppCompatActivity {
 
@@ -35,6 +37,15 @@ public class MaisonActivity extends AppCompatActivity {
         nomText.setText(String.valueOf(listMaison.getSelectMaison().getNom()));
 
 
+    }
+
+    public void suppMaison(View view){
+        finish();
+        // On retourne sur la page d'acceuille car cette maison vas etre supprimer
+        Intent ic = new Intent(MaisonActivity.this, MainActivity.class);
+        startActivity(ic);
+
+        listMaison.supprimerMaison(ouvertMaison);
     }
 
 

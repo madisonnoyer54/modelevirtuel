@@ -20,7 +20,6 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
 
     public MaisonAdapter(GestionnaireMaison maison){
         this.list = maison;
-
     }
 
 

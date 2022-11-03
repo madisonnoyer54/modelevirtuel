@@ -19,10 +19,11 @@
     <ImageButton
             android:background="#00FFFFFF"
             android:layout_width="38dp"
+            android:onClick="suppMaison"
             android:layout_height="34dp" app:srcCompat="@drawable/poubelle" android:id="@+id/imageButton"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="4dp"
-            app:layout_constraintHorizontal_bias="0.893"/>
+            app:layout_constraintHorizontal_bias="0.893" tools:ignore="OnClick"/>
     <ImageButton
             android:background="#00FFFFFF"
             android:layout_width="52dp"
@@ -56,5 +57,13 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="72dp"
             app:layout_constraintHorizontal_bias="0.207"/>
+    <ImageView
+            android:background="#00FFFFFF"
+            android:layout_width="124dp"
+            android:layout_height="91dp" app:srcCompat="@drawable/bousole" android:id="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/nom_piece"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.477"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

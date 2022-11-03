@@ -48,5 +48,9 @@ public class GestionnaireMaison {
     }
 
 
+    public void supprimerMaison(Maison ouvertMaison) {
+        listMaison.remove(ouvertMaison.getId());
+        FabriqueIdentifiant.getInstance().getChangeIdMaison();
+    }
 }
 
