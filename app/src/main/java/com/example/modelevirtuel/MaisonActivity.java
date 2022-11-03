@@ -48,6 +48,10 @@ public class MaisonActivity extends AppCompatActivity {
         listMaison.supprimerMaison(ouvertMaison);
     }
 
+    public void suppPiece(View view){
+
+    }
+
 
 
     @Override
