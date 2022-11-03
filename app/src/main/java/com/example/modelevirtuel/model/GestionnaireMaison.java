@@ -1,11 +1,15 @@
 package com.example.modelevirtuel.model;
 
+import androidx.annotation.NonNull;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
-public class GestionnaireMaison {
+public class GestionnaireMaison implements Iterable<Maison> {
     private HashMap<Integer,Maison> listMaison;
     private Maison selectMaison;
 
@@ -43,14 +47,37 @@ public class GestionnaireMaison {
         return listMaison.get(i);
     }
 
+    @NonNull
+    @NotNull
+    @Override
+    public Iterator iterator() {
+        return listMaison.values().iterator();
+    }
+
     public void setListMaison(HashMap<Integer,Maison> listMaison) {
         this.listMaison = listMaison;
     }
 
 
     public void supprimerMaison(Maison ouvertMaison) {
+        HashMap<Integer, Maison> nv = new HashMap<>();
         listMaison.remove(ouvertMaison.getId());
-        FabriqueIdentifiant.getInstance().getChangeIdMaison();
+
+        FabriqueIdentifiant.getInstance().removeMaison();
+
+        Iterator<Maison> i = iterator();
+        while(i.hasNext()){
+            Maison m = i.next();
+            int num = FabriqueIdentifiant.getInstance().getIdMaison();
+            m.setId(num);
+
+            nv.put(num,m);
+        }
+
+        listMaison = nv;
     }
+
+
+
 }
 

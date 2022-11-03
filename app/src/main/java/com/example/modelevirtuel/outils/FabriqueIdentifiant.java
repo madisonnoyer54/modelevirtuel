@@ -62,9 +62,8 @@ public class FabriqueIdentifiant {
         return  idMaison;
     }
 
-    public int getChangeIdMaison(){
-        idMaison--;
-        return  idMaison;
+    public void removeMaison(){
+        idMaison = -1;
     }
 
 }
