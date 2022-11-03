@@ -1,22 +1,15 @@
 package com.example.modelevirtuel;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.*;
@@ -24,8 +17,6 @@ import com.example.modelevirtuel.model.GestionnaireMaison;
 import com.example.modelevirtuel.model.Maison;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.MaisonAdapter;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     GestionnaireMaison listMaison;
@@ -42,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
-        listMaison = new GestionnaireMaison();
+        listMaison = GestionnaireMaison.getInstance();
 
          aucune = findViewById(R.id.AucunEnregistrer);
 
@@ -67,29 +58,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void maisonSelectionner(View view){
-        view.setBackground(Drawable.createFromPath("@drawable/background_corner"));
-        TextView num =  view.findViewById(R.id.item_Num);
+        TextView num =  view.findViewById(R.id.item_num_piece);
         Toast.makeText((Context) MainActivity.this,"le nom select "  + num.getText(), Toast.LENGTH_SHORT).show();
 
         int id =Integer.parseInt((String) num.getText()) ;
         listMaison.setSelectMaison(listMaison.getMaison(id));
 
+        // Ouvrir la page avec la maison
         Intent ic = new Intent(MainActivity.this, MaisonActivity.class);
         startActivity(ic);
-
     }
 
 
-    @SuppressLint("ResourceType")
+
     public void ajouterMaison(View view){
         String id = null;
 
         showDialog(DIALOG_ALERT);
         dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_signin);
+        dialog.setContentView(R.layout.dialog_nom_maison);
 
         dialog.show();
     }
+
 
     public void continuer(View view){
         String nom = null;

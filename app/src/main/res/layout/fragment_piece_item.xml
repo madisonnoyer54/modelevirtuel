@@ -17,7 +17,7 @@
 
         <ImageView
                 android:layout_width="94dp"
-                android:layout_height="81dp" app:srcCompat="@drawable/maison" android:id="@+id/imageView2"
+                android:layout_height="81dp" app:srcCompat="@drawable/piece" android:id="@+id/imageView2"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
@@ -46,4 +46,3 @@
 
 
 </LinearLayout>
-

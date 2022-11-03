@@ -49,7 +49,7 @@
     <TextView
             android:layout_width="163dp"
             android:textColor="#10100F"
-            android:text="Aucune maison enregistée"
+            android:text="Aucune maison enregistrée"
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="20dp"

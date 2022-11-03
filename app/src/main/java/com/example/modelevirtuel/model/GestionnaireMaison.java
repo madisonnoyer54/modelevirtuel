@@ -1,5 +1,7 @@
 package com.example.modelevirtuel.model;
 
+import com.example.modelevirtuel.outils.FabriqueIdentifiant;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,14 +9,20 @@ public class GestionnaireMaison {
     private HashMap<Integer,Maison> listMaison;
     private Maison selectMaison;
 
+    private static GestionnaireMaison gestionnaireMaison = new GestionnaireMaison();
+
     /**
      * Constructeur
      */
-    public GestionnaireMaison() {
+    private GestionnaireMaison() {
         listMaison = new HashMap<>();
         selectMaison = null;
     }
 
+
+    public static GestionnaireMaison getInstance() {
+        return gestionnaireMaison;
+    }
     public Maison getSelectMaison() {
         return selectMaison;
     }
