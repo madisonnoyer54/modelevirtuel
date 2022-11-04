@@ -150,7 +150,6 @@ public class MaisonActivity extends AppCompatActivity {
 
         }else{
             poubellePiece.setVisibility(View.VISIBLE);
-            Log.i("cccc","d");
             aucunePiece.setVisibility(View.INVISIBLE);
 
             bousole.setVisibility(View.VISIBLE);
