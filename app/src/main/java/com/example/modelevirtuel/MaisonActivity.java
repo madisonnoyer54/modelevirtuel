@@ -1,31 +1,41 @@
 package com.example.modelevirtuel;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.modelevirtuel.model.GestionnaireMaison;
 import com.example.modelevirtuel.model.Maison;
+import com.example.modelevirtuel.model.Piece;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
-import com.example.modelevirtuel.outils.MaisonAdapter;
 import com.example.modelevirtuel.outils.PieceAdapter;
 
 public class MaisonActivity extends AppCompatActivity {
 
-    GestionnaireMaison listMaison;
-    Maison ouvertMaison;
-    PieceAdapter pieceAdapt;
+    private GestionnaireMaison listMaison;
+    private Maison ouvertMaison;
+
+    private Dialog dialog;
+    private PieceAdapter pieceAdapt;
+
+    private TextView aucunePiece;
+    private ImageButton poubellePiece;
+    private ImageView bousole ;
+    private ImageView i1;
+    private ImageView i2 ;
+    private ImageView i3;
+    private ImageView i4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +58,13 @@ public class MaisonActivity extends AppCompatActivity {
 
 
         // Gere les invisible
-        TextView aucunePiece = findViewById(R.id.nom_piece);
-        ImageButton poubellePiece = findViewById(R.id.PoubellePiece);
-        ImageView bousole = findViewById(R.id.boussole);
-        ImageView i1 = findViewById(R.id.interrogationEst);
-        ImageView i2 = findViewById(R.id.interrogationOuest);
-        ImageView i3 = findViewById(R.id.interrogationNord);
-        ImageView i4 = findViewById(R.id.interrogationSud);
+         aucunePiece = findViewById(R.id.aucunePiece);
+       poubellePiece = findViewById(R.id.PoubellePiece);
+       bousole = findViewById(R.id.boussole);
+        i1 = findViewById(R.id.interrogationEst);
+         i2 = findViewById(R.id.interrogationOuest);
+        i3 = findViewById(R.id.interrogationNord);
+       i4 = findViewById(R.id.interrogationSud);
         if(ouvertMaison.getListPiece().isEmpty()){
             poubellePiece.setVisibility(View.INVISIBLE);
             aucunePiece.setVisibility(View.VISIBLE);
@@ -66,6 +76,8 @@ public class MaisonActivity extends AppCompatActivity {
             i3.setVisibility(View.INVISIBLE);
             i4.setVisibility(View.INVISIBLE);
 
+            FabriqueIdentifiant.getInstance().removePiece();
+
         }else{
             poubellePiece.setVisibility(View.VISIBLE);
             aucunePiece.setVisibility(View.INVISIBLE);
@@ -75,6 +87,9 @@ public class MaisonActivity extends AppCompatActivity {
             i2.setVisibility(View.VISIBLE);
             i3.setVisibility(View.VISIBLE);
             i4.setVisibility(View.VISIBLE);
+
+            Log.i("nb", String.valueOf(ouvertMaison.getListPiece().size()));
+            FabriqueIdentifiant.getInstance().setPiece(ouvertMaison.getListPiece().size()-1);
 
         }
 
@@ -89,6 +104,56 @@ public class MaisonActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler.setLayoutManager(linearLayoutManager);
 
+
+    }
+
+
+    public void ajouterPiece(View view){
+        String id = null;
+
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_nom_piece);
+
+        dialog.show();
+    }
+
+    public void continuerPiece(View view){
+        String nom = null;
+        EditText editText = dialog.findViewById(R.id.usernamePiece);
+        editText.getText();
+        nom = editText.getText().toString().trim();
+
+        int num = FabriqueIdentifiant.getInstance().getIdPiece();
+        ouvertMaison.getListPiece().put(String.valueOf(num),new Piece(nom,num));
+
+        dialog.cancel();
+
+        if(ouvertMaison.getListPiece().isEmpty()){
+            poubellePiece.setVisibility(View.INVISIBLE);
+            aucunePiece.setVisibility(View.VISIBLE);
+
+
+            bousole.setVisibility(View.INVISIBLE);
+            i1.setVisibility(View.INVISIBLE);
+            i2.setVisibility(View.INVISIBLE);
+            i3.setVisibility(View.INVISIBLE);
+            i4.setVisibility(View.INVISIBLE);
+
+        }else{
+            poubellePiece.setVisibility(View.VISIBLE);
+            Log.i("cccc","d");
+            aucunePiece.setVisibility(View.INVISIBLE);
+
+            bousole.setVisibility(View.VISIBLE);
+            i1.setVisibility(View.VISIBLE);
+            i2.setVisibility(View.VISIBLE);
+            i3.setVisibility(View.VISIBLE);
+            i4.setVisibility(View.VISIBLE);
+
+        }
+
+        // Mise a jour de la Recy
+       pieceAdapt.notifyDataSetChanged();
 
     }
 

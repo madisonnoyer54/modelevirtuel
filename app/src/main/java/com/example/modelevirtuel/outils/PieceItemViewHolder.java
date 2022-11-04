@@ -26,7 +26,8 @@ public class PieceItemViewHolder extends RecyclerView.ViewHolder  {
 
     public void updatePiece(Piece piece){
         this.piece = piece;
-        this.nom.setText(piece.getNom());
+        Log.i("piece",piece.getNom() + piece.getId());
+        this.nom.setText(String.valueOf(piece.getNom()));
         this.num.setText(String.valueOf(piece.getId()));
 
     }

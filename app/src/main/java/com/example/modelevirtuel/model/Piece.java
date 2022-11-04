@@ -2,7 +2,7 @@ package com.example.modelevirtuel.model;
 
 public class Piece {
    private String nom;
-   private String id;
+   private int id;
    private Mur[] listMur;
 
 
@@ -11,7 +11,7 @@ public class Piece {
      * @param nom
      * @param id
      */
-    public Piece(String nom, String id){
+    public Piece(String nom, int id){
         listMur = new Mur[4];
         this.nom = nom;
         this.id = id;
@@ -25,11 +25,11 @@ public class Piece {
         this.nom = nom;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

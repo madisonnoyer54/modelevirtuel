@@ -1,6 +1,7 @@
 package com.example.modelevirtuel.outils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.modelevirtuel.model.Piece;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class PieceAdapter extends RecyclerView.Adapter<PieceItemViewHolder>{
 
@@ -35,8 +37,8 @@ public class PieceAdapter extends RecyclerView.Adapter<PieceItemViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PieceItemViewHolder holder, int position) {
-
-        holder.updatePiece(this.list.get(position));
+        Log.i("list", list.toString());
+        holder.updatePiece(this.list.get(String.valueOf(position)));
     }
 
 

@@ -15,7 +15,7 @@ public class FabriqueIdentifiant {
     private FabriqueIdentifiant() {
         this.idMur = 0;
         this.idPorte = 0;
-        this.idPiece = 0;
+        this.idPiece = -1;
         this.idMaison = -1;
     }
 
@@ -66,4 +66,11 @@ public class FabriqueIdentifiant {
         idMaison = -1;
     }
 
+    public void removePiece() {
+        idPiece = -1;
+    }
+
+    public void setPiece(int size) {
+        idPiece = size;
+    }
 }
