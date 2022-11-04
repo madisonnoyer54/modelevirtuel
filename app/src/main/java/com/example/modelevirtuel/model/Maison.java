@@ -7,6 +7,7 @@ public class Maison {
 
     private int id;
     private HashMap<String,Piece> listPiece;
+    private Piece pieceOuvert;
 
     /**
      * Constructeur
@@ -16,6 +17,7 @@ public class Maison {
         listPiece = new HashMap<>();
         this.nom = nom;
         this.id = id;
+        pieceOuvert = null;
     }
 
 
@@ -49,5 +51,13 @@ public class Maison {
 
     public void setListPiece(HashMap<String, Piece> listPiece) {
         this.listPiece = listPiece;
+    }
+
+    public Piece getPieceOuvert() {
+        return pieceOuvert;
+    }
+
+    public void setPieceOuvert(Piece pieceOuvert) {
+        this.pieceOuvert = pieceOuvert;
     }
 }

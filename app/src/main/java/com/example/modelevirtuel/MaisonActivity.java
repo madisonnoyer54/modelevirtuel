@@ -37,6 +37,8 @@ public class MaisonActivity extends AppCompatActivity {
     private ImageView i3;
     private ImageView i4;
 
+    private TextView nomPiece;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,8 @@ public class MaisonActivity extends AppCompatActivity {
          i2 = findViewById(R.id.interrogationOuest);
         i3 = findViewById(R.id.interrogationNord);
        i4 = findViewById(R.id.interrogationSud);
+       nomPiece = findViewById(R.id.nom_piece);
+
         if(ouvertMaison.getListPiece().isEmpty()){
             poubellePiece.setVisibility(View.INVISIBLE);
             aucunePiece.setVisibility(View.VISIBLE);
@@ -90,6 +94,10 @@ public class MaisonActivity extends AppCompatActivity {
 
             Log.i("nb", String.valueOf(ouvertMaison.getListPiece().size()));
             FabriqueIdentifiant.getInstance().setPiece(ouvertMaison.getListPiece().size()-1);
+
+
+            // La piece ouvert
+            nomPiece.setText(ouvertMaison.getPieceOuvert().getNom());
 
         }
 
@@ -124,7 +132,8 @@ public class MaisonActivity extends AppCompatActivity {
         nom = editText.getText().toString().trim();
 
         int num = FabriqueIdentifiant.getInstance().getIdPiece();
-        ouvertMaison.getListPiece().put(String.valueOf(num),new Piece(nom,num));
+        Piece p = new Piece(nom,num);
+        ouvertMaison.getListPiece().put(String.valueOf(num),p);
 
         dialog.cancel();
 
@@ -152,11 +161,18 @@ public class MaisonActivity extends AppCompatActivity {
 
         }
 
+        ouvertMaison.setPieceOuvert(p);
+        // La piece ouvert
+        nomPiece.setText(ouvertMaison.getPieceOuvert().getNom());
+
         // Mise a jour de la Recy
        pieceAdapt.notifyDataSetChanged();
 
     }
 
+    public void annulerPiece(View view){
+        dialog.cancel();
+    }
     public void suppMaison(View view){
         finish();
         // On retourne sur la page d'acceuille car cette maison vas etre supprimer
