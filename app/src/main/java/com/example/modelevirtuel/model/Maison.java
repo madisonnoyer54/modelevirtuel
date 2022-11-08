@@ -1,13 +1,18 @@
 package com.example.modelevirtuel.model;
 
-import java.util.HashMap;
+import androidx.annotation.NonNull;
+import com.example.modelevirtuel.outils.FabriqueIdentifiant;
+import org.jetbrains.annotations.NotNull;
 
-public class Maison {
+import java.util.HashMap;
+import java.util.Iterator;
+
+public class Maison  implements Iterable<Piece> {
     private String nom;
 
     private int id;
-    private HashMap<String,Piece> listPiece;
-    private Piece pieceOuvert;
+    private HashMap<Integer, Piece> listPiece;
+    private Piece pieceSelect;
 
     /**
      * Constructeur
@@ -17,7 +22,7 @@ public class Maison {
         listPiece = new HashMap<>();
         this.nom = nom;
         this.id = id;
-        pieceOuvert = null;
+        pieceSelect = null;
     }
 
 
@@ -26,7 +31,7 @@ public class Maison {
      * @param p
      */
     public void nouvellePiece(Piece p){
-        listPiece.put("", p);
+        listPiece.put(0, p);
     }
 
     public String getNom() {
@@ -45,19 +50,53 @@ public class Maison {
         this.id = id;
     }
 
-    public HashMap<String, Piece> getListPiece() {
+    public HashMap<Integer, Piece> getListPiece() {
         return listPiece;
     }
 
-    public void setListPiece(HashMap<String, Piece> listPiece) {
+    public void setListPiece(HashMap<Integer, Piece> listPiece) {
         this.listPiece = listPiece;
     }
 
-    public Piece getPieceOuvert() {
-        return pieceOuvert;
+    public Piece getPieceSelect() {
+        return pieceSelect;
     }
 
-    public void setPieceOuvert(Piece pieceOuvert) {
-        this.pieceOuvert = pieceOuvert;
+    public void setPieceSelect(Piece pieceSelect) {
+        this.pieceSelect = pieceSelect;
+    }
+
+
+    public void supprimerPieceOuvert(){
+        listPiece.remove(pieceSelect.getId());
+
+        HashMap<Integer, Piece> nv = new HashMap<>();
+        listPiece.remove(pieceSelect.getId());
+
+        FabriqueIdentifiant.getInstance().removePiece();
+
+        Iterator<Piece> i = iterator();
+        while(i.hasNext()){
+            Piece m = i.next();
+            int num = FabriqueIdentifiant.getInstance().getIdPiece();
+            m.setId(num);
+
+            nv.put(num,m);
+        }
+
+        listPiece = nv;
+
+        if(!listPiece.isEmpty()){
+            pieceSelect = listPiece.get(listPiece.size()-1);
+        }else{
+            pieceSelect = null;
+        }
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public Iterator<Piece> iterator() {
+        return listPiece.values().iterator();
     }
 }

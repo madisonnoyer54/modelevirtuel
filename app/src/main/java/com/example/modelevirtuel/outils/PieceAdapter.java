@@ -17,9 +17,9 @@ import java.util.Objects;
 
 public class PieceAdapter extends RecyclerView.Adapter<PieceItemViewHolder>{
 
-    private HashMap<String, Piece> list;
+    private HashMap<Integer, Piece> list;
 
-    public PieceAdapter(HashMap<String,Piece> piece){
+    public PieceAdapter(HashMap<Integer,Piece> piece){
         this.list = piece;
     }
 
@@ -37,12 +37,12 @@ public class PieceAdapter extends RecyclerView.Adapter<PieceItemViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PieceItemViewHolder holder, int position) {
-        Log.i("list", list.toString());
-        holder.updatePiece(this.list.get(String.valueOf(position)));
+        holder.updatePiece(this.list.get(position));
     }
 
-
-
+    public void setList(HashMap<Integer, Piece> list) {
+        this.list = list;
+    }
 
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST
     @Override

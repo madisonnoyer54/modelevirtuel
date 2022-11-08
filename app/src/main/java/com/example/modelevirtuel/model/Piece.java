@@ -3,6 +3,8 @@ package com.example.modelevirtuel.model;
 public class Piece {
    private String nom;
    private int id;
+
+   private Mur selectMur;
    private Mur[] listMur;
 
 

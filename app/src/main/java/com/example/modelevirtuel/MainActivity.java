@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Dialog dialog;
     TextView aucune;
     MaisonAdapter maisonAdapter;
+
+    TextView numMaisonSelect;
     private static final int DIALOG_ALERT = 10;
 
     @Override
@@ -58,15 +60,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void maisonSelectionner(View view){
-        TextView num =  view.findViewById(R.id.item_num_maison);
-        Toast.makeText((Context) MainActivity.this,"le nom select "  + num.getText(), Toast.LENGTH_SHORT).show();
+         numMaisonSelect =  view.findViewById(R.id.item_num_maison);
 
-        int id =Integer.parseInt((String) num.getText()) ;
+        showDialog(DIALOG_ALERT);
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_mode);
+
+        dialog.show();
+
+    }
+
+    public void construire(View view){
+
+        dialog.cancel();
+
+        int id =Integer.parseInt((String) numMaisonSelect.getText()) ;
         listMaison.setSelectMaison(listMaison.getMaison(id));
 
         // Ouvrir la page avec la maison
         Intent ic = new Intent(MainActivity.this, MaisonActivity.class);
         startActivity(ic);
+    }
+
+
+
+    public void visualiser(View view){
+        dialog.cancel();
     }
 
 
@@ -83,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void continuer(View view){
+        dialog.cancel();
+
         String nom = null;
         EditText editText = dialog.findViewById(R.id.username);
         editText.getText();
