@@ -85,7 +85,8 @@
             android:layout_height="70dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationNord"
             app:layout_constraintTop_toBottomOf="@+id/nom_piece"
             app:layout_constraintBottom_toTopOf="@+id/boussole" tools:ignore="MissingConstraints,OnClick"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.498" app:layout_constraintVertical_bias="0.489"/>
     <ImageView
             android:background="#00FFFFFF"
             android:layout_width="70dp"
@@ -94,8 +95,8 @@
             tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/boussole"
-            app:layout_constraintHorizontal_bias="0.39" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.617"/>
+            app:layout_constraintHorizontal_bias="0.342" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.635"/>
     <ImageView
             android:background="#00FFFFFF"
             android:layout_width="70dp"
@@ -103,9 +104,9 @@
             android:layout_height="70dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationOuest"
             tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintStart_toEndOf="@+id/boussole"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.642"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.648"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.617"/>
+            app:layout_constraintVertical_bias="0.635"/>
     <ImageView
             android:background="#00FFFFFF"
             android:onClick="selectPhotoSud"
