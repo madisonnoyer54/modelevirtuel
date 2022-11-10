@@ -1,13 +1,14 @@
 package com.example.modelevirtuel.model;
 
 import androidx.annotation.NonNull;
+import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Maison  implements Iterable<Piece> {
+public class Maison extends SujetObserve implements Iterable<Piece> {
     private String nom;
 
     private int id;
@@ -28,10 +29,13 @@ public class Maison  implements Iterable<Piece> {
 
     /**
      * Fonction qui permet d'ajouter une nouvelle piece a la maison
-     * @param p
      */
-    public void nouvellePiece(Piece p){
-        listPiece.put(0, p);
+    public void nouvellePiece(String nomPiece){
+        int num = FabriqueIdentifiant.getInstance().getIdPiece();
+        Piece p = new Piece(nomPiece,num);
+        listPiece.put(num,p);
+
+        pieceSelect = p;
     }
 
     public String getNom() {

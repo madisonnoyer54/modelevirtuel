@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.modelevirtuel.model.GestionnaireMaison;
 import com.example.modelevirtuel.model.Maison;
-import com.example.modelevirtuel.model.Piece;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.PieceAdapter;
 
@@ -34,35 +32,23 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class MaisonActivity extends AppCompatActivity {
+public class MaisonActivity extends AppCompatActivity implements Observateur{
 
     private GestionnaireMaison listMaison;
     private Maison ouvertMaison;
-
     private Dialog dialog;
     private PieceAdapter pieceAdapt;
 
-    private TextView aucunePiece;
-    private ImageButton poubellePiece;
-    private ImageView bousole ;
-    private ImageView i1;
-    private ImageView i2 ;
-    private ImageView i3;
-    private ImageView i4;
-
-    private TextView nomPiece;
-
     static final int PHOTO = 1;
     private  Bitmap photo;
-
     private ImageView imagePhoto;
-
 
     @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maison);
+
 
         // On bloque en mode portrait
         this.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
@@ -71,54 +57,11 @@ public class MaisonActivity extends AppCompatActivity {
         listMaison = GestionnaireMaison.getInstance();
         ouvertMaison = listMaison.getSelectMaison();
 
-
         // On met le nom de la maison
         TextView nomText = findViewById(R.id.nom_maison);
         nomText.setText(String.valueOf(listMaison.getSelectMaison().getNom()));
 
 
-
-
-        // Gere les invisible
-         aucunePiece = findViewById(R.id.aucunePiece);
-       poubellePiece = findViewById(R.id.PoubellePiece);
-       bousole = findViewById(R.id.boussole);
-        i1 = findViewById(R.id.interrogationEst);
-         i2 = findViewById(R.id.interrogationOuest);
-        i3 = findViewById(R.id.interrogationNord);
-       i4 = findViewById(R.id.interrogationSud);
-       nomPiece = findViewById(R.id.nom_piece);
-
-        if(ouvertMaison.getListPiece().isEmpty()){
-            poubellePiece.setVisibility(View.INVISIBLE);
-            aucunePiece.setVisibility(View.VISIBLE);
-
-
-            bousole.setVisibility(View.INVISIBLE);
-            i1.setVisibility(View.INVISIBLE);
-            i2.setVisibility(View.INVISIBLE);
-            i3.setVisibility(View.INVISIBLE);
-            i4.setVisibility(View.INVISIBLE);
-
-            FabriqueIdentifiant.getInstance().removePiece();
-
-        }else{
-            poubellePiece.setVisibility(View.VISIBLE);
-            aucunePiece.setVisibility(View.INVISIBLE);
-
-            bousole.setVisibility(View.VISIBLE);
-            i1.setVisibility(View.VISIBLE);
-            i2.setVisibility(View.VISIBLE);
-            i3.setVisibility(View.VISIBLE);
-            i4.setVisibility(View.VISIBLE);
-
-            FabriqueIdentifiant.getInstance().setPiece(ouvertMaison.getListPiece().size()-1);
-
-
-            // La piece ouvert
-            nomPiece.setText(ouvertMaison.getPieceSelect().getNom());
-
-        }
 
 
         // Liste des pieces
@@ -131,6 +74,8 @@ public class MaisonActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler.setLayoutManager(linearLayoutManager);
 
+        ouvertMaison.ajouterObservateur(this);
+        ouvertMaison.notifierObservateur();
 
     }
 
@@ -155,41 +100,11 @@ public class MaisonActivity extends AppCompatActivity {
         editText.getText();
         nom = editText.getText().toString().trim();
 
-        int num = FabriqueIdentifiant.getInstance().getIdPiece();
-        Piece p = new Piece(nom,num);
-        ouvertMaison.getListPiece().put(num,p);
+        ouvertMaison.nouvellePiece(nom);
 
+        ouvertMaison.notifierObservateur();
         dialog.dismiss();
 
-        if(ouvertMaison.getListPiece().isEmpty()){
-            poubellePiece.setVisibility(View.INVISIBLE);
-            aucunePiece.setVisibility(View.VISIBLE);
-
-
-            bousole.setVisibility(View.INVISIBLE);
-            i1.setVisibility(View.INVISIBLE);
-            i2.setVisibility(View.INVISIBLE);
-            i3.setVisibility(View.INVISIBLE);
-            i4.setVisibility(View.INVISIBLE);
-
-        }else{
-            poubellePiece.setVisibility(View.VISIBLE);
-            aucunePiece.setVisibility(View.INVISIBLE);
-
-            bousole.setVisibility(View.VISIBLE);
-            i1.setVisibility(View.VISIBLE);
-            i2.setVisibility(View.VISIBLE);
-            i3.setVisibility(View.VISIBLE);
-            i4.setVisibility(View.VISIBLE);
-
-        }
-
-        ouvertMaison.setPieceSelect(p);
-        // La piece ouvert
-        nomPiece.setText(ouvertMaison.getPieceSelect().getNom());
-
-        // Mise a jour de la Recy
-        pieceAdapt.notifyDataSetChanged();
     }
 
     public void PieceSelectionner(View view){
@@ -198,8 +113,7 @@ public class MaisonActivity extends AppCompatActivity {
         ouvertMaison.setPieceSelect(ouvertMaison.getListPiece().get(id));
         String nom = ouvertMaison.getPieceSelect().getNom();
 
-        // La piece ouvert
-        nomPiece.setText(nom);
+        ouvertMaison.notifierObservateur();
     }
 
     public void annulerPiece(View view){
@@ -221,30 +135,15 @@ public class MaisonActivity extends AppCompatActivity {
         pieceAdapt.setList(ouvertMaison.getListPiece());
         pieceAdapt.notifyDataSetChanged();
 
-        if(ouvertMaison.getPieceSelect() == null){
-            poubellePiece.setVisibility(View.INVISIBLE);
-            aucunePiece.setVisibility(View.VISIBLE);
-
-            bousole.setVisibility(View.INVISIBLE);
-            i1.setVisibility(View.INVISIBLE);
-            i2.setVisibility(View.INVISIBLE);
-            i3.setVisibility(View.INVISIBLE);
-            i4.setVisibility(View.INVISIBLE);
-            nomPiece.setText("");
-
-        }else{
-            nomPiece.setText(ouvertMaison.getPieceSelect().getNom());
-        }
+       ouvertMaison.notifierObservateur();
 
     }
-
 
     public void dialog(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_photo);
 
         dialog.show();
-
     }
 
     public void selectPhotoNord(View view){
@@ -323,6 +222,55 @@ public class MaisonActivity extends AppCompatActivity {
 
     public void selectionPhoto(View view){
         dialog.cancel();
+
+        // A remplir
+    }
+
+    @Override
+    public void reagir() {
+        // Gere les invisible
+
+        TextView aucunePiece = findViewById(R.id.aucunePiece);
+        ImageButton poubellePiece = findViewById(R.id.PoubellePiece);
+        ImageView bousole = findViewById(R.id.boussole);
+        ImageView i1 = findViewById(R.id.interrogationEst);
+        ImageView i2 = findViewById(R.id.interrogationOuest);
+        ImageView i3 = findViewById(R.id.interrogationNord);
+        ImageView i4 = findViewById(R.id.interrogationSud);
+        TextView nomPiece = findViewById(R.id.nom_piece);
+
+        if(ouvertMaison.getListPiece().isEmpty()){
+            poubellePiece.setVisibility(View.INVISIBLE);
+            aucunePiece.setVisibility(View.VISIBLE);
+
+
+            bousole.setVisibility(View.INVISIBLE);
+            i1.setVisibility(View.INVISIBLE);
+            i2.setVisibility(View.INVISIBLE);
+            i3.setVisibility(View.INVISIBLE);
+            i4.setVisibility(View.INVISIBLE);
+
+            FabriqueIdentifiant.getInstance().removePiece();
+            nomPiece.setText("");
+
+        }else{
+            poubellePiece.setVisibility(View.VISIBLE);
+            aucunePiece.setVisibility(View.INVISIBLE);
+
+            bousole.setVisibility(View.VISIBLE);
+            i1.setVisibility(View.VISIBLE);
+            i2.setVisibility(View.VISIBLE);
+            i3.setVisibility(View.VISIBLE);
+            i4.setVisibility(View.VISIBLE);
+
+            FabriqueIdentifiant.getInstance().setPiece(ouvertMaison.getListPiece().size()-1);
+
+            // La piece ouvert
+            nomPiece.setText(ouvertMaison.getPieceSelect().getNom());
+
+        }
+        // Mise a jour de la Recy
+        pieceAdapt.notifyDataSetChanged();
     }
 
 
@@ -357,7 +305,6 @@ public class MaisonActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
 
 
