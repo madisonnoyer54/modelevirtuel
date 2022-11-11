@@ -18,14 +18,13 @@ import com.example.modelevirtuel.model.Maison;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.MaisonAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Observateur{
     GestionnaireMaison listMaison;
     Dialog dialog;
-    TextView aucune;
     MaisonAdapter maisonAdapter;
-
     TextView numMaisonSelect;
     private static final int DIALOG_ALERT = 10;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +32,8 @@ public class MainActivity extends AppCompatActivity {
         // On bloque en mode portrait
         this.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
 
-
         setContentView(R.layout.activity_main);
         listMaison = GestionnaireMaison.getInstance();
-
-         aucune = findViewById(R.id.AucunEnregistrer);
-
-        if(listMaison.getListMaison().isEmpty()){
-            aucune.setVisibility(View.VISIBLE);
-        }else{
-            aucune.setVisibility(View.INVISIBLE);
-        }
-
 
         // Liste des maisons
         RecyclerView recycler =  findViewById(R.id.RecyMaison);
@@ -56,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler.setLayoutManager(linearLayoutManager);
 
+        listMaison.ajouterObservateur(this);
+        listMaison.notifierObservateur();
+
 
     }
+
 
     public void maisonSelectionner(View view){
          numMaisonSelect =  view.findViewById(R.id.item_num_maison);
@@ -69,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
 
     }
+
 
     public void construire(View view){
 
@@ -83,11 +77,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void visualiser(View view){
         dialog.cancel();
     }
-
 
 
     public void ajouterMaison(View view){
@@ -114,18 +106,28 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.cancel();
 
+        // Mise a jour de la Recy
+        listMaison.notifierObservateur();
+    }
+
+
+    public void annuler(View view){
+        dialog.cancel();
+    }
+
+
+    @Override
+    public void reagir() {
+        TextView aucune = findViewById(R.id.AucunEnregistrer);
+
         if(listMaison.getListMaison().isEmpty()){
             aucune.setVisibility(View.VISIBLE);
         }else{
             aucune.setVisibility(View.INVISIBLE);
         }
 
-        // Mise a jour de la Recy
         maisonAdapter.notifyDataSetChanged();
-    }
 
-    public void annuler(View view){
-        dialog.cancel();
     }
 
 
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected (MenuItem item){
@@ -147,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
 
 }

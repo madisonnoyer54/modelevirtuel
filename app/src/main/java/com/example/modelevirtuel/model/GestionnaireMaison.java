@@ -1,6 +1,7 @@
 package com.example.modelevirtuel.model;
 
 import androidx.annotation.NonNull;
+import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-public class GestionnaireMaison implements Iterable<Maison> {
+public class GestionnaireMaison extends SujetObserve implements Iterable<Maison> {
     private HashMap<Integer,Maison> listMaison;
     private Maison selectMaison;
 
