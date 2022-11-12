@@ -350,6 +350,10 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
             return true;
         }
+        if (item.getItemId() == R.id.sauvegarde) {
+
+            return true;
+        }
         return false;
     }
 
@@ -418,6 +422,7 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
@@ -425,8 +430,6 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
         this.sensorManagerMA.unregisterListener(this);
 
     }
-
-
 
 
     // Pour l'implementation du observateur

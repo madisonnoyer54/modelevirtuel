@@ -10,7 +10,6 @@ import java.util.Iterator;
 
 public class Maison extends SujetObserve implements Iterable<Piece> {
     private String nom;
-
     private int id;
     private HashMap<Integer, Piece> listPiece;
     private Piece pieceSelect;
@@ -38,39 +37,82 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         pieceSelect = p;
     }
 
+
+    /**
+     * Fonction qui permet de retourner le nom de la maison
+     * @return
+     */
     public String getNom() {
         return nom;
     }
 
+
+    /**
+     * Fonction qui permet de changer le nom de la maison
+     * @param nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+
+    /**
+     * Fonction qui retourne l'identifiant de la maison
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+
+    /**
+     * Fonction qui permet de changer l'indentifiant de la maison
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+
+    /**
+     * Fonction qui retourne la liste de les piece de la maison
+     * @return
+     */
     public HashMap<Integer, Piece> getListPiece() {
         return listPiece;
     }
 
+
+    /**
+     * Fonction qui permet de changer la liste des pieces de la maison
+     * @param listPiece
+     */
     public void setListPiece(HashMap<Integer, Piece> listPiece) {
         this.listPiece = listPiece;
     }
 
+
+    /**
+     * Fonction qui permet de retourner la piece selectionner
+     * @return
+     */
     public Piece getPieceSelect() {
         return pieceSelect;
     }
 
+
+    /**
+     * Fonction qui permet de changer la piece selectionner
+     * @param pieceSelect
+     */
     public void setPieceSelect(Piece pieceSelect) {
         this.pieceSelect = pieceSelect;
     }
 
 
+    /**
+     * Fonction qui permet de surpprimer la piece selectionner
+     */
     public void supprimerPieceOuvert(){
         listPiece.remove(pieceSelect.getId());
 
@@ -97,6 +139,11 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         }
     }
 
+
+    /**
+     * Iterator
+     * @return
+     */
     @NonNull
     @NotNull
     @Override
@@ -105,6 +152,10 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     }
 
 
+    /**
+     * Fonction qui permet de changer le nom de la piece selectionner
+     * @param nom
+     */
     public void nomPieceSelect(String nom){
         pieceSelect.setNom(nom);
     }

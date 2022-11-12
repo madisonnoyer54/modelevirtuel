@@ -18,6 +18,11 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
 
     private GestionnaireMaison list;
 
+
+    /**
+     * Constructeur
+     * @param maison
+     */
     public MaisonAdapter(GestionnaireMaison maison){
         this.list = maison;
     }

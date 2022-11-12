@@ -17,6 +17,7 @@ public class Mur {
 
     }
 
+
     public void nouvellePorte(Porte p){
         listPorte.put(p.getId(),p);
     }

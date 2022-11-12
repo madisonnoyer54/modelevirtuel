@@ -57,19 +57,37 @@ public class FabriqueIdentifiant {
         return idMur;
     }
 
+
+    /**
+     * Fonction qui retourne l'identifiant +1 de la dernière maison
+     * @return
+     */
     public int getIdMaison(){
         idMaison++;
         return  idMaison;
     }
 
+
+    /**
+     * Fonction qui remet l'identifiant de la maison a son depart
+     */
     public void removeMaison(){
         idMaison = -1;
     }
 
+
+    /**
+     * Fonction qui remet l'identifiant de la piece a son départ
+     */
     public void removePiece() {
         idPiece = -1;
     }
 
+
+    /**
+     * Fonction qui permet de changer l'indentifiant de la piece
+     * @param size
+     */
     public void setPiece(int size) {
         idPiece = size;
     }

@@ -104,11 +104,9 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         editText.getText();
         nom = editText.getText().toString().trim();
 
-        int num =FabriqueIdentifiant.getInstance().getIdMaison();
-        listMaison.ajouterUneMaison(new Maison(nom, num));
+        listMaison.ajouterUneMaison(nom);
 
         dialog.cancel();
-
 
         listMaison.notifierObservateur();
     }
@@ -149,6 +147,10 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         }
         if (item.getItemId() == R.id.pageacceuille) {
             Toast.makeText((Context) MainActivity.this,"Vous etes déja sur la page d'acceuille", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (item.getItemId() == R.id.sauvegarde) {
+
             return true;
         }
         return false;
