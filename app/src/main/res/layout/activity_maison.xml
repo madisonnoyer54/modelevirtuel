@@ -12,6 +12,7 @@
             android:text="nomMaison"
             android:layout_width="wrap_content"
             android:textSize="25dp"
+            android:onClick="changerNomMaison"
             android:textColor="@color/black"
             android:layout_height="wrap_content" android:id="@+id/nom_maison"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +54,7 @@
             android:id="@+id/RecyPiece" app:layout_constraintHorizontal_bias="1.0" android:layout_marginStart="32dp"/>
     <TextView
             android:textSize="20dp"
+            android:onClick="changerNomPiece"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/nom_piece"
@@ -116,5 +118,16 @@
             app:layout_constraintTop_toBottomOf="@+id/boussole" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.571" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.example.modelevirtuel.outils.VueCapteurActivity
+            android:layout_width="284dp"
+            android:layout_height="682dp"
+            tools:ignore="MissingClass,MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/interrogationNord"
+            app:layout_constraintEnd_toStartOf="@+id/interrogationOuest"
+            app:layout_constraintStart_toEndOf="@+id/interrogationEst"
+            app:layout_constraintBottom_toTopOf="@+id/interrogationSud" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="0.387" android:id="@+id/capteur"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

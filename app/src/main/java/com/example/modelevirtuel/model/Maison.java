@@ -103,4 +103,9 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     public Iterator<Piece> iterator() {
         return listPiece.values().iterator();
     }
+
+
+    public void nomPieceSelect(String nom){
+        pieceSelect.setNom(nom);
+    }
 }

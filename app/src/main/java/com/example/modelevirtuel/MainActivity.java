@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements Observateur{
 
         dialog.show();
 
+
+        listMaison.notifierObservateur();
     }
 
 
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements Observateur{
 
         dialog.cancel();
 
-        // Mise a jour de la Recy
+
         listMaison.notifierObservateur();
     }
 
