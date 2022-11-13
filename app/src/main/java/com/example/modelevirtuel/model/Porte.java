@@ -4,7 +4,6 @@ public class Porte {
     private Piece arriver;
     private String id;
 
-    private Piece pieceArriver;
 
 
     /**
@@ -33,11 +32,4 @@ public class Porte {
         this.id = id;
     }
 
-    public Piece getPieceArriver() {
-        return pieceArriver;
-    }
-
-    public void setPieceArriver(Piece pieceArriver) {
-        this.pieceArriver = pieceArriver;
-    }
 }

@@ -1,11 +1,14 @@
 package com.example.modelevirtuel.model;
 
+import androidx.annotation.NonNull;
 import com.example.modelevirtuel.outils.Orientation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class Mur {
+public class Mur implements Iterable<Porte>{
    // Pas d'id car l'orientation fait out
 
     private HashMap<String,Porte> listPorte;
@@ -41,7 +44,7 @@ public class Mur {
         this.nom = nom;
     }
 
-    public boolean isPhotoPrise() {
+    public boolean getPhotoPrise() {
         return photoPrise;
     }
 
@@ -60,4 +63,13 @@ public class Mur {
     public void setListPorte(HashMap<String,Porte> listPorte) {
         this.listPorte = listPorte;
     }
+
+    @NonNull
+    @NotNull
+    @Override
+    public Iterator<Porte> iterator() {
+        return listPorte.values().iterator();
+    }
+
+
 }

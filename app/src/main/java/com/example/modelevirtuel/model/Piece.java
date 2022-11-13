@@ -3,6 +3,8 @@ package com.example.modelevirtuel.model;
 import android.util.Log;
 import com.example.modelevirtuel.outils.Orientation;
 
+import java.util.Iterator;
+
 public class Piece {
    private String nom;
    private int id;
@@ -71,4 +73,6 @@ public class Piece {
             listMur[3].setOrientation(orientation);
         }
     }
+
+
 }

@@ -1,15 +1,25 @@
 package com.example.modelevirtuel.model;
 
+import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.function.Consumer;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class GestionnaireMaison extends SujetObserve implements Iterable<Maison> {
     private HashMap<Integer,Maison> listMaison;
@@ -123,6 +133,7 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
 
         listMaison = nv;
     }
+
 
 
 

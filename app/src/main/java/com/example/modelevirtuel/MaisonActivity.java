@@ -112,9 +112,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
         // Les capteurs
         vue = findViewById(R.id.capteur);
-
-
-        // Accelerometer
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorACC = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorMA = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -248,10 +245,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         someActivityResultLauncher.launch(intent);
 
-        // Si la photo a etais prise
-        while(photo == null){
-            Thread.sleep(1);
-        }
         if(photo != null){
             String nom = ouvertMaison.getNom()+"_"+ouvertMaison.getPieceSelect().getNom()+"_"+orientationSelec.toString();
             ouvertMaison.ajouterMur(orientationSelec,nom);
