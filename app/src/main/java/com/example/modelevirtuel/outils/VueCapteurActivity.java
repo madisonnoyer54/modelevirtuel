@@ -8,10 +8,11 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class VueCapteurActivity extends View {
-    private Paint paint;
-    //private Paint paint1;
-    private float[] result;
-    //  private  float orianta;
+    private Paint paint1;
+
+    private  float orianta;
+
+
 
     public VueCapteurActivity(Context context) {
         super(context);
@@ -36,41 +37,32 @@ public class VueCapteurActivity extends View {
     @Override // android.view.View
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawLine(550, 700, 500 - (result[0] * 50), (result[1] * 50) + 700, this.paint);
+      //  canvas.drawLine(550, 700, 500 - (result[0] * 50), (result[1] * 50) + 700, this.paint);
 
 
 
-        //   float compasX = (float) - Math.sin(orianta)*60;
-        //   float compasY = (float) - Math.cos(orianta)*60;
-        //  canvas.drawLine(550, 700, 550 + compasX, 700+ compasY, this.paint1);
+        float compasX = (float)  - Math.sin(orianta)*100;
+        float compasY = (float) - Math.cos(orianta)*100;
+        canvas.drawLine(170, 120, 170 + compasX, 120+ compasY, this.paint1);
+
+
+
     }
 
     public void init() {
-        this.result = new float[3];
-        Paint paint = new Paint();
-        this.paint = paint;
-        paint.setColor(Color.BLACK);
-        this.paint.setAntiAlias(true);
-        this.paint.setStyle(Paint.Style.STROKE);
-        this.paint.setStrokeWidth(8.0f);
 
-        /*
-        Paint paint1 = new Paint();
-        this.paint1 = paint;
-        paint.setColor(Color.RED);
+        paint1 = new Paint();
+        paint1.setColor(Color.RED);
         this.paint1.setAntiAlias(true);
         this.paint1.setStyle(Paint.Style.STROKE);
         this.paint1.setStrokeWidth(8.0f);
 
-         */
+
     }
 
-    public void passage(float[] resultat/*, float orianta*/) {
-        this.result = resultat;
-        //this.orianta = orianta;
+    public void passage(float orianta) {
+        this.orianta = orianta;
     }
-
-
 
 
 

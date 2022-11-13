@@ -3,6 +3,7 @@ package com.example.modelevirtuel.model;
 import androidx.annotation.NonNull;
 import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
+import com.example.modelevirtuel.outils.Orientation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -140,6 +141,7 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     }
 
 
+
     /**
      * Iterator
      * @return
@@ -158,5 +160,9 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
      */
     public void nomPieceSelect(String nom){
         pieceSelect.setNom(nom);
+    }
+
+    public void ajouterMur(Orientation o, String nom ){
+        pieceSelect.ajouterMur(o, nom);
     }
 }

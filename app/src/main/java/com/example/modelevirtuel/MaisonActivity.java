@@ -1,5 +1,8 @@
 package com.example.modelevirtuel;
 
+
+
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -12,6 +15,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +29,14 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.modelevirtuel.model.GestionnaireMaison;
 import com.example.modelevirtuel.model.Maison;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
+import com.example.modelevirtuel.outils.Orientation;
 import com.example.modelevirtuel.outils.PieceAdapter;
 import com.example.modelevirtuel.outils.VueCapteurActivity;
 
@@ -39,7 +45,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class MaisonActivity extends AppCompatActivity  implements SensorEventListener,Observateur{
+import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
+import static java.lang.Thread.sleep;
+
+public class MaisonActivity extends AppCompatActivity implements SensorEventListener,Observateur{
 
     private GestionnaireMaison listMaison;
     private Maison ouvertMaison;
@@ -47,21 +56,20 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
     private PieceAdapter pieceAdapt;
 
     static final int PHOTO = 1;
-    private  Bitmap photo;
+    private Bitmap photo;
     private ImageView imagePhoto;
 
-     private SensorManager sensorManagerMA;
      private Sensor sensorMA;
 
     VueCapteurActivity vue;
 
-    private boolean act;
-    private float orianta;
-
-    private float[] linear_acceleration;
-    private SensorManager sensorManagerACC;
+    private SensorManager sensorManager;
     private Sensor sensorACC;
 
+    private Orientation orientationSelec;
+
+    float[] magneticVector = new float[3];
+    float[] acceleromterVector = new float[3];
 
 
 
@@ -69,12 +77,13 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.S)
     @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maison);
-
 
         // On bloque en mode portrait
         this.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
@@ -100,23 +109,21 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler.setLayoutManager(linearLayoutManager);
 
-        // Magnétometre
 
-        act = false;
-        linear_acceleration = new float[3];
-        orianta = 0;
-        // Accelerometer
-        sensorManagerACC = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensorACC = sensorManagerACC.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-
+        // Les capteurs
         vue = findViewById(R.id.capteur);
-        sensorManagerMA = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensorMA = sensorManagerMA.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+
+        // Accelerometer
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorACC = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorMA = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
 
         listMaison.ajouterObservateur(this);
         listMaison.notifierObservateur();
+
+
 
     }
 
@@ -193,24 +200,27 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
     public void selectPhotoNord(View view){
         dialog();
-
         imagePhoto = findViewById(R.id.interrogationNord);
+        orientationSelec = Orientation.NORD;
+
+
     }
 
     public void selectPhotoSud(View view){
         dialog();
         imagePhoto = findViewById(R.id.interrogationSud);
-
+        orientationSelec = Orientation.SUD;
     }
 
     public void selectPhotoOuest(View view){
         dialog();
         imagePhoto = findViewById(R.id.interrogationOuest);
+        orientationSelec = Orientation.OUEST;
     }
     public void selectPhotoEst(View view){
         dialog();
-
         imagePhoto = findViewById(R.id.interrogationEst);
+        orientationSelec = Orientation.EST;
     }
 
 
@@ -232,16 +242,23 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
             });
 
-    public void photo(View view) throws IOException {
+    public void photo(View view) throws IOException, InterruptedException {
         dialog.cancel();
 
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         someActivityResultLauncher.launch(intent);
 
+        // Si la photo a etais prise
+        while(photo == null){
+            Thread.sleep(1);
+        }
         if(photo != null){
+            String nom = ouvertMaison.getNom()+"_"+ouvertMaison.getPieceSelect().getNom()+"_"+orientationSelec.toString();
+            ouvertMaison.ajouterMur(orientationSelec,nom);
+
             FileOutputStream fos = null;
             try {
-                fos = openFileOutput("image.data", MODE_PRIVATE);
+                fos = openFileOutput(nom+".data", MODE_PRIVATE);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -251,18 +268,9 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            FileInputStream fis = null;
-            try {
-                fis = openFileInput("image.data");
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            Bitmap bm = BitmapFactory.decodeStream(fis);
-
-            imagePhoto.setImageBitmap(bm);
-
-
         }
+
+        listMaison.notifierObservateur();
     }
 
     public void selectionPhoto(View view){
@@ -307,6 +315,7 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
     public void annulerChangerM(View view){
         dialog.dismiss();
     }
+
 
     public void continuerChangerM(View view){
         EditText editText = dialog.findViewById(R.id.username);
@@ -359,50 +368,25 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
 // Pour le TYPE_MAGNETIC_FIELD
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void onSensorChanged(SensorEvent sensorEvent){
+        float[] resultMatrix = new float[9];
+        float[] values = new float[3];
 
-        float[] gravity = new float[3];
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            acceleromterVector= sensorEvent.values;
 
-
-        float[] mGeomagnetic = new float[0];
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            final float alpha = (float) 0.8;
-            // Isolate the force of gravity with the low-pass filter.
-
-            gravity[0] = (alpha * gravity[0] + (1 - alpha) * event.values[0]);
-            gravity[1] = (alpha * gravity[1] + (1 - alpha) * event.values[1]);
-            gravity[2] = (alpha * gravity[2] + (1 - alpha) * event.values[2]);
-
-
-            // Remove the gravity contribution with the high-pass filter.
-            linear_acceleration[0] = event.values[0] - gravity[0];
-            linear_acceleration[1] = event.values[1] - gravity[1];
-            linear_acceleration[2] = event.values[2] - gravity[2];
+        } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            magneticVector= sensorEvent.values;
 
         }
 
+        SensorManager.getRotationMatrix(resultMatrix, null, acceleromterVector, magneticVector);
+        SensorManager.getOrientation(resultMatrix, values);
 
 
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-            mGeomagnetic = event.values;
-        if (gravity != null && mGeomagnetic != null) {
-            float R[] = new float[9];
-            float I[] = new float[9];
-            boolean success = SensorManager.getRotationMatrix(R, I, gravity, mGeomagnetic);
-            if (success) {
-                float[] orientation = new float[3];
-                SensorManager.getOrientation(R, orientation);
-                orianta = orientation[0]; // orientation contains: azimut, pitch and roll
-            }
-        }
-
-
-        vue.passage(linear_acceleration/*,orianta */);
+        // Acellerometre
+        vue.passage(values[0]);
         vue.invalidate();
-
-
-
-
     }
 
     @Override
@@ -410,25 +394,24 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
     }
 
+
     public void onResume() {
         super.onResume();
-
-        this.sensorManagerACC.unregisterListener(this);
-        this.sensorManagerACC.registerListener(this, this.sensorACC, 10000);
-
-
-        this.sensorManagerMA.unregisterListener(this);
-        this.sensorManagerMA.registerListener(this, this.sensorMA, 10000);
-
+        this.sensorManager.unregisterListener(this);
+        this.sensorManager.registerListener(this, this.sensorACC, SENSOR_DELAY_NORMAL);
+        this.sensorManager.registerListener(this, this.sensorMA, SENSOR_DELAY_NORMAL);
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-        this.sensorManagerACC.unregisterListener(this);
-        this.sensorManagerMA.unregisterListener(this);
+        this.sensorManager.unregisterListener(this);
+    }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 
 
@@ -452,6 +435,7 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
 
             bousole.setVisibility(View.INVISIBLE);
+            vue.setVisibility(View.INVISIBLE);
             i1.setVisibility(View.INVISIBLE);
             i2.setVisibility(View.INVISIBLE);
             i3.setVisibility(View.INVISIBLE);
@@ -463,7 +447,7 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
         }else{
             poubellePiece.setVisibility(View.VISIBLE);
             aucunePiece.setVisibility(View.INVISIBLE);
-
+            vue.setVisibility(View.VISIBLE);
             bousole.setVisibility(View.VISIBLE);
             i1.setVisibility(View.VISIBLE);
             i2.setVisibility(View.VISIBLE);
@@ -482,5 +466,28 @@ public class MaisonActivity extends AppCompatActivity  implements SensorEventLis
 
         // Mise a jour de la Recy
         pieceAdapt.notifyDataSetChanged();
+
+
+
+        // On ouvre les photo des murs
+        if(!ouvertMaison.getListPiece().isEmpty()){
+            Log.i("cc","on passe");
+            if(ouvertMaison.getPieceSelect().getListMur()[0].getNom() != null ){
+                Log.i("cc","on passe 2");
+                FileInputStream fis;
+                try {
+                    fis = openFileInput(ouvertMaison.getPieceSelect().getListMur()[0].getNom()+".data");
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                Bitmap bm = BitmapFactory.decodeStream(fis);
+                imagePhoto = findViewById(R.id.interrogationNord);
+
+                imagePhoto.setImageBitmap(bm);
+
+            }
+        }
+
     }
+
 }

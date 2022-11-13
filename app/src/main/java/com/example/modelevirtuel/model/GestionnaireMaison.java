@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -122,6 +123,7 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
 
         listMaison = nv;
     }
+
 
 
 

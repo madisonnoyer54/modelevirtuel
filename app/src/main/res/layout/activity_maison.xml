@@ -120,14 +120,16 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.example.modelevirtuel.outils.VueCapteurActivity
-            android:layout_width="284dp"
-            android:layout_height="682dp"
+            android:layout_width="127dp"
+            android:layout_height="92dp"
+            android:visibility="invisible"
             tools:ignore="MissingClass,MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/interrogationNord"
             app:layout_constraintEnd_toStartOf="@+id/interrogationOuest"
             app:layout_constraintStart_toEndOf="@+id/interrogationEst"
-            app:layout_constraintBottom_toTopOf="@+id/interrogationSud" app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.387" android:id="@+id/capteur"/>
+            app:layout_constraintBottom_toTopOf="@+id/interrogationSud"
+            android:id="@+id/capteur" app:layout_constraintVertical_bias="0.506"
+            app:layout_constraintHorizontal_bias="0.612"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

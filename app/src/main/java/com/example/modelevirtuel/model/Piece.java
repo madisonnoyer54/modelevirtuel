@@ -1,5 +1,8 @@
 package com.example.modelevirtuel.model;
 
+import android.util.Log;
+import com.example.modelevirtuel.outils.Orientation;
+
 public class Piece {
    private String nom;
    private int id;
@@ -15,6 +18,11 @@ public class Piece {
      */
     public Piece(String nom, int id){
         listMur = new Mur[4];
+        listMur[0] = new Mur(null,null);
+        listMur[1] = new Mur(null,null);
+        listMur[2] = new Mur(null,null);
+        listMur[3] = new Mur(null,null);
+
         this.nom = nom;
         this.id = id;
     }
@@ -41,5 +49,26 @@ public class Piece {
 
     public void setListMur(Mur[] listMur) {
         this.listMur = listMur;
+    }
+
+    public void ajouterMur(Orientation orientation, String nom ){
+        if(orientation == Orientation.NORD){
+            Log.i("s","on paasse");
+            listMur[0].setNom(nom);
+            listMur[0].setOrientation(orientation);
+
+        }
+        if(orientation == Orientation.SUD){
+            listMur[1].setNom(nom);
+            listMur[1].setOrientation(orientation);
+        }
+        if(orientation == Orientation.OUEST){
+            listMur[2].setNom(nom);
+            listMur[2].setOrientation(orientation);
+        }
+        if(orientation == Orientation.OUEST){
+            listMur[3].setNom(nom);
+            listMur[3].setOrientation(orientation);
+        }
     }
 }
