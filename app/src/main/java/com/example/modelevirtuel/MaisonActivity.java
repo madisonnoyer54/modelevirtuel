@@ -39,6 +39,7 @@ import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.Orientation;
 import com.example.modelevirtuel.outils.PieceAdapter;
 import com.example.modelevirtuel.outils.VueCapteurActivity;
+import org.json.JSONException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -96,9 +97,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         TextView nomText = findViewById(R.id.nom_maison);
         nomText.setText(String.valueOf(listMaison.getSelectMaison().getNom()));
 
-
-
-
         // Liste des pieces
         RecyclerView recycler =  findViewById(R.id.RecyPiece);
         pieceAdapt = new PieceAdapter(ouvertMaison.getListPiece());
@@ -124,8 +122,21 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     }
 
+    /**
+     *  Fonction qui annule le dialogue vue au dessus
+     * @param view
+     */
+    public void annuler2(View view){
+        dialog.cancel();
+    }
+
+
     //  Pour ajouter la piece
 
+    /**
+     * Fonction qui ouvre le dialogue pour ajouter la piece
+     * @param view
+     */
     public void ajouterPiece(View view){
         String id = null;
 
@@ -135,6 +146,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         dialog.show();
     }
 
+
+    /**
+     * Fonction qui permet de officaliser lajout de piece
+     * @param view
+     */
     @SuppressLint("NotifyDataSetChanged")
     public void continuerPiece(View view){
         // Fermer le dialogue
@@ -152,12 +168,15 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         dialog.dismiss();
 
     }
-    public void annulerPiece(View view){
-        dialog.cancel();
-    }
+
 
 
     // Selection de la piece
+
+    /**
+     * Fonction qui permet de selectionner la piece
+     * @param view
+     */
     public void PieceSelectionner(View view){
         TextView num =  view.findViewById(R.id.item_num_piece);
         int id =Integer.parseInt((String) num.getText()) ;
@@ -168,7 +187,10 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     }
 
 
-
+    /**
+     * Fonction qui supprime la maison actuelle
+     * @param view
+     */
     public void suppMaison(View view){
         finish();
         // On retourne sur la page d'acceuille car cette maison vas etre supprimer
@@ -178,6 +200,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         listMaison.supprimerMaison(ouvertMaison);
     }
 
+
+    /**
+     * FOnction qui supprime la piece actuelle
+     * @param view
+     */
     @SuppressLint("NotifyDataSetChanged")
     public void suppPiece(View view){
         ouvertMaison.supprimerPieceOuvert();
@@ -187,6 +214,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         listMaison.notifierObservateur();
 
     }
+
 
     public void dialog(){
         dialog = new Dialog(this);
@@ -274,6 +302,10 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     // Pour changer le nom de la piece
 
+    /**
+     * Fonction qui ouvre le dialogue pour le changement de nom de la piece
+     * @param view
+     */
     public void changerNomPiece(View view){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_change_nom_piece);
@@ -281,10 +313,10 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         dialog.show();
     }
 
-    public void annulerChangerP(View view){
-        dialog.dismiss();
-    }
-
+    /**
+     * Fonction qui changer officielement le nom de la piece
+     * @param view
+     */
     public void continuerChangerP(View view){
         EditText editText = dialog.findViewById(R.id.username);
         editText.getText();
@@ -295,9 +327,12 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     }
 
-
     // Pour changer le nom de la maison
 
+    /**
+     * Fonction qui ouvre un dialogue de le changement de nom d'une maison
+     * @param view
+     */
     public void changerNomMaison(View view){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_change_nom_maison);
@@ -305,11 +340,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         dialog.show();
     }
 
-    public void annulerChangerM(View view){
-        dialog.dismiss();
-    }
 
-
+    /**
+     * Fonction qui changement officiellement le nom d'une maison
+     * @param view
+     */
     public void continuerChangerM(View view){
         EditText editText = dialog.findViewById(R.id.username);
         editText.getText();
@@ -322,42 +357,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     }
 
 
-// Pour le menu
-    /**
-     * Menu
-     * @param menu
-     * @return
-     */
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-
-    /**
-     * Item du menu
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected (MenuItem item){
-        if (item.getItemId() == R.id.quitter) {
-            finish();
-            return true;
-        }
-        if (item.getItemId() == R.id.pageacceuille) {
-            Intent ic = new Intent(MaisonActivity.this, MainActivity.class);
-            startActivity(ic);
-
-            return true;
-        }
-        if (item.getItemId() == R.id.sauvegarde) {
-
-            return true;
-        }
-        return false;
-    }
 
 // Pour le TYPE_MAGNETIC_FIELD
     @Override
@@ -408,7 +408,9 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     }
 
 
-    // Pour l'implementation du observateur
+    /**
+     * Fonction qui permet de gérer l'affichage
+     */
     @Override
     public void reagir() {
         // Gere les invisible
@@ -481,6 +483,40 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
             }
         }
 
+    }
+
+    // Pour le menu
+    /**
+     * Menu
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    /**
+     * Item du menu
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        if (item.getItemId() == R.id.quitter) {
+            finish();
+            return true;
+        }
+        if (item.getItemId() == R.id.pageacceuille) {
+            Intent ic = new Intent(MaisonActivity.this, MainActivity.class);
+            startActivity(ic);
+
+            return true;
+        }
+
+        return false;
     }
 
 }

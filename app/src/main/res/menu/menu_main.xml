@@ -9,10 +9,7 @@
             android:id="@+id/pageacceuille"
             android:gravity="center"
             android:title="Page Acceuille" />
-    <item android:title="Sauvegarde"
-          android:id="@+id/sauvegarde"
-          android:gravity="center"
-    />
+
 
 
 </menu>

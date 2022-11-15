@@ -55,13 +55,23 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler.setLayoutManager(linearLayoutManager);
 
+        // Ajouter les enregistrement des maison
+        try {
+            lireEnregistrement(listMaison);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         listMaison.ajouterObservateur(this);
         listMaison.notifierObservateur();
 
-
     }
 
-
+// CE QUI CONSERNE LA SELECTION DE LA MAISON
+    /**
+     * Fonction qui selectionne la maison, sa ouvre un dialogue
+     * @param view
+     */
     public void maisonSelectionner(View view){
          numMaisonSelect =  view.findViewById(R.id.item_num_maison);
 
@@ -76,8 +86,11 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+    /**
+     * Fonction qui permet d'accèder a la construction de la maison selectionner
+     * @param view
+     */
     public void construire(View view){
-
         dialog.cancel();
 
         int id =Integer.parseInt((String) numMaisonSelect.getText()) ;
@@ -89,11 +102,21 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+    /**
+     * Fonction qui permet de visualiser la maison selectionner
+     * @param view
+     */
     public void visualiser(View view){
         dialog.cancel();
     }
 
 
+    // CE QUI CONSERNE L'AJOUT DES MAISON
+
+    /**
+     * Fonction qui ouvre le dialogue pour l'ajout des maisons (gerer avec les 2 autre fonction obligatoirement
+     * @param view
+     */
     public void ajouterMaison(View view){
         String id = null;
 
@@ -105,6 +128,10 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+    /**
+     * Fonction qui permet de d'ajouter officieement la maison
+     * @param view
+     */
     public void continuer(View view){
         dialog.cancel();
 
@@ -121,11 +148,18 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+    /**
+     *  Fonction qui annule le dialogue vue au dessus
+     * @param view
+     */
     public void annuler(View view){
         dialog.cancel();
     }
 
 
+    /**
+     * Fonction reagir, qui permet de mettre a jour l'affichage graphique
+     */
     @Override
     public void reagir() {
         TextView aucune = findViewById(R.id.AucunEnregistrer);
@@ -141,15 +175,38 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+
+    // SE QUI CONSERNE L'ENREGISTREMENT
+
+    /**
+     * Lecture de l'enregistrement
+     * @throws FileNotFoundException
+     */
+    public void lireEnregistrement(GestionnaireMaison list) throws FileNotFoundException {
+        FileOutputStream fOut = openFileOutput("sauvegarde.json", Context.MODE_PRIVATE);
+        JSONObject jsonObject = new JSONObject();
+
+
+    }
+
+
+    /**
+     * Enregistrement
+     * @throws IOException
+     * @throws JSONException
+     */
     public void enregistrement() throws IOException, JSONException {
         FileOutputStream fOut = openFileOutput("sauvegarde.json", Context.MODE_PRIVATE);
         fOut.write(maisonJSON().toString().getBytes());
         fOut.close();
-
-        Log.i("json", maisonJSON().toString());
     }
 
 
+    /**
+     * Enregistrement de la liste des maison
+     * @return
+     * @throws JSONException
+     */
     public JSONArray maisonJSON() throws JSONException{
         JSONArray JSONListMaison = new JSONArray();
         Maison m;
@@ -233,8 +290,18 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         return JSONListPorte;
     }
 
+    public void sauvegardeImage(View view) throws JSONException, IOException {
+        enregistrement();
+    }
 
 
+    // CE QUI CONCERNE LE MENU
+
+    /**
+     * Permet de relier le menu au main
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -242,6 +309,11 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+    /**
+     * Permet d'accerder au item
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected (MenuItem item){
         if (item.getItemId() == R.id.quitter) {
@@ -250,16 +322,6 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         }
         if (item.getItemId() == R.id.pageacceuille) {
             Toast.makeText((Context) MainActivity.this,"Vous etes déja sur la page d'acceuille", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        if (item.getItemId() == R.id.sauvegarde) {
-            try {
-                enregistrement();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
             return true;
         }
         return false;

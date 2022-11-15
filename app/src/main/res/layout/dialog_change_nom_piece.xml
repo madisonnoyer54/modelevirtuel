@@ -27,7 +27,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"/>
     <Button
             android:text="Annuler"
-            android:onClick="annulerChangerP"
+            android:onClick="annuler2"
             android:layout_width="124dp"
             android:layout_gravity="center"
             android:gravity="center"
