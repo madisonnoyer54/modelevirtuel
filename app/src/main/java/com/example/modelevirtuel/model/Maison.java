@@ -5,6 +5,7 @@ import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.Orientation;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -164,5 +165,9 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
 
     public void ajouterMur(Orientation o, String nom ){
         pieceSelect.ajouterMur(o, nom);
+    }
+
+    public void setJSONListPiece(String listePiece) {
+
     }
 }

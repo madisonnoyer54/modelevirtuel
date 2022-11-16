@@ -1,6 +1,8 @@
 package com.example.modelevirtuel.model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.modelevirtuel.SujetObserve;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
@@ -9,10 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,11 +65,30 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
      * Fonction qui ajoute une maison dans la liste des maison
      * @param m, le nom de la maison a ajouter
      */
+    public void ajouterUneMaison(String m, int numero){
+        int num =FabriqueIdentifiant.getInstance().getIdMaison(); // pour incrémenter la maison
+        if ( !numeroIdentique(numero)  ){
+            listMaison.put(numero,new Maison(m,numero));
+        }
+
+    }
+
     public void ajouterUneMaison(String m){
         int num =FabriqueIdentifiant.getInstance().getIdMaison();
         listMaison.put(num,new Maison(m,num));
     }
 
+    public boolean numeroIdentique(int numero){
+        boolean result = false ;
+        Iterator<Maison> i = iterator();
+        while(i.hasNext()){
+            Maison m = i.next();
+            if( numero == m.getId()){
+                result = true;
+            }
+        }
+        return result;
+    }
 
     /**
      * Fonction qui retourne la list des maisons
@@ -132,6 +150,125 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
         }
 
         listMaison = nv;
+
+
+    }
+
+
+
+    // SE QUI CONSERNE L'ENREGISTREMENT
+
+
+
+
+
+
+    /**
+     * Enregistrement
+     * @throws IOException
+     * @throws JSONException
+     */
+    public void enregistrement(OutputStream fichier) throws IOException, JSONException {
+
+        OutputStreamWriter writer = new OutputStreamWriter(fichier);
+
+        JSONObject jsonMaison = new JSONObject();
+        jsonMaison.put("listeMaison", maisonJSON());
+
+        String json = jsonMaison.toString();
+        writer.write(json);
+        writer.flush();
+
+        Log.i("json",jsonMaison.toString());
+    }
+
+
+    /**
+     * Enregistrement de la liste des maison
+     * @return
+     * @throws JSONException
+     */
+    public JSONArray maisonJSON() throws JSONException{
+        JSONArray JSONListMaison = new JSONArray();
+        Maison m;
+        Iterator<Maison> maison = iterator();
+        while (maison.hasNext()) {
+            m = maison.next();
+            JSONObject jsonPorte = new JSONObject();
+            jsonPorte.put("nom", m.getNom());
+            jsonPorte.put("id", m.getId());
+            jsonPorte.put("listePiece", pieceJSON(m));
+            JSONListMaison.put(jsonPorte);
+        }
+        return JSONListMaison;
+    }
+
+
+    /**
+     * Enregistrement de la liste des porte
+     * @param m
+     * @return
+     * @throws JSONException
+     */
+    public JSONArray porteJSON(Mur m) throws JSONException {
+        JSONArray JSONListPorte = new JSONArray();
+        Porte p;
+        Iterator<Porte> porte = m.iterator();
+        while (porte.hasNext()) {
+            p = porte.next();
+            JSONObject jsonPorte = new JSONObject();
+            jsonPorte.put("arriver", p.getArriver());
+            jsonPorte.put("id", p.getId());
+            JSONListPorte.put(jsonPorte);
+        }
+        return JSONListPorte;
+    }
+
+
+    /**
+     * Enregistrement de la liste des murs
+     * @param p
+     * @return
+     * @throws JSONException
+     */
+    public JSONArray mursJSON(Piece p) throws JSONException {
+        JSONArray JSONListMurs = new JSONArray();
+        Mur m;
+
+        for (int i = 0; i < p.getListMur().length; i++) {
+            m = p.getListMur()[i];
+            JSONObject jsonMurs = new JSONObject();
+            jsonMurs.put("listPorte", porteJSON(m));
+            jsonMurs.put("orientation", m.getOrientation());
+            jsonMurs.put("photoPrise", m.getPhotoPrise());
+            jsonMurs.put("nom", m.getNom());
+            JSONListMurs.put(jsonMurs);
+        }
+
+        return JSONListMurs;
+    }
+
+
+    /**
+     * Enregistrement de la liste des porte
+     * @param m
+     * @return
+     * @throws JSONException
+     */
+    public JSONArray pieceJSON(Maison m) throws JSONException {
+
+        JSONArray JSONListPorte = new JSONArray();
+        Piece p;
+        Iterator<Piece> piece = m.iterator();
+        while (piece.hasNext()) {
+            p = piece.next();
+            JSONObject jsonPiece = new JSONObject();
+            jsonPiece.put("nom", p.getNom());
+            jsonPiece.put("id", p.getId());
+            jsonPiece.put("listMur", mursJSON(p));
+            JSONListPorte.put(jsonPiece);
+        }
+        return JSONListPorte;
     }
 
 

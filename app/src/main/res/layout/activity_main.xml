@@ -57,9 +57,10 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     <ImageButton
-            android:layout_width="50dp"
+            android:layout_width="56dp"
+            android:background="#00FFFFFF"
             android:onClick="sauvegardeImage"
-            android:layout_height="41dp" app:srcCompat="@drawable/save" android:id="@+id/sauvegardeImage"
+            android:layout_height="49dp" app:srcCompat="@drawable/save" android:id="@+id/sauvegardeImage"
             tools:layout_editor_absoluteY="1dp" tools:ignore="MissingConstraints"/>
 
 

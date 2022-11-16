@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.modelevirtuel.R;
 import com.example.modelevirtuel.model.GestionnaireMaison;
+import com.example.modelevirtuel.model.Maison;
+import com.example.modelevirtuel.model.Piece;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
@@ -43,7 +46,7 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
     // UPDATE VIEW HOLDER WITH A GITHUBUSER
     @Override
     public void onBindViewHolder(MaisonItemViewHolder viewHolder, int position) {
-
+        Log.i("position", String.valueOf(position));
         viewHolder.updateMaison(this.list.getMaison(position));
     }
 
@@ -52,6 +55,11 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
     public int getItemCount() {
         return this.list.getListMaison().size();
     }
+
+    public void setList(GestionnaireMaison maison) {
+       this.list = maison;
+    }
+
 
 
 }

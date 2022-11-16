@@ -1,5 +1,8 @@
 package com.example.modelevirtuel;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -25,7 +28,7 @@ public class SujetObserve {
     /**
      * Fonction qui permet de notifier les observateurs
      */
-    public void notifierObservateur(){
+    public void notifierObservateur() throws JSONException, IOException {
         Iterator<Observateur> i = listOb.iterator();
 
         while(i.hasNext()){

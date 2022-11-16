@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements Observateur{
     GestionnaireMaison listMaison;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     MaisonAdapter maisonAdapter;
     TextView numMaisonSelect;
     private static final int DIALOG_ALERT = 10;
+
+
 
 
     @Override
@@ -55,15 +58,34 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycler.setLayoutManager(linearLayoutManager);
 
+
+
+        listMaison.ajouterObservateur(this);
         // Ajouter les enregistrement des maison
+
+
+
+
         try {
-            lireEnregistrement(listMaison);
-        } catch (FileNotFoundException e) {
+           lireEnregistrement();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
             throw new RuntimeException(e);
         }
 
-        listMaison.ajouterObservateur(this);
-        listMaison.notifierObservateur();
+
+
+        try {
+            listMaison.notifierObservateur();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
 
     }
 
@@ -72,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements Observateur{
      * Fonction qui selectionne la maison, sa ouvre un dialogue
      * @param view
      */
-    public void maisonSelectionner(View view){
+    public void maisonSelectionner(View view) throws JSONException, IOException {
          numMaisonSelect =  view.findViewById(R.id.item_num_maison);
 
         showDialog(DIALOG_ALERT);
@@ -118,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements Observateur{
      * @param view
      */
     public void ajouterMaison(View view){
+        maisonAdapter.setList(listMaison);
+        maisonAdapter.notifyDataSetChanged();
         String id = null;
 
         showDialog(DIALOG_ALERT);
@@ -132,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements Observateur{
      * Fonction qui permet de d'ajouter officieement la maison
      * @param view
      */
-    public void continuer(View view){
+    public void continuer(View view) throws JSONException, IOException {
         dialog.cancel();
 
         String nom = null;
@@ -161,8 +185,12 @@ public class MainActivity extends AppCompatActivity implements Observateur{
      * Fonction reagir, qui permet de mettre a jour l'affichage graphique
      */
     @Override
-    public void reagir() {
+    public void reagir() throws JSONException, IOException {
+        maisonAdapter.setList(listMaison);
+        maisonAdapter.notifyDataSetChanged();
+
         TextView aucune = findViewById(R.id.AucunEnregistrer);
+       // listMaison.enregistrement(fichierEnregistrement);
 
         if(listMaison.getListMaison().isEmpty()){
             aucune.setVisibility(View.VISIBLE);
@@ -171,127 +199,15 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         }
 
         maisonAdapter.notifyDataSetChanged();
+        listMaison.enregistrement(openFileOutput("sauvegarde.json", Context.MODE_PRIVATE));
 
-    }
-
-
-
-    // SE QUI CONSERNE L'ENREGISTREMENT
-
-    /**
-     * Lecture de l'enregistrement
-     * @throws FileNotFoundException
-     */
-    public void lireEnregistrement(GestionnaireMaison list) throws FileNotFoundException {
-        FileOutputStream fOut = openFileOutput("sauvegarde.json", Context.MODE_PRIVATE);
-        JSONObject jsonObject = new JSONObject();
 
 
     }
 
-
-    /**
-     * Enregistrement
-     * @throws IOException
-     * @throws JSONException
-     */
-    public void enregistrement() throws IOException, JSONException {
-        FileOutputStream fOut = openFileOutput("sauvegarde.json", Context.MODE_PRIVATE);
-        fOut.write(maisonJSON().toString().getBytes());
-        fOut.close();
-    }
-
-
-    /**
-     * Enregistrement de la liste des maison
-     * @return
-     * @throws JSONException
-     */
-    public JSONArray maisonJSON() throws JSONException{
-        JSONArray JSONListMaison = new JSONArray();
-        Maison m;
-        Iterator<Maison> maison = listMaison.iterator();
-        while (maison.hasNext()) {
-            m = maison.next();
-            JSONObject jsonPorte = new JSONObject();
-            jsonPorte.put("nom", m.getNom());
-            jsonPorte.put("id", m.getId());
-            jsonPorte.put("listePiece", pieceJSON(m));
-            JSONListMaison.put(jsonPorte);
-        }
-        return JSONListMaison;
-    }
-
-
-    /**
-     * Enregistrement de la liste des porte
-     * @param m
-     * @return
-     * @throws JSONException
-     */
-    public JSONArray porteJSON(Mur m) throws JSONException {
-        JSONArray JSONListPorte = new JSONArray();
-        Porte p;
-        Iterator<Porte> porte = m.iterator();
-        while (porte.hasNext()) {
-            p = porte.next();
-            JSONObject jsonPorte = new JSONObject();
-            jsonPorte.put("arriver", p.getArriver());
-            jsonPorte.put("id", p.getId());
-            JSONListPorte.put(jsonPorte);
-        }
-        return JSONListPorte;
-    }
-
-
-    /**
-     * Enregistrement de la liste des murs
-     * @param p
-     * @return
-     * @throws JSONException
-     */
-    public JSONArray mursJSON(Piece p) throws JSONException {
-        JSONArray JSONListMurs = new JSONArray();
-        Mur m;
-
-        for (int i = 0; i < p.getListMur().length; i++) {
-            m = p.getListMur()[i];
-            JSONObject jsonMurs = new JSONObject();
-            jsonMurs.put("listPorte", porteJSON(m));
-            jsonMurs.put("orientation", m.getOrientation());
-            jsonMurs.put("photoPrise", m.getPhotoPrise());
-            jsonMurs.put("nom", m.getNom());
-            JSONListMurs.put(jsonMurs);
-        }
-
-        return JSONListMurs;
-    }
-
-
-    /**
-     * Enregistrement de la liste des porte
-     * @param m
-     * @return
-     * @throws JSONException
-     */
-    public JSONArray pieceJSON(Maison m) throws JSONException {
-
-        JSONArray JSONListPorte = new JSONArray();
-        Piece p;
-        Iterator<Piece> piece = m.iterator();
-        while (piece.hasNext()) {
-            p = piece.next();
-            JSONObject jsonPiece = new JSONObject();
-            jsonPiece.put("nom", p.getNom());
-            jsonPiece.put("id", p.getId());
-            jsonPiece.put("listMur", mursJSON(p));
-            JSONListPorte.put(jsonPiece);
-        }
-        return JSONListPorte;
-    }
 
     public void sauvegardeImage(View view) throws JSONException, IOException {
-        enregistrement();
+        listMaison.enregistrement(openFileOutput("sauvegarde.json", Context.MODE_PRIVATE));
     }
 
 
@@ -326,6 +242,47 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         }
         return false;
     }
+
+
+    private JSONObject readStream(InputStream is) throws IOException, JSONException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = new BufferedReader(new InputStreamReader(is), 1000);
+        for(String line = r.readLine(); line != null; line = r.readLine()){
+            sb.append(line);
+        }
+        is.close();
+        return new JSONObject((sb.toString()));
+    }
+
+    /**
+     * Lecture de l'enregistrement
+     * @throws FileNotFoundException
+     */
+    public void lireEnregistrement( ) throws IOException, JSONException {
+      FabriqueIdentifiant.getInstance().removeMaison();
+
+
+        FileInputStream fichier= openFileInput("sauvegarde.json");
+        JSONObject jsonObject = readStream(fichier);
+        JSONArray array = new JSONArray(jsonObject.getString("listeMaison"));
+
+        for (int i = 0; i < array.length(); i++) {
+            // On récupère un objet JSON du tableau
+            JSONObject obj = new JSONObject(array.getString(i));
+            String nom = obj.getString("nom");
+            int id = Integer.parseInt(obj.getString("id"));
+            // On fait le lien Personne - Objet JSON
+            //  Maison maison = new Maison(nom,id);
+            // On ajoute la personne à la liste
+            //   maison.setJSONListPiece(obj.getString("listePiece"));
+
+            listMaison.ajouterUneMaison(nom, id);
+
+        }
+
+
+    }
+
 
 
 }

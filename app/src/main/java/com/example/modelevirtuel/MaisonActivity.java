@@ -33,18 +33,17 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.modelevirtuel.model.GestionnaireMaison;
-import com.example.modelevirtuel.model.Maison;
+import com.example.modelevirtuel.model.*;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.Orientation;
 import com.example.modelevirtuel.outils.PieceAdapter;
 import com.example.modelevirtuel.outils.VueCapteurActivity;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.Iterator;
 
 import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 import static java.lang.Thread.sleep;
@@ -71,6 +70,9 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     float[] magneticVector = new float[3];
     float[] acceleromterVector = new float[3];
+
+
+
 
 
 
@@ -116,8 +118,13 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
 
         listMaison.ajouterObservateur(this);
-        listMaison.notifierObservateur();
-
+        try {
+            listMaison.notifierObservateur();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
@@ -152,7 +159,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * @param view
      */
     @SuppressLint("NotifyDataSetChanged")
-    public void continuerPiece(View view){
+    public void continuerPiece(View view) throws JSONException, IOException {
         // Fermer le dialogue
         dialog.cancel();
 
@@ -172,12 +179,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
 
     // Selection de la piece
-
     /**
      * Fonction qui permet de selectionner la piece
      * @param view
      */
-    public void PieceSelectionner(View view){
+    public void PieceSelectionner(View view) throws JSONException, IOException {
         TextView num =  view.findViewById(R.id.item_num_piece);
         int id =Integer.parseInt((String) num.getText()) ;
         ouvertMaison.setPieceSelect(ouvertMaison.getListPiece().get(id));
@@ -191,13 +197,20 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * Fonction qui supprime la maison actuelle
      * @param view
      */
-    public void suppMaison(View view){
+    public void suppMaison(View view) throws JSONException, IOException {
         finish();
+
+
+
+
+        listMaison.supprimerMaison(ouvertMaison);
+        listMaison.notifierObservateur();
+
+        listMaison.enregistrement(openFileOutput("sauvegarde.json", Context.MODE_PRIVATE));
+
         // On retourne sur la page d'acceuille car cette maison vas etre supprimer
         Intent ic = new Intent(MaisonActivity.this, MainActivity.class);
         startActivity(ic);
-
-        listMaison.supprimerMaison(ouvertMaison);
     }
 
 
@@ -206,7 +219,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * @param view
      */
     @SuppressLint("NotifyDataSetChanged")
-    public void suppPiece(View view){
+    public void suppPiece(View view) throws JSONException, IOException {
         ouvertMaison.supprimerPieceOuvert();
         pieceAdapt.setList(ouvertMaison.getListPiece());
         pieceAdapt.notifyDataSetChanged();
@@ -261,13 +274,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                         photo = (Bitmap)data.getExtras().get("data");
 
                     }
-
-
                 }
-
             });
 
-    public void photo(View view) throws IOException, InterruptedException {
+
+    public void photo(View view) throws IOException, InterruptedException, JSONException {
         dialog.cancel();
 
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -317,7 +328,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * Fonction qui changer officielement le nom de la piece
      * @param view
      */
-    public void continuerChangerP(View view){
+    public void continuerChangerP(View view) throws JSONException, IOException {
         EditText editText = dialog.findViewById(R.id.username);
         editText.getText();
         ouvertMaison.nomPieceSelect(editText.getText().toString().trim());
@@ -345,7 +356,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * Fonction qui changement officiellement le nom d'une maison
      * @param view
      */
-    public void continuerChangerM(View view){
+    public void continuerChangerM(View view) throws JSONException, IOException {
         EditText editText = dialog.findViewById(R.id.username);
         editText.getText();
         ouvertMaison.setNom(editText.getText().toString().trim());
@@ -412,7 +423,9 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * Fonction qui permet de gérer l'affichage
      */
     @Override
-    public void reagir() {
+    public void reagir() throws JSONException, IOException {
+      //  listMaison.enregistrement(fichierEnregistrement);
+
         // Gere les invisible
 
         TextView aucunePiece = findViewById(R.id.aucunePiece);
@@ -482,6 +495,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
             }
         }
+        listMaison.enregistrement(openFileOutput("sauvegarde.json", Context.MODE_PRIVATE));
 
     }
 
@@ -518,5 +532,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
         return false;
     }
+
+
 
 }
