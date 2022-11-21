@@ -294,7 +294,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                         assert data != null;
                         photo = (Bitmap) data.getExtras().get("data");
                         if(photo != null){
-                            String nom = ouvertMaison.getNom()+"_"+ouvertMaison.getPieceSelect().getNom()+"_"+orientationSelec.toString();
+                            String nom = ouvertMaison.getNom()+ouvertMaison.getId()+"_"+ouvertMaison.getPieceSelect().getNom()+ouvertMaison.getPieceSelect().getId()+"_"+orientationSelec.toString();
                             ouvertMaison.ajouterMur(orientationSelec,nom);
                             Log.i("nom",nom);
                             FileOutputStream fos = null;
