@@ -1,7 +1,7 @@
 package com.example.modelevirtuel.outils;
 
 public enum Orientation {
-    NORD("Nord"), OUEST("Ouest"), SUD("Sud"), EST("Est");
+    NORD("NORD"), OUEST("OUEST"), SUD("SUD"), EST("EST");
     private String oriantation;
 
     /**
@@ -12,4 +12,6 @@ public enum Orientation {
         this.oriantation = oriantation;
 
     }
+
+
 }

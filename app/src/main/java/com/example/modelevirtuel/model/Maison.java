@@ -39,6 +39,17 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         pieceSelect = p;
     }
 
+    /**
+     * Fonction qui permet d'ajouter une nouvelle piece a la maison
+     */
+    public void ajouterPiece(String nomPiece, int num){
+        int num2 = FabriqueIdentifiant.getInstance().getIdPiece();
+        Piece p = new Piece(nomPiece,num);
+        listPiece.put(num,p);
+
+        pieceSelect = p;
+    }
+
 
     /**
      * Fonction qui permet de retourner le nom de la maison
@@ -163,11 +174,12 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         pieceSelect.setNom(nom);
     }
 
-    public void ajouterMur(Orientation o, String nom ){
+
+    public void ajouterMur(Orientation o,String nom){
         pieceSelect.ajouterMur(o, nom);
     }
 
-    public void setJSONListPiece(String listePiece) {
-
-    }
+   public Piece setPiece(int id){
+        return listPiece.get(id);
+   }
 }

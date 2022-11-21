@@ -4,9 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements Observateur{
     GestionnaireMaison listMaison;
@@ -206,11 +200,6 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
-    public void sauvegardeImage(View view) throws JSONException, IOException {
-        listMaison.enregistrement(openFileOutput("sauvegarde.json", Context.MODE_PRIVATE));
-    }
-
-
     // CE QUI CONCERNE LE MENU
 
     /**
@@ -244,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+
     private JSONObject readStream(InputStream is) throws IOException, JSONException {
         StringBuilder sb = new StringBuilder();
         BufferedReader r = new BufferedReader(new InputStreamReader(is), 1000);
@@ -271,15 +261,93 @@ public class MainActivity extends AppCompatActivity implements Observateur{
             JSONObject obj = new JSONObject(array.getString(i));
             String nom = obj.getString("nom");
             int id = Integer.parseInt(obj.getString("id"));
-            // On fait le lien Personne - Objet JSON
-            //  Maison maison = new Maison(nom,id);
-            // On ajoute la personne à la liste
-            //   maison.setJSONListPiece(obj.getString("listePiece"));
 
             listMaison.ajouterUneMaison(nom, id);
 
+            // Lecture des piece
+            lirePiece(id, obj);
+
         }
 
+
+    }
+
+
+    /**
+     * Fonction qui permet de lire les piece
+     * @param id
+     * @param jsonObject
+     * @throws JSONException
+     */
+    public void lirePiece(int id, JSONObject jsonObject) throws JSONException {
+        JSONArray array = new JSONArray(jsonObject.getString("listePiece"));
+
+        for (int i = 0; i < array.length(); i++) {
+            // On récupère un objet JSON du tableau
+            JSONObject obj = new JSONObject(array.getString(i));
+            String nom = obj.getString("nom");
+            int idp = Integer.parseInt(obj.getString("id"));
+
+            listMaison.getMaison(id).ajouterPiece(nom,idp);
+
+            // On passe au murs
+            lireMur(listMaison.getMaison(id),idp,obj);
+
+        }
+    }
+
+
+    /**
+     * Fonction qui permet de lire le murs
+     * @param m
+     * @param id
+     * @param jsonObject
+     * @throws JSONException
+     */
+    public void lireMur(Maison m,int id, JSONObject jsonObject) throws JSONException {
+
+        JSONArray array = new JSONArray(jsonObject.getString("listMur"));
+
+        for (int i = 0; i < array.length(); i++) {
+            // On récupère un objet JSON du tableau
+            JSONObject obj = new JSONObject(array.getString(i));
+
+            String orientation = obj.getString("orientation");
+
+            String nom = obj.getString("nom");
+
+
+            Piece p  = m.setPiece(id);
+
+
+            p.ajouterMur(Orientation.valueOf(orientation),nom);
+
+            lirePorte(m,p.getMur(Orientation.valueOf(orientation)), obj, Orientation.valueOf(orientation));
+
+        }
+    }
+
+
+    /**
+     * Fonction qui permet de lire les porte
+     * @param maison
+     * @param m
+     * @param jsonObject
+     * @param orientation
+     * @throws JSONException
+     */
+    public void lirePorte(Maison maison,Mur m,JSONObject jsonObject, Orientation orientation) throws JSONException {
+        JSONArray array = new JSONArray(jsonObject.getString("listPorte"));
+
+        for (int i = 0; i < array.length(); i++) {
+            // On récupère un objet JSON du tableau
+            JSONObject obj = new JSONObject(array.getString(i));
+            String arriver = obj.getString("arriver");
+            int id = Integer.parseInt(obj.getString("id"));
+
+           m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)));
+
+        }
 
     }
 

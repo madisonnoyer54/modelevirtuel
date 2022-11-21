@@ -217,7 +217,7 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
         while (porte.hasNext()) {
             p = porte.next();
             JSONObject jsonPorte = new JSONObject();
-            jsonPorte.put("arriver", p.getArriver());
+            jsonPorte.put("arriver", p.getArriver().getId());
             jsonPorte.put("id", p.getId());
             JSONListPorte.put(jsonPorte);
         }
@@ -235,12 +235,15 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
         JSONArray JSONListMurs = new JSONArray();
         Mur m;
 
-        for (int i = 0; i < p.getListMur().length; i++) {
-            m = p.getListMur()[i];
+        for (int i = 0; i < p.getListMur().size(); i++) {
+            m = p.getListMur().get(i);
             JSONObject jsonMurs = new JSONObject();
             jsonMurs.put("listPorte", porteJSON(m));
-            jsonMurs.put("orientation", m.getOrientation());
-            jsonMurs.put("photoPrise", m.getPhotoPrise());
+            if( m.getOrientation() != null){
+                jsonMurs.put("orientation", m.getOrientation().toString());
+            }else{
+                jsonMurs.put("orientation", " ");
+            }
             jsonMurs.put("nom", m.getNom());
             JSONListMurs.put(jsonMurs);
         }

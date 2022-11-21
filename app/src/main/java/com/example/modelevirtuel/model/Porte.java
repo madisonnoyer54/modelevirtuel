@@ -2,7 +2,7 @@ package com.example.modelevirtuel.model;
 
 public class Porte {
     private Piece arriver;
-    private String id;
+    private int id;
 
 
 
@@ -11,7 +11,7 @@ public class Porte {
      * @param arriver
      * @param id
      */
-    public Porte(Piece arriver, String id) {
+    public Porte(Piece arriver, int id) {
         this.arriver = arriver;
         this.id = id;
     }
@@ -24,11 +24,11 @@ public class Porte {
         this.arriver = arriver;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

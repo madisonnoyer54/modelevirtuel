@@ -1,6 +1,7 @@
 package com.example.modelevirtuel.model;
 
 import androidx.annotation.NonNull;
+import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.Orientation;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,9 +12,8 @@ import java.util.Iterator;
 public class Mur implements Iterable<Porte>{
    // Pas d'id car l'orientation fait out
 
-    private HashMap<String,Porte> listPorte;
+    private HashMap<Integer,Porte> listPorte;
     private Orientation orientation;
-    private boolean photoPrise;
     private String nom;
 
 
@@ -21,10 +21,9 @@ public class Mur implements Iterable<Porte>{
      * Constructeur
      */
     public Mur(Orientation orientation, String nom) {
+        this.nom = nom;
         this.orientation = orientation;
         listPorte = new HashMap<>();
-        photoPrise = false;
-        this.nom = nom;
     }
 
 
@@ -36,31 +35,17 @@ public class Mur implements Iterable<Porte>{
         this.orientation = orientation;
     }
 
-    public String getNom() {
-        return nom;
-    }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public boolean getPhotoPrise() {
-        return photoPrise;
-    }
-
-    public void setPhotoPrise(boolean photoPrise) {
-        this.photoPrise = photoPrise;
-    }
 
     public void nouvellePorte(Porte p){
         listPorte.put(p.getId(),p);
     }
 
-    public HashMap<String, Porte> getListPorte() {
+    public HashMap<Integer, Porte> getListPorte() {
         return listPorte;
     }
 
-    public void setListPorte(HashMap<String,Porte> listPorte) {
+    public void setListPorte(HashMap<Integer,Porte> listPorte) {
         this.listPorte = listPorte;
     }
 
@@ -71,5 +56,20 @@ public class Mur implements Iterable<Porte>{
         return listPorte.values().iterator();
     }
 
+    public void ajoutePorte(Piece arriver){
+        int id = FabriqueIdentifiant.getInstance().getIdMur();
+        listPorte.put(id, new Porte(arriver,id));
 
+    }
+
+    public void ajoutePorte(int id,Piece arriver){
+        int idp = FabriqueIdentifiant.getInstance().getIdMur();
+        listPorte.put(id, new Porte(arriver,id));
+
+    }
+
+
+    public String getNom() {
+        return nom;
+    }
 }

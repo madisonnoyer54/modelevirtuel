@@ -9,8 +9,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,6 +33,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.modelevirtuel.model.*;
@@ -48,7 +51,7 @@ import java.util.Iterator;
 import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 import static java.lang.Thread.sleep;
 
-public class MaisonActivity extends AppCompatActivity implements SensorEventListener,Observateur{
+public class MaisonActivity extends AppCompatActivity implements SensorEventListener,Observateur {
 
     private GestionnaireMaison listMaison;
     private Maison ouvertMaison;
@@ -59,7 +62,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     private Bitmap photo;
     private ImageView imagePhoto;
 
-     private Sensor sensorMA;
+    private Sensor sensorMA;
 
     VueCapteurActivity vue;
 
@@ -72,15 +75,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     float[] acceleromterVector = new float[3];
 
 
-
-
-
-
-
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.S)
     @SuppressLint("WrongThread")
     @Override
@@ -89,7 +83,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         setContentView(R.layout.activity_maison);
 
         // On bloque en mode portrait
-        this.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // On recupaire le gestionnaire
         listMaison = GestionnaireMaison.getInstance();
@@ -100,7 +94,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         nomText.setText(String.valueOf(listMaison.getSelectMaison().getNom()));
 
         // Liste des pieces
-        RecyclerView recycler =  findViewById(R.id.RecyPiece);
+        RecyclerView recycler = findViewById(R.id.RecyPiece);
         pieceAdapt = new PieceAdapter(ouvertMaison.getListPiece());
         recycler.setAdapter(pieceAdapt);
 
@@ -130,10 +124,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     }
 
     /**
-     *  Fonction qui annule le dialogue vue au dessus
+     * Fonction qui annule le dialogue vue au dessus
+     *
      * @param view
      */
-    public void annuler2(View view){
+    public void annuler2(View view) {
         dialog.cancel();
     }
 
@@ -142,9 +137,10 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     /**
      * Fonction qui ouvre le dialogue pour ajouter la piece
+     *
      * @param view
      */
-    public void ajouterPiece(View view){
+    public void ajouterPiece(View view) {
         String id = null;
 
         dialog = new Dialog(this);
@@ -156,6 +152,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     /**
      * Fonction qui permet de officaliser lajout de piece
+     *
      * @param view
      */
     @SuppressLint("NotifyDataSetChanged")
@@ -177,15 +174,16 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     }
 
 
-
     // Selection de la piece
+
     /**
      * Fonction qui permet de selectionner la piece
+     *
      * @param view
      */
     public void PieceSelectionner(View view) throws JSONException, IOException {
-        TextView num =  view.findViewById(R.id.item_num_piece);
-        int id =Integer.parseInt((String) num.getText()) ;
+        TextView num = view.findViewById(R.id.item_num_piece);
+        int id = Integer.parseInt((String) num.getText());
         ouvertMaison.setPieceSelect(ouvertMaison.getListPiece().get(id));
         String nom = ouvertMaison.getPieceSelect().getNom();
 
@@ -195,12 +193,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     /**
      * Fonction qui supprime la maison actuelle
+     *
      * @param view
      */
     public void suppMaison(View view) throws JSONException, IOException {
         finish();
-
-
 
 
         listMaison.supprimerMaison(ouvertMaison);
@@ -216,6 +213,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     /**
      * FOnction qui supprime la piece actuelle
+     *
      * @param view
      */
     @SuppressLint("NotifyDataSetChanged")
@@ -229,14 +227,21 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     }
 
 
-    public void dialog(){
+    /**
+     * Ouvre le dialogue pour la fonctionaliter des photo
+     */
+    public void dialog() {
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_photo);
 
         dialog.show();
     }
 
-    public void selectPhotoNord(View view){
+    /**
+     * C'est la photo du nord qui est selectionner
+     * @param view
+     */
+    public void selectPhotoNord(View view) {
         dialog();
         imagePhoto = findViewById(R.id.interrogationNord);
         orientationSelec = Orientation.NORD;
@@ -244,18 +249,34 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
 
     }
 
-    public void selectPhotoSud(View view){
+
+    /**
+     * C'est la photo du sud qui est selectionner
+     * @param view
+     */
+    public void selectPhotoSud(View view) {
         dialog();
         imagePhoto = findViewById(R.id.interrogationSud);
         orientationSelec = Orientation.SUD;
     }
 
-    public void selectPhotoOuest(View view){
+
+    /**
+     * C'est la photo de Ouest qui est selectionner
+     * @param view
+     */
+    public void selectPhotoOuest(View view) {
         dialog();
         imagePhoto = findViewById(R.id.interrogationOuest);
         orientationSelec = Orientation.OUEST;
     }
-    public void selectPhotoEst(View view){
+
+
+    /**
+     * C'est la photo de l'est qui est selectionner
+     * @param view
+     */
+    public void selectPhotoEst(View view) {
         dialog();
         imagePhoto = findViewById(R.id.interrogationEst);
         orientationSelec = Orientation.EST;
@@ -271,10 +292,11 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                         // There are no request codes
                         Intent data = result.getData();
                         assert data != null;
-                        photo = (Bitmap)data.getExtras().get("data");
+                        photo = (Bitmap) data.getExtras().get("data");
 
                     }
                 }
+
             });
 
 
@@ -291,6 +313,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
             FileOutputStream fos = null;
             try {
                 fos = openFileOutput(nom+".data", MODE_PRIVATE);
+
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -476,25 +499,53 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         pieceAdapt.notifyDataSetChanged();
 
 
+        ImageView image = null;
+
+
+        // On remet les point d'interrogation
+        image = findViewById(R.id.interrogationSud);
+        image.setImageResource(R.drawable.interrogation);
+
+
+        image = findViewById(R.id.interrogationNord);
+        image.setImageResource(R.drawable.interrogation);
+
+        image = findViewById(R.id.interrogationOuest);
+        image.setImageResource(R.drawable.interrogation);
+
+        image = findViewById(R.id.interrogationEst);
+        image.setImageResource(R.drawable.interrogation);
+
 
         // On ouvre les photo des murs
         if(!ouvertMaison.getListPiece().isEmpty()){
-            Log.i("cc","on passe");
-            if(ouvertMaison.getPieceSelect().getListMur()[0].getNom() != null ){
-                Log.i("cc","on passe 2");
-                FileInputStream fis;
-                try {
-                    fis = openFileInput(ouvertMaison.getPieceSelect().getListMur()[0].getNom()+".data");
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+            for(int i =0; i< ouvertMaison.getPieceSelect().getListMur().size(); i++){
+                Mur m = ouvertMaison.getPieceSelect().getListMur().get(i);
+                if(m.getOrientation() == Orientation.SUD){
+                    image = findViewById(R.id.interrogationSud);
                 }
+                if(m.getOrientation() == Orientation.NORD){
+                    image = findViewById(R.id.interrogationNord);
+                }
+                if(m.getOrientation() == Orientation.OUEST){
+                    image = findViewById(R.id.interrogationOuest);
+                }
+                if(m.getOrientation() == Orientation.EST){
+                    image = findViewById(R.id.interrogationEst);
+                }
+                FileInputStream fis = openFileInput(m.getNom()+".data");
                 Bitmap bm = BitmapFactory.decodeStream(fis);
-                imagePhoto = findViewById(R.id.interrogationNord);
-
-                imagePhoto.setImageBitmap(bm);
+                image.setImageBitmap(bm);
 
             }
+
+
         }
+
+
+
+
+        // On enregistre
         listMaison.enregistrement(openFileOutput("sauvegarde.json", Context.MODE_PRIVATE));
 
     }
