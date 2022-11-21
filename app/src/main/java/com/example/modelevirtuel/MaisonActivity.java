@@ -293,6 +293,26 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                         Intent data = result.getData();
                         assert data != null;
                         photo = (Bitmap) data.getExtras().get("data");
+                        if(photo != null){
+                            String nom = ouvertMaison.getNom()+"_"+ouvertMaison.getPieceSelect().getNom()+"_"+orientationSelec.toString();
+                            ouvertMaison.ajouterMur(orientationSelec,nom);
+                            Log.i("nom",nom);
+                            FileOutputStream fos = null;
+                            try {
+                                fos = openFileOutput(nom+".data", MODE_PRIVATE);
+                                photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try {
+                                listMaison.notifierObservateur();
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
 
                     }
                 }
@@ -306,26 +326,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         someActivityResultLauncher.launch(intent);
 
-        if(photo != null){
-            String nom = ouvertMaison.getNom()+"_"+ouvertMaison.getPieceSelect().getNom()+"_"+orientationSelec.toString();
-            ouvertMaison.ajouterMur(orientationSelec,nom);
-
-            FileOutputStream fos = null;
-            try {
-                fos = openFileOutput(nom+".data", MODE_PRIVATE);
-
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            try {
-                fos.flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        listMaison.notifierObservateur();
+        photo = null;
     }
 
     public void selectionPhoto(View view){
