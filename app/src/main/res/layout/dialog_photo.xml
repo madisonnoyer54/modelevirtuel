@@ -36,6 +36,18 @@
             android:layout_height="40dp" android:id="@+id/selectphoto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.501" app:layout_constraintTop_toBottomOf="@+id/supphoto"/>
+    <Button
+            android:text="Supprimer"
+            android:onClick="supphoto"
+            android:layout_width="124dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="40dp" android:id="@+id/supphoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            tools:ignore="NotSibling"
             app:layout_constraintTop_toBottomOf="@+id/photo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

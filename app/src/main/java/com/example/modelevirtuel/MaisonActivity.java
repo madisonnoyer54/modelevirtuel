@@ -335,6 +335,16 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         // A remplir
     }
 
+    public void supphoto(View view) throws JSONException, IOException {
+        dialog.cancel();
+        Mur m = ouvertMaison.getPieceSelect().getMur(orientationSelec);
+
+        ouvertMaison.getPieceSelect().getListMur().remove(m);
+
+        listMaison.notifierObservateur();
+
+    }
+
     // Pour changer le nom de la piece
 
     /**
