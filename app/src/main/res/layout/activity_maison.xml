@@ -84,7 +84,7 @@
             android:background="#00FFFFFF"
             android:layout_width="70dp"
             android:onClick="selectPhotoNord"
-            android:layout_height="70dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationNord"
+            android:layout_height="100dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationNord"
             app:layout_constraintTop_toBottomOf="@+id/nom_piece"
             app:layout_constraintBottom_toTopOf="@+id/boussole" tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
@@ -93,27 +93,27 @@
             android:background="#00FFFFFF"
             android:layout_width="70dp"
             android:onClick="selectPhotoEst"
-            android:layout_height="70dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationEst"
+            android:layout_height="100dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationEst"
             tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/boussole"
             app:layout_constraintHorizontal_bias="0.342" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.635"/>
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.717"/>
     <ImageView
             android:background="#00FFFFFF"
             android:layout_width="70dp"
             android:onClick="selectPhotoOuest"
-            android:layout_height="70dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationOuest"
+            android:layout_height="100dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationOuest"
             tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintStart_toEndOf="@+id/boussole"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.648"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.783"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.635"/>
+            app:layout_constraintVertical_bias="0.717"/>
     <ImageView
             android:background="#00FFFFFF"
             android:onClick="selectPhotoSud"
             android:layout_width="70dp"
-            android:layout_height="70dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationSud"
+            android:layout_height="100dp" app:srcCompat="@drawable/interrogation" android:id="@+id/interrogationSud"
             tools:ignore="MissingConstraints,OnClick"
             app:layout_constraintTop_toBottomOf="@+id/boussole" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_bias="0.571" app:layout_constraintStart_toStartOf="parent"

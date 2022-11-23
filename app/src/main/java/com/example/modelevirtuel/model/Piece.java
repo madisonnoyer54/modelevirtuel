@@ -11,6 +11,7 @@ public class Piece {
    private int id;
 
    private ArrayList<Mur> listMur;
+   private Mur murSelect;
 
 
     /**
@@ -47,10 +48,19 @@ public class Piece {
     }
 
     public void ajouterMur(Orientation orientation, String nom ){
-        listMur.add(new Mur(orientation, nom));
+        Mur m = new Mur(orientation, nom);
+        listMur.add(m);
+        murSelect = m;
 
     }
 
+    public Mur getMurSelect() {
+        return murSelect;
+    }
+
+    public void setMurSelect(Mur murSelect) {
+        this.murSelect = murSelect;
+    }
 
     public Mur getMur(Orientation valueOf) {
         for (int l = 0; l < listMur.size(); l++) {

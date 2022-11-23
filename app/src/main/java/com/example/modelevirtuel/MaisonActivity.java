@@ -23,10 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -232,8 +229,8 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      */
     public void dialog() {
         dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_photo);
 
+        dialog.setContentView(R.layout.dialog_photo);
         dialog.show();
     }
 
@@ -245,6 +242,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         dialog();
         imagePhoto = findViewById(R.id.interrogationNord);
         orientationSelec = Orientation.NORD;
+
 
 
     }
@@ -332,7 +330,14 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     public void selectionPhoto(View view){
         dialog.cancel();
 
-        // A remplir
+        // On prend lre mur selectionner
+        ouvertMaison.getPieceSelect().setMurSelect(ouvertMaison.getPieceSelect().getMur(orientationSelec));
+
+        // Ouvrir la page avec le murs
+        if(ouvertMaison.getPieceSelect().getMurSelect() != null){
+            Intent ic = new Intent(MaisonActivity.this, MurActivity.class);
+            startActivity(ic);
+        }
     }
 
     public void supphoto(View view) throws JSONException, IOException {
@@ -546,7 +551,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                 }
                 FileInputStream fis = openFileInput(m.getNom()+".data");
                 Bitmap bm = BitmapFactory.decodeStream(fis);
-                image.setImageBitmap(bm);
+                image.setImageBitmap(Bitmap.createScaledBitmap(bm,image.getWidth(),image.getHeight(),false));
 
             }
 
