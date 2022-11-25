@@ -46,7 +46,6 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
     // UPDATE VIEW HOLDER WITH A GITHUBUSER
     @Override
     public void onBindViewHolder(MaisonItemViewHolder viewHolder, int position) {
-        Log.i("position", String.valueOf(position));
         viewHolder.updateMaison(this.list.getMaison(position));
     }
 

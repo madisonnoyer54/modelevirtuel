@@ -39,13 +39,9 @@ public class VueCapteurActivity extends View {
         super.onDraw(canvas);
       //  canvas.drawLine(550, 700, 500 - (result[0] * 50), (result[1] * 50) + 700, this.paint);
 
-
-
         float compasX = (float)  - Math.sin(orianta)*100;
         float compasY = (float) - Math.cos(orianta)*100;
         canvas.drawLine(170, 120, 170 + compasX, 120+ compasY, this.paint1);
-
-
 
     }
 

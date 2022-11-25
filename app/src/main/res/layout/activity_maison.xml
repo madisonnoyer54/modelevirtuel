@@ -128,8 +128,8 @@
             app:layout_constraintEnd_toStartOf="@+id/interrogationOuest"
             app:layout_constraintStart_toEndOf="@+id/interrogationEst"
             app:layout_constraintBottom_toTopOf="@+id/interrogationSud"
-            android:id="@+id/capteur" app:layout_constraintVertical_bias="0.506"
-            app:layout_constraintHorizontal_bias="0.612"/>
+            android:id="@+id/capteur" app:layout_constraintVertical_bias="0.561"
+            app:layout_constraintHorizontal_bias="0.553"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

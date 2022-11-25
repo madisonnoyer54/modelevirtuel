@@ -7,6 +7,7 @@ import com.example.modelevirtuel.outils.Orientation;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -181,5 +182,35 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
 
    public Piece setPiece(int id){
         return listPiece.get(id);
+   }
+
+    public Piece setPiece(String id){
+        Piece f = null;
+        Iterator<Piece> i = iterator();
+        while(i.hasNext()){
+            Piece m = i.next();
+
+            if(m.getNom() == id){
+                f = m;
+            }
+
+        }
+        return f;
+    }
+
+   
+
+   public ArrayList<String> transformeEnArray(){
+        ArrayList<String> piece= new ArrayList<String>();
+
+       Iterator<Piece> i = iterator();
+       while(i.hasNext()){
+           Piece m = i.next();
+
+         piece.add(m.getNom());
+
+       }
+        return piece;
+
    }
 }

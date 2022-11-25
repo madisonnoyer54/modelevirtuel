@@ -179,7 +179,6 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
         writer.write(json);
         writer.flush();
 
-       // Log.i("json",jsonMaison.toString());
     }
 
 

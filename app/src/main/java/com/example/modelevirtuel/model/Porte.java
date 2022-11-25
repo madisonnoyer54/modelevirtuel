@@ -1,8 +1,12 @@
 package com.example.modelevirtuel.model;
 
+import android.graphics.Rect;
+
 public class Porte {
     private Piece arriver;
     private int id;
+
+    private Rect rect;
 
 
 
@@ -11,7 +15,8 @@ public class Porte {
      * @param arriver
      * @param id
      */
-    public Porte(Piece arriver, int id) {
+    public Porte(Piece arriver, int id, Rect rect) {
+        this.rect = rect;
         this.arriver = arriver;
         this.id = id;
     }

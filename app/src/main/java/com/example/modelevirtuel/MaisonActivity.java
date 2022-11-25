@@ -58,15 +58,13 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     static final int PHOTO = 1;
     private Bitmap photo;
     private ImageView imagePhoto;
+    private Orientation orientationSelec;
+
 
     private Sensor sensorMA;
-
     VueCapteurActivity vue;
-
     private SensorManager sensorManager;
     private Sensor sensorACC;
-
-    private Orientation orientationSelec;
 
     float[] magneticVector = new float[3];
     float[] acceleromterVector = new float[3];
@@ -426,32 +424,24 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         SensorManager.getRotationMatrix(resultMatrix, null, acceleromterVector, magneticVector);
         SensorManager.getOrientation(resultMatrix, values);
 
-
-        // Acellerometre
         vue.passage(values[0]);
         vue.invalidate();
     }
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
-
-
     public void onResume() {
         super.onResume();
         this.sensorManager.unregisterListener(this);
         this.sensorManager.registerListener(this, this.sensorACC, SENSOR_DELAY_NORMAL);
         this.sensorManager.registerListener(this, this.sensorMA, SENSOR_DELAY_NORMAL);
     }
-
-
     @Override
     public void onPause() {
         super.onPause();
         this.sensorManager.unregisterListener(this);
     }
-
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
@@ -551,7 +541,7 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                 }
                 FileInputStream fis = openFileInput(m.getNom()+".data");
                 Bitmap bm = BitmapFactory.decodeStream(fis);
-                image.setImageBitmap(Bitmap.createScaledBitmap(bm,image.getWidth(),image.getHeight(),false));
+                image.setImageBitmap(Bitmap.createScaledBitmap(bm,100,150,false));
 
             }
 
@@ -588,12 +578,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     public boolean onOptionsItemSelected (MenuItem item){
         if (item.getItemId() == R.id.quitter) {
             finish();
-            return true;
-        }
-        if (item.getItemId() == R.id.pageacceuille) {
-            Intent ic = new Intent(MaisonActivity.this, MainActivity.class);
-            startActivity(ic);
-
             return true;
         }
 

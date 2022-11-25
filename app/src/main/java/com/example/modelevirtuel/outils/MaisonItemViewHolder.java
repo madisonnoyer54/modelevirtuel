@@ -32,7 +32,6 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
     public void updateMaison(Maison maison){
         if(maison != null){
             this.maison = maison;
-            Log.i("maison invisible ", maison.getNom() + maison.getId());
             this.nom.setText(String.valueOf(maison.getNom()));
             this.num.setText(String.valueOf(maison.getId()));
         }

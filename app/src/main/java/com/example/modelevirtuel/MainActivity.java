@@ -225,10 +225,6 @@ public class MainActivity extends AppCompatActivity implements Observateur{
             finish();
             return true;
         }
-        if (item.getItemId() == R.id.pageacceuille) {
-            Toast.makeText((Context) MainActivity.this,"Vous etes déja sur la page d'acceuille", Toast.LENGTH_SHORT).show();
-            return true;
-        }
         return false;
     }
 
@@ -345,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements Observateur{
             String arriver = obj.getString("arriver");
             int id = Integer.parseInt(obj.getString("id"));
 
-           m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)));
+         //  m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)));
 
         }
 
