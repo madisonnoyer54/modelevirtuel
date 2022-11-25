@@ -115,6 +115,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
                 sfhTrackHolder.unlockCanvasAndPost(canvas);
 
             } else if (event.getPointerCount() == 1 && select && comparerXY(rectangle,x1,x2,y1,y2) ) {
+                select =false;
                 dialogue();
                 return false;
             }
@@ -129,7 +130,11 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
+    public boolean comparerXY(Rect rect,int x1, int x2, int y1, int y2){
+       // if(x1>rect. && x2< rect)
 
+            return true;
+    }
 
     public void dialogue(){
         dialog = new Dialog(this);
