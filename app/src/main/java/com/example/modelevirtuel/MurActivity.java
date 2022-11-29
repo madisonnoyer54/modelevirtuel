@@ -114,7 +114,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
                 canvas.drawRect(MurActivity.this.rectangle, paint);
                 sfhTrackHolder.unlockCanvasAndPost(canvas);
 
-            } else if (event.getPointerCount() == 1 && select && comparerXY(rectangle,x1,x2,y1,y2) ) {
+            } else if (event.getPointerCount() == 1 && select ) {
                 select =false;
                 dialogue();
                 return false;
@@ -161,6 +161,8 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     public void continuerPorte(View view){
         selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
         dialog.cancel();
+
+       // Log.i("mur",selectMur.getListPorte().toString());
     }
 
     /**
