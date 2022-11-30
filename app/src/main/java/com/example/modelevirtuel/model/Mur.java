@@ -59,12 +59,12 @@ public class Mur implements Iterable<Porte>{
 
 
     public void ajoutePorte(int id, Piece arriver, Rect rect){
-        int idp = FabriqueIdentifiant.getInstance().getIdMur();
+     //   int idp = FabriqueIdentifiant.getInstance().getIdMur();
         listPorte.put(id, new Porte(arriver,id,rect));
     }
 
     public void ajoutePorte( Piece arriver, Rect rect){
-        int id = FabriqueIdentifiant.getInstance().getIdMur();
+        int id = FabriqueIdentifiant.getInstance().getIdPorte();
         listPorte.put(id, new Porte(arriver,id,rect));
     }
 

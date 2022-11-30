@@ -10,16 +10,17 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.modelevirtuel.model.GestionnaireMaison;
-import com.example.modelevirtuel.model.Maison;
-import com.example.modelevirtuel.model.Mur;
-import com.example.modelevirtuel.model.Piece;
+import com.example.modelevirtuel.model.*;
 import com.example.modelevirtuel.outils.PieceAdapter;
+import org.json.JSONException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static java.lang.Thread.sleep;
 
 public class MurActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     GestionnaireMaison listMaison;
@@ -42,6 +43,9 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     private ImageView imageView;
 
+    private Bitmap bitmap;
+
+    private Canvas canvas;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -49,12 +53,14 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mur);
 
+
         select =false;
 
         //Pour le spinner
 
         // On bloque en mode portrait
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
 
 
@@ -76,6 +82,8 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         ouvertMaison = listMaison.getSelectMaison();
         selectMur = ouvertMaison.getPieceSelect().getMurSelect();
 
+        Log.i(selectMur.getNom(),"cc");
+
         // On met l'image
         if(selectMur != null){
             FileInputStream fis = null;
@@ -85,7 +93,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
                 throw new RuntimeException(e);
             }
             Bitmap bm = BitmapFactory.decodeStream(fis);
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1100,1500,false));
+            imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1400,false));
         }
 
         this.imageView.setOnTouchListener((v, event) -> {
@@ -101,18 +109,27 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
                 MurActivity.this.y2 = (int) event.getY(1);
                 MurActivity.this.rectangle = new Rect(MurActivity.this.x1, MurActivity.this.y1, MurActivity.this.x2, MurActivity.this.y2);
 
-                Bitmap bitmap = Bitmap.createBitmap(MurActivity.this.surfaceView.getWidth(), MurActivity.this.surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createBitmap(MurActivity.this.surfaceView.getWidth(), MurActivity.this.surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
                 Paint paint = new Paint();
                 paint.setColor(Color.BLUE);
                 paint.setAntiAlias(true);
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeWidth(8.0f);
 
-                new Canvas(bitmap);
-                Canvas canvas = sfhTrackHolder.lockCanvas();
+                canvas = new Canvas(bitmap);
+                canvas = sfhTrackHolder.lockCanvas();
                 canvas.drawColor(0, PorterDuff.Mode.CLEAR);
                 canvas.drawRect(MurActivity.this.rectangle, paint);
                 sfhTrackHolder.unlockCanvasAndPost(canvas);
+                rectangle.sort();
+
+                try {
+                    reagirPorte();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             } else if (event.getPointerCount() == 1 && select ) {
                 select =false;
@@ -158,11 +175,15 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         dialog.show();
     }
 
-    public void continuerPorte(View view){
-        selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
-        dialog.cancel();
+    public void continuerPorte(View view) throws InterruptedException, JSONException, IOException {
 
-       // Log.i("mur",selectMur.getListPorte().toString());
+        dialog.cancel();
+        Thread.sleep(100);
+        System.out.println(item);
+        selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
+
+       reagirPorte();
+
     }
 
     /**
@@ -208,6 +229,42 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+
+    public void reagirPorte() throws JSONException, IOException {
+        Porte porte;
+        SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5.0f);
+        paint.setTextSize(20);
+
+        Paint paint1 = new Paint();
+        paint1.setColor(Color.RED);
+        paint1.setAntiAlias(true);
+        paint1.setStyle(Paint.Style.STROKE);
+        paint1.setStrokeWidth(1.5f);
+        paint1.setTextSize(20);
+
+        Canvas canvas1 = new Canvas(bitmap);
+        canvas1 = sfhTrackHolder.lockCanvas();
+         canvas1.drawColor(0, PorterDuff.Mode.CLEAR);
+
+        for(int i = 0; i< selectMur.getListPorte().size(); i++){
+            Log.i("cc", "dd");
+            porte = selectMur.getListPorte().get(i);
+            assert porte != null;
+            Log.i("rec",porte.getId() + porte.getRect().toString());
+            canvas1.drawRect(porte.getRect(), paint);
+
+            canvas1.drawText(porte.getArriver().getNom(),porte.getRect().left,porte.getRect().top-2, paint1);
+        }
+        sfhTrackHolder.unlockCanvasAndPost(canvas1);
 
     }
 }

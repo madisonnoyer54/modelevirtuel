@@ -3,7 +3,7 @@ package com.example.modelevirtuel.outils;
 public class FabriqueIdentifiant {
     private int idPiece;
     private int idPorte;
-    private int idMur;
+
 
     private int idMaison;
     private static FabriqueIdentifiant fabriqueIdentifiant = new FabriqueIdentifiant();
@@ -13,8 +13,8 @@ public class FabriqueIdentifiant {
      * Constructeur
      */
     private FabriqueIdentifiant() {
-        this.idMur = 0;
-        this.idPorte = 0;
+
+        this.idPorte = -1;
         this.idPiece = -1;
         this.idMaison = -1;
     }
@@ -48,14 +48,6 @@ public class FabriqueIdentifiant {
     }
 
 
-    /**
-     * Getteur du numéro du mur
-     * @return
-     */
-    public int getIdMur() {
-        idMur++;
-        return idMur;
-    }
 
 
     /**

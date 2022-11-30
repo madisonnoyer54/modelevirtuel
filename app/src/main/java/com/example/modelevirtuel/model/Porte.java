@@ -37,4 +37,7 @@ public class Porte {
         this.id = id;
     }
 
+    public Rect getRect() {
+        return rect;
+    }
 }
