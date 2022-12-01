@@ -17,8 +17,7 @@ import org.json.JSONException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 import static java.lang.Thread.sleep;
 
@@ -46,6 +45,8 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     private Bitmap bitmap;
 
     private Canvas canvas;
+
+    private Porte porteSelect;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -82,7 +83,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         ouvertMaison = listMaison.getSelectMaison();
         selectMur = ouvertMaison.getPieceSelect().getMurSelect();
 
-        Log.i(selectMur.getNom(),"cc");
+
 
         // On met l'image
         if(selectMur != null){
@@ -96,7 +97,21 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1400,false));
         }
 
+        if(!selectMur.getListPorte().isEmpty()){
+            try {
+                reagirPorte();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+
+
         this.imageView.setOnTouchListener((v, event) -> {
+
             SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
             sfhTrackHolder.setFormat(-2);
             event.getActionMasked();
@@ -123,36 +138,72 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
                 sfhTrackHolder.unlockCanvasAndPost(canvas);
                 rectangle.sort();
 
-                try {
-                    reagirPorte();
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
 
-            } else if (event.getPointerCount() == 1 && select ) {
+
+            } else if (event.getPointerCount() == 1 && comparerXY((int) event.getX(0),(int) event.getY(0))) {
+                dialogChange();
+                return false;
+            }else if(event.getPointerCount() == 1 && select ){
                 select =false;
                 dialogue();
-                return false;
             }
-
-
             return true;
 
         });
 
+    }
+
+    public boolean comparerXY(int x1, int y1){
+        Rect r;
+
+        for(int i =0; i<selectMur.getListPorte().size(); i++){
+            r = selectMur.getListPorte().get(i).getRect();
+            if(x1>= r.left && x1<= r.right && y1<= r.bottom && y1>= r.top){
+                porteSelect =selectMur.getListPorte().get(i);
+                return true;
+            }
+        }
+           return false;
+    }
+
+    public void dialogChange(){
+        dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_change_porte);
+        Spinner spinner = dialog.findViewById(R.id.spinner);
+        //  Log.i("Spinner", String.valueOf(spinner));
+        // Spinner click listener
+        spinner.setOnItemSelectedListener(this);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,ouvertMaison.transformeEnArray());
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setSelection(0);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
 
 
+        dialog.show();
+    }
+
+
+    public void continuerChangePorte(View view) throws InterruptedException, JSONException, IOException {
+
+        dialog.cancel();
+        Thread.sleep(100);
+        porteSelect.setArriver(ouvertMaison.setPiece(item));
+
+        reagirPorte();
 
     }
 
-    public boolean comparerXY(Rect rect,int x1, int x2, int y1, int y2){
-       // if(x1>rect. && x2< rect)
-
-            return true;
+    public void SuppPorte(View view) throws JSONException, IOException {
+        dialog.cancel();
+        selectMur.suppPorte(porteSelect.getId());
+        reagirPorte();
     }
-
     public void dialogue(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_porte);
@@ -179,7 +230,6 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
         dialog.cancel();
         Thread.sleep(100);
-        System.out.println(item);
         selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
 
        reagirPorte();
@@ -191,8 +241,9 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
      *
      * @param view
      */
-    public void annulerPorte(View view) {
+    public void annulerPorte(View view) throws JSONException, IOException {
         dialog.cancel();
+        reagirPorte();
     }
 
     /**
@@ -251,19 +302,19 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         paint1.setStrokeWidth(1.5f);
         paint1.setTextSize(20);
 
+
+        bitmap = Bitmap.createBitmap(MurActivity.this.surfaceView.getWidth(), MurActivity.this.surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas1 = new Canvas(bitmap);
         canvas1 = sfhTrackHolder.lockCanvas();
          canvas1.drawColor(0, PorterDuff.Mode.CLEAR);
 
-        for(int i = 0; i< selectMur.getListPorte().size(); i++){
-            Log.i("cc", "dd");
-            porte = selectMur.getListPorte().get(i);
-            assert porte != null;
-            Log.i("rec",porte.getId() + porte.getRect().toString());
+        for (Porte value : selectMur) {
+            porte = value;
             canvas1.drawRect(porte.getRect(), paint);
 
-            canvas1.drawText(porte.getArriver().getNom(),porte.getRect().left,porte.getRect().top-2, paint1);
+            canvas1.drawText(porte.getArriver().getNom()+ porte.getId(), porte.getRect().left, porte.getRect().top - 2, paint1);
         }
+
         sfhTrackHolder.unlockCanvasAndPost(canvas1);
 
     }

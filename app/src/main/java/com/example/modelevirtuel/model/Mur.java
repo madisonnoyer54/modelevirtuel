@@ -1,6 +1,7 @@
 package com.example.modelevirtuel.model;
 
 import android.graphics.Rect;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.Orientation;
@@ -18,6 +19,7 @@ public class Mur implements Iterable<Porte>{
     private String nom;
 
 
+
     /**
      * Constructeur
      */
@@ -25,6 +27,7 @@ public class Mur implements Iterable<Porte>{
         this.nom = nom;
         this.orientation = orientation;
         listPorte = new HashMap<>();
+
     }
 
 
@@ -64,8 +67,37 @@ public class Mur implements Iterable<Porte>{
     }
 
     public void ajoutePorte( Piece arriver, Rect rect){
-        int id = FabriqueIdentifiant.getInstance().getIdPorte();
+        int id;
+        if(listPorte.isEmpty()){
+             id = 0;
+        }else{
+            id = listPorte.size();
+        }
+
         listPorte.put(id, new Porte(arriver,id,rect));
+
+    }
+
+
+    public void suppPorte(int id){
+
+
+        HashMap<Integer, Porte> nv = new HashMap<>();
+        listPorte.remove(id);
+        FabriqueIdentifiant.getInstance().removePorte();
+
+        Iterator<Porte> i = iterator();
+        while(i.hasNext()){
+            Porte m = i.next();
+            int idp =  FabriqueIdentifiant.getInstance().getIdPorte();
+            m.setId(idp);
+            nv.put(idp,m);
+        }
+
+        listPorte = nv;
+
+        Log.i("cc",listPorte.toString());
+
     }
 
 

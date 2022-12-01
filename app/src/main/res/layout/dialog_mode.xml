@@ -22,7 +22,7 @@
             android:layout_width="124dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_height="40dp" android:id="@+id/photo"
+            android:layout_height="40dp" android:id="@+id/photoChange"
             app:rippleColor="#251C1C"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,9 +33,9 @@
             android:layout_width="124dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_height="40dp" android:id="@+id/selectphoto"
+            android:layout_height="40dp" android:id="@+id/selectChangephoto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photo"/>
+            app:layout_constraintTop_toBottomOf="@+id/photoChange"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
