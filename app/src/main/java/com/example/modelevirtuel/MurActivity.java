@@ -4,20 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.graphics.*;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
 import com.example.modelevirtuel.model.*;
-import com.example.modelevirtuel.outils.PieceAdapter;
 import org.json.JSONException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
 
 import static java.lang.Thread.sleep;
 
@@ -61,9 +57,6 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
         // On bloque en mode portrait
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-
-
 
 
         this.x1 = 0;

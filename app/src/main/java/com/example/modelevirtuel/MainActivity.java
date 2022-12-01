@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.*;
@@ -124,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements Observateur{
      */
     public void visualiser(View view){
         dialog.cancel();
+
+        Intent ic = new Intent(MainActivity.this, VisualisationActivity.class);
+        startActivity(ic);
     }
 
 
