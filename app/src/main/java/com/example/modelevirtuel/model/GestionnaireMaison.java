@@ -159,10 +159,6 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
     // SE QUI CONSERNE L'ENREGISTREMENT
 
 
-
-
-
-
     /**
      * Enregistrement
      * @throws IOException
@@ -218,6 +214,11 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
             JSONObject jsonPorte = new JSONObject();
             jsonPorte.put("arriver", p.getArriver().getId());
             jsonPorte.put("id", p.getId());
+            jsonPorte.put("RectTop", p.getRect().top);
+            jsonPorte.put("RectLeft", p.getRect().left);
+            jsonPorte.put("RectBottom", p.getRect().bottom);
+            jsonPorte.put("RectRight", p.getRect().right);
+
             JSONListPorte.put(jsonPorte);
         }
         return JSONListPorte;

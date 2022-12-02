@@ -41,7 +41,7 @@
             android:layout_width="124dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_height="40dp" android:id="@+id/selectChangephoto"
+            android:layout_height="40dp" android:id="@+id/selectBut"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username"/>
 

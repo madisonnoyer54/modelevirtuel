@@ -4,9 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements Observateur{
 
         dialog.show();
 
+        int id =Integer.parseInt((String) numMaisonSelect.getText()) ;
+        listMaison.setSelectMaison(listMaison.getMaison(id));
+        if(listMaison.getSelectMaison().getListPiece().isEmpty()){
+            Button button = dialog.findViewById(R.id.selectBut);
+            button.setBackgroundColor(Color.GRAY);
+        }
+
 
         listMaison.notifierObservateur();
     }
@@ -124,9 +135,27 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     public void visualiser(View view){
         dialog.cancel();
 
+
+        int id =Integer.parseInt((String) numMaisonSelect.getText()) ;
+        listMaison.setSelectMaison(listMaison.getMaison(id));
+
+        if(!listMaison.getSelectMaison().getListPiece().isEmpty()){
+            showDialog(DIALOG_ALERT);
+            dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog_visualisation);
+
+            dialog.show();
+        }
+
+    }
+
+    public void continuerVisu(View view){
         Intent ic = new Intent(MainActivity.this, VisualisationActivity.class);
         startActivity(ic);
     }
+
+
+
 
 
     // CE QUI CONSERNE L'AJOUT DES MAISON
@@ -342,8 +371,16 @@ public class MainActivity extends AppCompatActivity implements Observateur{
             JSONObject obj = new JSONObject(array.getString(i));
             String arriver = obj.getString("arriver");
             int id = Integer.parseInt(obj.getString("id"));
+            int left =  Integer.parseInt(obj.getString("RectLeft"));
+            int right =  Integer.parseInt(obj.getString("RectRight"));
+            int bottom =  Integer.parseInt(obj.getString("RectBottom"));
+            int top =  Integer.parseInt(obj.getString("RectTop"));
 
-         //  m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)));
+            Rect rect = new Rect(left,top,right,bottom);
+
+            Log.i("rect", rect.toString());
+
+           m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)), rect);
 
         }
 

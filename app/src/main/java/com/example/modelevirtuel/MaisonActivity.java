@@ -12,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -225,11 +226,13 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     /**
      * Ouvre le dialogue pour la fonctionaliter des photo
      */
-    public void dialog() {
+    public Dialog dialog() {
         dialog = new Dialog(this);
 
         dialog.setContentView(R.layout.dialog_photo);
         dialog.show();
+
+        return dialog;
     }
 
     /**
@@ -237,11 +240,17 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * @param view
      */
     public void selectPhotoNord(View view) {
-        dialog();
+        Dialog dialog1 = dialog();
         imagePhoto = findViewById(R.id.interrogationNord);
         orientationSelec = Orientation.NORD;
 
+        Button b = dialog1.findViewById(R.id.supphoto);
+        Button b1 = dialog1.findViewById(R.id.selectBut);
 
+        if(ouvertMaison.getPieceSelect().getMur(orientationSelec) == null){
+            b.setBackgroundColor(Color.GRAY);
+            b1.setBackgroundColor(Color.GRAY);
+        }
 
     }
 
@@ -251,9 +260,19 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * @param view
      */
     public void selectPhotoSud(View view) {
-        dialog();
+        Dialog dialog1 = dialog();
         imagePhoto = findViewById(R.id.interrogationSud);
         orientationSelec = Orientation.SUD;
+
+        Button b = dialog1.findViewById(R.id.supphoto);
+        Button b1 = dialog1.findViewById(R.id.selectBut);
+
+        if(ouvertMaison.getPieceSelect().getMur(orientationSelec) == null){
+            b.setBackgroundColor(Color.GRAY);
+            b1.setBackgroundColor(Color.GRAY);
+        }
+
+
     }
 
 
@@ -262,9 +281,18 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * @param view
      */
     public void selectPhotoOuest(View view) {
-        dialog();
+        Dialog dialog1 = dialog();
         imagePhoto = findViewById(R.id.interrogationOuest);
         orientationSelec = Orientation.OUEST;
+
+        Button b = dialog1.findViewById(R.id.supphoto);
+        Button b1 = dialog1.findViewById(R.id.selectBut);
+
+        if(ouvertMaison.getPieceSelect().getMur(orientationSelec) == null){
+            b.setBackgroundColor(Color.GRAY);
+            b1.setBackgroundColor(Color.GRAY);
+        }
+
     }
 
 
@@ -273,9 +301,21 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
      * @param view
      */
     public void selectPhotoEst(View view) {
-        dialog();
+        Dialog dialog1 = dialog();
         imagePhoto = findViewById(R.id.interrogationEst);
         orientationSelec = Orientation.EST;
+
+        Button b = dialog1.findViewById(R.id.supphoto);
+        Button b1 = dialog1.findViewById(R.id.selectBut);
+
+
+        if(ouvertMaison.getPieceSelect().getMur(orientationSelec) == null){
+            b.setBackgroundColor(Color.GRAY);
+            b1.setBackgroundColor(Color.GRAY);
+        }
+
+
+
     }
 
 
@@ -292,7 +332,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                         if(photo != null){
                             String nom = ouvertMaison.getNom()+ouvertMaison.getId()+"_"+ouvertMaison.getPieceSelect().getNom()+ouvertMaison.getPieceSelect().getId()+"_"+orientationSelec.toString();
                             ouvertMaison.ajouterMur(orientationSelec,nom);
-                            Log.i("nom",nom);
                             FileOutputStream fos = null;
                             try {
                                 fos = openFileOutput(nom+".data", MODE_PRIVATE);

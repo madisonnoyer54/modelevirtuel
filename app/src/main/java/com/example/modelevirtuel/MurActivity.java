@@ -91,6 +91,13 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         }
 
         if(!selectMur.getListPorte().isEmpty()){
+
+        }
+
+
+
+
+        this.imageView.setOnTouchListener((v, event) -> {
             try {
                 reagirPorte();
             } catch (JSONException e) {
@@ -98,12 +105,6 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-
-
-
-
-        this.imageView.setOnTouchListener((v, event) -> {
 
             SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
             sfhTrackHolder.setFormat(-2);
@@ -226,6 +227,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
 
        reagirPorte();
+       listMaison.notifierObservateur();
 
     }
 
@@ -305,7 +307,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             porte = value;
             canvas1.drawRect(porte.getRect(), paint);
 
-            canvas1.drawText(porte.getArriver().getNom()+ porte.getId(), porte.getRect().left, porte.getRect().top - 2, paint1);
+            canvas1.drawText(porte.getArriver().getNom(), porte.getRect().left, porte.getRect().top - 2, paint1);
         }
 
         sfhTrackHolder.unlockCanvasAndPost(canvas1);

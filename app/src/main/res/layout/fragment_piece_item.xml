@@ -37,7 +37,7 @@
                 android:layout_marginEnd="8dp" android:layout_marginBottom="16dp"/>
         <TextView
                 android:layout_width="27dp"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:layout_height="20dp" android:id="@+id/item_num_piece"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"

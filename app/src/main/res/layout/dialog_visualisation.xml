@@ -6,40 +6,44 @@
                                                    android:layout_height="match_parent">
 
     <TextView
-            android:text="Vers qu'elle pièce cette porte nous emmène ?"
+            android:text="Qu'elle est la premiere piece ?"
             android:layout_width="wrap_content"
             android:textSize="20dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#121211"
             android:layout_height="wrap_content" android:id="@+id/textView"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            tools:ignore="MissingConstraints" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp" app:layout_constraintHorizontal_bias="0.496"/>
     <Button
             android:text="Annuler"
-            android:onClick="annulerPorte"
+            android:onClick="annuler"
             android:layout_width="124dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_height="48dp" android:id="@+id/photoChange"
-            app:rippleColor="#251C1C"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+            tools:ignore="MissingConstraints"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/spinner_visu"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     <Button
             android:text="Continuer"
-            android:onClick="continuerPorte"
+            android:onClick="continuerVisu"
             android:layout_width="124dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_height="48dp" android:id="@+id/selectBut"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner"/>
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_visu"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
     <Spinner
             android:layout_width="332dp"
-            android:layout_height="41dp" android:id="@+id/spinner"
+            android:layout_height="41dp" android:id="@+id/spinner_visu"
+            android:contentDescription="@string/app_name"
+            android:minHeight="48dp"
+            tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:contentDescription="@string/app_name"
-            android:minHeight="48dp" android:layout_marginStart="35dp" android:layout_marginEnd="35dp"/>
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="24dp"
+            app:layout_constraintHorizontal_bias="0.493"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
