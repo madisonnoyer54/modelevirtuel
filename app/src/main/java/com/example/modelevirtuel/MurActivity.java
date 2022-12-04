@@ -91,13 +91,6 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         }
 
         if(!selectMur.getListPorte().isEmpty()){
-
-        }
-
-
-
-
-        this.imageView.setOnTouchListener((v, event) -> {
             try {
                 reagirPorte();
             } catch (JSONException e) {
@@ -105,6 +98,12 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+
+
+
+
+        this.imageView.setOnTouchListener((v, event) -> {
 
             SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
             sfhTrackHolder.setFormat(-2);

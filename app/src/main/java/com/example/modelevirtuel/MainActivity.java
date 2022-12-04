@@ -10,9 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.*;
@@ -26,12 +24,14 @@ import org.json.JSONObject;
 
 import java.io.*;
 
-public class MainActivity extends AppCompatActivity implements Observateur{
+public class MainActivity extends AppCompatActivity implements Observateur, AdapterView.OnItemSelectedListener {
     GestionnaireMaison listMaison;
     Dialog dialog;
     MaisonAdapter maisonAdapter;
     TextView numMaisonSelect;
     private static final int DIALOG_ALERT = 10;
+
+    private String item;
 
 
 
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements Observateur{
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+
 
 
 
@@ -144,12 +146,30 @@ public class MainActivity extends AppCompatActivity implements Observateur{
             dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_visualisation);
 
+            Spinner spinner = dialog.findViewById(R.id.spinner_visu);
+            //  Log.i("Spinner", String.valueOf(spinner));
+            // Spinner click listener
+            spinner.setOnItemSelectedListener(this);
+
+            // Creating adapter for spinner
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,listMaison.getSelectMaison().transformeEnArray());
+
+            // Drop down layout style - list view with radio button
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setSelection(0);
+
+            // attaching data adapter to spinner
+            spinner.setAdapter(dataAdapter);
+
             dialog.show();
+
+
         }
 
     }
 
     public void continuerVisu(View view){
+        dialog.cancel();
         Intent ic = new Intent(MainActivity.this, VisualisationActivity.class);
         startActivity(ic);
     }
@@ -387,5 +407,14 @@ public class MainActivity extends AppCompatActivity implements Observateur{
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        // On selecting a spinner item
+        item = adapterView.getItemAtPosition(i).toString();
+    }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
