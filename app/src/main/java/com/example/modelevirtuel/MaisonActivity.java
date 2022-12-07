@@ -3,12 +3,14 @@ package com.example.modelevirtuel;
 
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +20,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +34,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,12 +44,19 @@ import com.example.modelevirtuel.outils.FabriqueIdentifiant;
 import com.example.modelevirtuel.outils.Orientation;
 import com.example.modelevirtuel.outils.PieceAdapter;
 import com.example.modelevirtuel.outils.VueCapteurActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
 import static java.lang.Thread.sleep;
@@ -335,7 +347,9 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                             FileOutputStream fos = null;
                             try {
                                 fos = openFileOutput(nom+".data", MODE_PRIVATE);
-                                photo.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                                photo.compress(Bitmap.CompressFormat.PNG, 50, fos);
+                                Mur mur = ouvertMaison.getPieceSelect().getMur(orientationSelec);
+                                meteo(mur);
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
@@ -623,6 +637,71 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         return false;
     }
 
+    public void meteo(Mur mur) {
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // Les permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 48);
+        }
+
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    ExecutorService service = Executors.newSingleThreadExecutor();
+                    service.execute(() -> {
+                        double longitude = location.getLongitude();
+                        double latitude = location.getLatitude();
+
+                        Log.i("lon", String.valueOf(longitude));
+                        Log.i("la", String.valueOf(latitude));
+
+                        String url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=6c2ad30eae15b61aae3d2e90079beb1d&lang=fr";
+                        InputStream in = null;
+                        try {
+                            in = new URL(url).openStream();
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        try {
+                            JSONObject res = readStream(in);
+                            JSONObject desc = (JSONObject) res.getJSONArray("weather").get(0);
+
+
+                            mur.setTemperature(res.getJSONObject("main").getDouble("temp") - 273.15d);
+                            mur.setLoca(res.getString("name"));
+                          //  mur.setIcone("http://openweathermap.org/img/wn/" + desc.get("icon") + "@2x.png");
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+
+
+
+                    });
+                }
+            }
+        });
+    }
+
+    private JSONObject readStream(InputStream is) throws IOException, JSONException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = new BufferedReader(new InputStreamReader(is), 1000);
+        for(String line = r.readLine(); line != null; line = r.readLine()){
+            sb.append(line);
+        }
+        is.close();
+        return new JSONObject((sb.toString()));
+    }
 
 
 }

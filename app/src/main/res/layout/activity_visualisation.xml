@@ -5,40 +5,51 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#932B2B"
+        android:background="#000000"
         tools:context=".VisualisationActivity">
 
     <ImageView
             android:layout_width="408dp"
-            android:layout_height="617dp" app:srcCompat="@drawable/interrogation" android:id="@+id/photo_mur_visu"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="617dp" app:srcCompat="@drawable/piece2" android:id="@+id/photo_mur_visu"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.497"
-            tools:layout_editor_absoluteY="58dp" tools:layout_editor_absoluteX="0dp" tools:ignore="MissingConstraints"/>
-
+            tools:ignore="MissingConstraints"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toTopOf="parent"/>
     <ImageButton
             android:background="#00FFFFFF"
-            android:layout_width="wrap_content"
+            android:layout_width="72dp"
             android:onClick="droite"
-            android:layout_height="wrap_content" app:srcCompat="@drawable/fleched" android:id="@+id/droite"
+            android:layout_height="74dp" app:srcCompat="@drawable/fleched" android:id="@+id/droite"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="OnClick"/>
     <SurfaceView
             android:layout_width="408dp"
             android:layout_height="617dp"
             android:id="@+id/surfaceView_visu"
-            app:layout_constraintTop_toTopOf="@+id/photo_mur_visu"
-            app:layout_constraintBottom_toBottomOf="@+id/photo_mur_visu" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/photo_mur_visu" app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteY="242dp"
-            tools:layout_editor_absoluteX="141dp" tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints" app:layout_constraintTop_toTopOf="parent"/>
     <ImageButton
+
             android:background="#00FFFFFF"
-            android:layout_width="wrap_content"
+            android:layout_width="72dp"
             android:onClick="gauche"
-            android:layout_height="wrap_content" app:srcCompat="@drawable/flecheg" android:id="@+id/gauche"
+            android:layout_height="74dp" app:srcCompat="@drawable/flecheg" android:id="@+id/gauche"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="OnClick"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content" android:id="@+id/loca"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+    />
+    <TextView
+            android:layout_width="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content" android:id="@+id/temp"
+
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

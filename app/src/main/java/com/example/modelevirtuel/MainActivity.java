@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
@@ -57,10 +58,12 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
 
 
-        listMaison.ajouterObservateur(this);
+
         // Ajouter les enregistrement des maison
 
 
+
+        listMaison.ajouterObservateur(this);
 
 
         try {
@@ -70,6 +73,33 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,8 +198,13 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
     }
 
-    public void continuerVisu(View view){
+    public void continuerVisu(View view) throws InterruptedException {
         dialog.cancel();
+        dialog.cancel();
+        Thread.sleep(100);
+        listMaison.getSelectMaison().setPieceVisu(listMaison.getSelectMaison().setPiece(item));
+
+
         Intent ic = new Intent(MainActivity.this, VisualisationActivity.class);
         startActivity(ic);
     }
@@ -288,6 +323,7 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
             sb.append(line);
         }
         is.close();
+
         return new JSONObject((sb.toString()));
     }
 
@@ -313,9 +349,7 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
             // Lecture des piece
             lirePiece(id, obj);
-
         }
-
 
     }
 
@@ -363,11 +397,16 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
             String nom = obj.getString("nom");
 
+            Double temp = Double.valueOf(obj.getString("temperature"));
+            String loca = obj.getString("loca");
+
+
+
 
             Piece p  = m.setPiece(id);
 
 
-            p.ajouterMur(Orientation.valueOf(orientation),nom);
+            p.ajouterMur(Orientation.valueOf(orientation),nom,temp,loca);
 
             lirePorte(m,p.getMur(Orientation.valueOf(orientation)), obj, Orientation.valueOf(orientation));
 
@@ -398,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
             Rect rect = new Rect(left,top,right,bottom);
 
-            Log.i("rect", rect.toString());
+
 
            m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)), rect);
 

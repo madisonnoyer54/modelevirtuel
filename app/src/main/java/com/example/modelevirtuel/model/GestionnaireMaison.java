@@ -212,12 +212,21 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
         while (porte.hasNext()) {
             p = porte.next();
             JSONObject jsonPorte = new JSONObject();
-            jsonPorte.put("arriver", p.getArriver().getId());
-            jsonPorte.put("id", p.getId());
-            jsonPorte.put("RectTop", p.getRect().top);
-            jsonPorte.put("RectLeft", p.getRect().left);
-            jsonPorte.put("RectBottom", p.getRect().bottom);
-            jsonPorte.put("RectRight", p.getRect().right);
+
+            Log.i("id", String.valueOf(p.getId()));
+            if(p.getArriver() != null){
+                Log.i("nom arriver ", p.getArriver().getNom());
+                Log.i("nom arriver ", String.valueOf(p.getArriver().getId()));
+                Log.i("id", String.valueOf(p.getId()));
+
+                jsonPorte.put("arriver", p.getArriver().getId());
+                jsonPorte.put("id", p.getId());
+                jsonPorte.put("RectTop", p.getRect().top);
+                jsonPorte.put("RectLeft", p.getRect().left);
+                jsonPorte.put("RectBottom", p.getRect().bottom);
+                jsonPorte.put("RectRight", p.getRect().right);
+            }
+
 
             JSONListPorte.put(jsonPorte);
         }
@@ -245,6 +254,9 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
                 jsonMurs.put("orientation", " ");
             }
             jsonMurs.put("nom", m.getNom());
+            jsonMurs.put("temperature", m.getTemperature());
+            jsonMurs.put("loca", m.getLoca());
+
             JSONListMurs.put(jsonMurs);
         }
 

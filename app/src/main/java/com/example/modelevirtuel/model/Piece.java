@@ -47,7 +47,14 @@ public class Piece {
         return listMur;
     }
 
-    public void ajouterMur(Orientation orientation, String nom ){
+    public void ajouterMur(Orientation orientation, String nom,Double temp, String loca ){
+        Mur m = new Mur(orientation, nom,temp,loca);
+        listMur.add(m);
+        murSelect = m;
+
+    }
+
+    public void ajouterMur(Orientation orientation, String nom){
         Mur m = new Mur(orientation, nom);
         listMur.add(m);
         murSelect = m;
@@ -71,5 +78,37 @@ public class Piece {
         }
         return  null;
 
+    }
+
+    public Orientation tournerGauche(Orientation orientation){
+        if(orientation == Orientation.NORD){
+            return Orientation.EST;
+        }
+        if(orientation == Orientation.EST){
+            return (Orientation.SUD);
+        }
+        if(orientation == Orientation.SUD){
+            return (Orientation.OUEST);
+        }
+        if(orientation == Orientation.OUEST){
+            return (Orientation.NORD);
+        }
+        return (Orientation.NORD);
+    }
+
+    public Orientation tournerDroite(Orientation orientation){
+        if(orientation == Orientation.NORD){
+            return (Orientation.OUEST);
+        }
+        if(orientation == Orientation.EST){
+            return (Orientation.NORD);
+        }
+        if(orientation == Orientation.SUD){
+            return (Orientation.EST);
+        }
+        if(orientation == Orientation.OUEST){
+            return (Orientation.SUD);
+        }
+        return (Orientation.NORD);
     }
 }

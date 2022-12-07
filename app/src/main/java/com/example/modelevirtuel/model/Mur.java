@@ -1,5 +1,6 @@
 package com.example.modelevirtuel.model;
 
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -18,6 +19,10 @@ public class Mur implements Iterable<Porte>{
     private Orientation orientation;
     private String nom;
 
+    private double temperature;
+    private String loca;
+
+
 
 
     /**
@@ -27,8 +32,42 @@ public class Mur implements Iterable<Porte>{
         this.nom = nom;
         this.orientation = orientation;
         listPorte = new HashMap<>();
+        temperature = 0;
+        loca = " ";
+
 
     }
+
+    public Mur(Orientation orientation, String nom,Double temp,String loca) {
+        this.nom = nom;
+        this.orientation = orientation;
+        listPorte = new HashMap<>();
+        temperature = temp;
+        this.loca = loca;
+
+
+    }
+
+    public String getLoca() {
+        return loca;
+    }
+
+    public void setLoca(String loca) {
+        this.loca = loca;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
 
 
     public Orientation getOrientation() {
@@ -63,18 +102,23 @@ public class Mur implements Iterable<Porte>{
 
     public void ajoutePorte(int id, Piece arriver, Rect rect){
      //   int idp = FabriqueIdentifiant.getInstance().getIdMur();
-        listPorte.put(id, new Porte(arriver,id,rect));
+        if(arriver != null){
+            listPorte.put(id, new Porte(arriver,id,rect));
+        }
+
     }
 
     public void ajoutePorte( Piece arriver, Rect rect){
-        int id;
-        if(listPorte.isEmpty()){
-             id = 0;
-        }else{
-            id = listPorte.size();
-        }
+        if(arriver != null){
+            int id;
+            if(listPorte.isEmpty()){
+                id = 0;
+            }else{
+                id = listPorte.size();
+            }
 
-        listPorte.put(id, new Porte(arriver,id,rect));
+            listPorte.put(id, new Porte(arriver,id,rect));
+        }
 
     }
 

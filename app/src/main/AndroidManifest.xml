@@ -3,6 +3,12 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.example.modelevirtuel">
 
+
+
+    <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature android:name="android.permission.BIND_CONDITION_PROVIDER_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
             android:name="android.hardware.camera"
             android:required="true"/>
@@ -22,6 +28,9 @@
     <uses-feature
             android:name="android.hardware.camera"
             android:required="true"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
             android:allowBackup="true"

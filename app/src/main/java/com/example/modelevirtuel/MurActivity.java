@@ -1,29 +1,43 @@
 package com.example.modelevirtuel;
 
+import android.Manifest;
+import android.location.Location;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.view.*;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.example.modelevirtuel.model.*;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.security.auth.callback.Callback;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.Thread.sleep;
 
-public class MurActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MurActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, Callback {
     GestionnaireMaison listMaison;
     Maison ouvertMaison;
 
     Mur selectMur;
 
     String item;
+
+
 
     private Rect rectangle;
     private SurfaceView surfaceView;
@@ -90,24 +104,32 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1400,false));
         }
 
-        if(!selectMur.getListPorte().isEmpty()){
-            try {
-                reagirPorte();
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
+
 
 
 
 
         this.imageView.setOnTouchListener((v, event) -> {
 
+
+
             SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
             sfhTrackHolder.setFormat(-2);
             event.getActionMasked();
+
+
+
+            if(!selectMur.getListPorte().isEmpty()){
+                try {
+                    reagirPorte();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
 
             if (event.getPointerCount() == 2) {
                 select = true;
@@ -143,6 +165,13 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             return true;
 
         });
+        try {
+            listMaison.notifierObservateur();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -189,6 +218,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         porteSelect.setArriver(ouvertMaison.setPiece(item));
 
         reagirPorte();
+        listMaison.notifierObservateur();
 
     }
 
@@ -196,6 +226,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         dialog.cancel();
         selectMur.suppPorte(porteSelect.getId());
         reagirPorte();
+        listMaison.notifierObservateur();
     }
     public void dialogue(){
         dialog = new Dialog(this);
@@ -224,7 +255,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         dialog.cancel();
         Thread.sleep(100);
         selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
-
+        listMaison.notifierObservateur();
        reagirPorte();
        listMaison.notifierObservateur();
 
@@ -238,6 +269,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     public void annulerPorte(View view) throws JSONException, IOException {
         dialog.cancel();
         reagirPorte();
+        listMaison.notifierObservateur();
     }
 
     /**
@@ -287,14 +319,14 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5.0f);
-        paint.setTextSize(20);
+        paint.setTextSize(30);
 
         Paint paint1 = new Paint();
         paint1.setColor(Color.RED);
         paint1.setAntiAlias(true);
         paint1.setStyle(Paint.Style.STROKE);
         paint1.setStrokeWidth(1.5f);
-        paint1.setTextSize(20);
+        paint1.setTextSize(30);
 
 
         bitmap = Bitmap.createBitmap(MurActivity.this.surfaceView.getWidth(), MurActivity.this.surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
@@ -306,10 +338,14 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             porte = value;
             canvas1.drawRect(porte.getRect(), paint);
 
-            canvas1.drawText(porte.getArriver().getNom(), porte.getRect().left, porte.getRect().top - 2, paint1);
+            canvas1.drawText(porte.getId()+porte.getArriver().getNom()+porte.getArriver().getId(), porte.getRect().left, porte.getRect().top - 2, paint1);
         }
 
         sfhTrackHolder.unlockCanvasAndPost(canvas1);
+        listMaison.notifierObservateur();
 
     }
+
+
+
 }

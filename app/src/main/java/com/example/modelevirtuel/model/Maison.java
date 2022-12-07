@@ -17,6 +17,8 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     private HashMap<Integer, Piece> listPiece;
     private Piece pieceSelect;
 
+    private Piece pieceVisu;
+
     /**
      * Constructeur
      * @param nom
@@ -28,6 +30,13 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         pieceSelect = null;
     }
 
+    public Piece getPieceVisu() {
+        return pieceVisu;
+    }
+
+    public void setPieceVisu(Piece pieceVisu) {
+        this.pieceVisu = pieceVisu;
+    }
 
     /**
      * Fonction qui permet d'ajouter une nouvelle piece a la maison
@@ -174,6 +183,7 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     public void nomPieceSelect(String nom){
         pieceSelect.setNom(nom);
     }
+
 
 
     public void ajouterMur(Orientation o,String nom){
