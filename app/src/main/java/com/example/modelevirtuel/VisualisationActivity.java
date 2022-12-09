@@ -66,6 +66,8 @@ public class VisualisationActivity extends AppCompatActivity {
             sfhTrackHolder.setFormat(-2);
             event.getActionMasked();
 
+
+
             try {
                 reagirPorte();
             } catch (JSONException e) {

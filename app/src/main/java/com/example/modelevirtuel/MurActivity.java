@@ -120,6 +120,9 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
 
 
+
+
+
             if(!selectMur.getListPorte().isEmpty()){
                 try {
                     reagirPorte();

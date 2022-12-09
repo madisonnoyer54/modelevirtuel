@@ -215,9 +215,6 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
 
             Log.i("id", String.valueOf(p.getId()));
             if(p.getArriver() != null){
-                Log.i("nom arriver ", p.getArriver().getNom());
-                Log.i("nom arriver ", String.valueOf(p.getArriver().getId()));
-                Log.i("id", String.valueOf(p.getId()));
 
                 jsonPorte.put("arriver", p.getArriver().getId());
                 jsonPorte.put("id", p.getId());
