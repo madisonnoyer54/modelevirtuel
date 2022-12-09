@@ -30,7 +30,7 @@ import java.util.concurrent.Executors;
 
 import static java.lang.Thread.sleep;
 
-public class MurActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, Callback {
+public class MurActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SurfaceHolder.Callback {
     GestionnaireMaison listMaison;
     Maison ouvertMaison;
 
@@ -107,42 +107,21 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
 
 
+        SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
+        sfhTrackHolder.setFormat(-2);
+        sfhTrackHolder.addCallback(this);
+
 
 
 
 
         this.imageView.setOnTouchListener((v, event) -> {
-
-
-
-            SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
-            sfhTrackHolder.setFormat(-2);
             event.getActionMasked();
 
 
 
-            surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
-                @Override
-                public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-                    try {
-                        reagirPorte();
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
 
-                @Override
-                public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
 
-                }
-
-                @Override
-                public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-
-                }
-            });
 
 
 
@@ -363,5 +342,24 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+        try {
+            reagirPorte();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+
+    }
 }

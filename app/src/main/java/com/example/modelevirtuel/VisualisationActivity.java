@@ -3,6 +3,7 @@ package com.example.modelevirtuel;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.*;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
