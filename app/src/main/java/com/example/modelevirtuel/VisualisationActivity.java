@@ -24,7 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 
-public class VisualisationActivity extends AppCompatActivity {
+public class VisualisationActivity extends AppCompatActivity implements SurfaceHolder.Callback {
     private ImageView imageView;
     private SurfaceView surfaceView;
     private GestionnaireMaison listMaison;
@@ -33,6 +33,8 @@ public class VisualisationActivity extends AppCompatActivity {
     private TextView temp;
     private TextView loca;
     private Porte porteSelect;
+
+    private  SurfaceHolder sfhTrackHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class VisualisationActivity extends AppCompatActivity {
         loca = findViewById(R.id.loca);
         imageView = findViewById(R.id.photo_mur_visu);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView_visu);
+
         surfaceView.setZOrderOnTop(true);
 
 
@@ -57,14 +60,15 @@ public class VisualisationActivity extends AppCompatActivity {
         refreche();
 
 
+       sfhTrackHolder = surfaceView.getHolder();
+        sfhTrackHolder.addCallback(this);
+        sfhTrackHolder.setFormat(-2);
+
+
 
         this.imageView.setOnTouchListener((v, event) -> {
-
-
-
-            SurfaceHolder sfhTrackHolder = surfaceView.getHolder();
-            sfhTrackHolder.setFormat(-2);
             event.getActionMasked();
+
 
 
 
@@ -97,17 +101,36 @@ public class VisualisationActivity extends AppCompatActivity {
     }
 
 
-    public void gauche(View view){
+    /*
+    public void onStart() {
+        surfaceView = (SurfaceView) findViewById(R.id.surfaceView_visu);
+        surfaceView.setZOrderOnTop(true);
+
+
+        super.onStart();
+        try {
+            reagirPorte();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }*/
+    public void gauche(View view) throws JSONException, IOException {
         orientation = listMaison.getSelectMaison().getPieceVisu().tournerGauche(orientation);
+
         refreche();
+        reagirPorte();
     }
 
 
 
-    public void droite(View view){
+    public void droite(View view) throws JSONException, IOException {
         orientation = listMaison.getSelectMaison().getPieceVisu().tournerDroite(orientation);
 
      refreche();
+        reagirPorte();
     }
 
     public void refreche(){
@@ -152,7 +175,8 @@ public class VisualisationActivity extends AppCompatActivity {
     public void reagirPorte() throws JSONException, IOException {
         Porte porte;
         Mur mur = listMaison.getSelectMaison().getPieceVisu().getMur(orientation);
-        SurfaceHolder sfhTrackHolder = this.surfaceView.getHolder();
+
+
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
@@ -185,6 +209,28 @@ public class VisualisationActivity extends AppCompatActivity {
         }
 
         sfhTrackHolder.unlockCanvasAndPost(canvas1);
+
+    }
+
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+        try {
+            reagirPorte();
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
 
     }
 }

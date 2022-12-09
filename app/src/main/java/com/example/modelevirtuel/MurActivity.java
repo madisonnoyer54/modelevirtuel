@@ -2,6 +2,7 @@ package com.example.modelevirtuel;
 
 import android.Manifest;
 import android.location.Location;
+import androidx.annotation.NonNull;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -120,18 +121,30 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
 
 
-
-
-
-            if(!selectMur.getListPorte().isEmpty()){
-                try {
-                    reagirPorte();
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+                @Override
+                public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+                    try {
+                        reagirPorte();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
+
+                @Override
+                public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+
+                }
+            });
+
+
 
 
             if (event.getPointerCount() == 2) {
@@ -313,9 +326,9 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
-    public void reagirPorte() throws JSONException, IOException {
+    public void reagirPorte() throws IOException, JSONException {
         Porte porte;
-        SurfaceHolder sfhTrackHolder = MurActivity.this.surfaceView.getHolder();
+        SurfaceHolder sfhTrackHolder = this.surfaceView.getHolder();
 
         Paint paint = new Paint();
         paint.setColor(Color.RED);
