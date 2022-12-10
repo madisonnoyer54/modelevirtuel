@@ -19,6 +19,10 @@ public class PieceAdapter extends RecyclerView.Adapter<PieceItemViewHolder>{
 
     private HashMap<Integer, Piece> list;
 
+    /**
+     * Constructeur
+     * @param piece
+     */
     public PieceAdapter(HashMap<Integer,Piece> piece){
         this.list = piece;
     }
@@ -40,6 +44,10 @@ public class PieceAdapter extends RecyclerView.Adapter<PieceItemViewHolder>{
         holder.updatePiece(this.list.get(position));
     }
 
+    /**
+     * Fonction qui permet de modifier la liste
+     * @param list
+     */
     public void setList(HashMap<Integer, Piece> list) {
         this.list = list;
     }

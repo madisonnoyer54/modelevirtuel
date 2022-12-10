@@ -73,7 +73,6 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     private ImageView imagePhoto;
     private Orientation orientationSelec;
 
-
     private Sensor sensorMA;
     VueCapteurActivity vue;
     private SensorManager sensorManager;
@@ -369,6 +368,13 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
             });
 
 
+    /**
+     * Fonction qui ouvre le dialogue de la photo
+     * @param view
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws JSONException
+     */
     public void photo(View view) throws IOException, InterruptedException, JSONException {
         dialog.cancel();
 
@@ -378,6 +384,10 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         photo = null;
     }
 
+    /**
+     * Fonction qui permet la selection de la photo
+     * @param view
+     */
     public void selectionPhoto(View view){
         dialog.cancel();
 
@@ -391,6 +401,12 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         }
     }
 
+    /**
+     * Fonction qui permet de supprimer la photo
+     * @param view
+     * @throws JSONException
+     * @throws IOException
+     */
     public void supphoto(View view) throws JSONException, IOException {
         dialog.cancel();
         Mur m = ouvertMaison.getPieceSelect().getMur(orientationSelec);
@@ -484,6 +500,8 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
+    @Override
     public void onResume() {
         super.onResume();
         this.sensorManager.unregisterListener(this);
@@ -637,6 +655,10 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
         return false;
     }
 
+    /**
+     * Fonction qui permet de définir la météo
+     * @param mur
+     */
     public void meteo(Mur mur) {
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 

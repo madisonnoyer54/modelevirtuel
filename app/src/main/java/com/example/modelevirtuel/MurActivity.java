@@ -38,8 +38,6 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     String item;
 
-
-
     private Rect rectangle;
     private SurfaceView surfaceView;
     private int x1;
@@ -102,7 +100,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
                 throw new RuntimeException(e);
             }
             Bitmap bm = BitmapFactory.decodeStream(fis);
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1400,false));
+            imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1300,false));
         }
 
 
@@ -162,6 +160,13 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
+
+    /**
+     * Fonction qui permet de comparer les coordonnée rentrer en paramètre avec les coordonnée des portes
+     * @param x1
+     * @param y1
+     * @return
+     */
     public boolean comparerXY(int x1, int y1){
         Rect r;
 
@@ -175,6 +180,9 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
            return false;
     }
 
+    /**
+     * Fonction qui ouvre le dialogue
+     */
     public void dialogChange(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_change_porte);
@@ -198,6 +206,13 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
+    /**
+     * Fonction qui permet de changer la direction de la porte
+     * @param view
+     * @throws InterruptedException
+     * @throws JSONException
+     * @throws IOException
+     */
     public void continuerChangePorte(View view) throws InterruptedException, JSONException, IOException {
 
         dialog.cancel();
@@ -209,12 +224,22 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
+    /**
+     * Fonction qui permet de supprimer la porte selectionner
+     * @param view
+     * @throws JSONException
+     * @throws IOException
+     */
     public void SuppPorte(View view) throws JSONException, IOException {
         dialog.cancel();
         selectMur.suppPorte(porteSelect.getId());
         reagirPorte();
         listMaison.notifierObservateur();
     }
+
+    /**
+     * Fonction qui permet d'ouvrire le dialogue
+     */
     public void dialogue(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_porte);
@@ -237,6 +262,13 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         dialog.show();
     }
 
+    /**
+     * Fonction qui permet de continuer apres la modification du changement de direction de la porte
+     * @param view
+     * @throws InterruptedException
+     * @throws JSONException
+     * @throws IOException
+     */
     public void continuerPorte(View view) throws InterruptedException, JSONException, IOException {
 
         dialog.cancel();
@@ -297,6 +329,11 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
+    /**
+     * Permet de crée une reaction et d'afficher les nouvelle porte avec la nouvelle image
+     * @throws IOException
+     * @throws JSONException
+     */
     public void reagirPorte() throws IOException, JSONException {
         Porte porte;
         SurfaceHolder sfhTrackHolder = this.surfaceView.getHolder();
@@ -325,7 +362,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             porte = value;
             canvas1.drawRect(porte.getRect(), paint);
 
-            canvas1.drawText(porte.getId()+porte.getArriver(), porte.getRect().left, porte.getRect().top - 2, paint1);
+            canvas1.drawText(porte.getArriver(), porte.getRect().left, porte.getRect().top - 2, paint1);
         }
 
         sfhTrackHolder.unlockCanvasAndPost(canvas1);

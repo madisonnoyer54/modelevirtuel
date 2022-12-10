@@ -177,6 +177,11 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
     }
 
+    /**
+     * Fonction qui permet d'acceder a la visualisation
+     * @param view
+     * @throws InterruptedException
+     */
     public void continuerVisu(View view) throws InterruptedException {
         dialog.cancel();
         dialog.cancel();

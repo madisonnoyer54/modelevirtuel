@@ -13,22 +13,46 @@ public class VueCapteurActivity extends View {
     private  float orianta;
 
 
-
+    /**
+     * Constructeur
+     * @param context
+     */
     public VueCapteurActivity(Context context) {
         super(context);
         init();
     }
 
+
+    /**
+     * Constructeur
+     * @param context
+     * @param attributeSet
+     */
     public VueCapteurActivity(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         init();
     }
 
+
+    /**
+     * Constructeur
+     * @param context
+     * @param attributeSet
+     * @param defStyleAttr
+     */
     public VueCapteurActivity(Context context, AttributeSet attributeSet, int defStyleAttr) {
         super(context, attributeSet, defStyleAttr);
         init();
     }
 
+
+    /**
+     * Constructeur
+     * @param context
+     * @param attributeSet
+     * @param defStyleAttr
+     * @param defStyleRes
+     */
     public VueCapteurActivity(Context context, AttributeSet attributeSet, int defStyleAttr, int defStyleRes) {
         super(context, attributeSet, defStyleAttr, defStyleRes);
         init();
@@ -45,6 +69,10 @@ public class VueCapteurActivity extends View {
 
     }
 
+
+    /**
+     * Fonction qui permet d'initialiser le dessin
+     */
     public void init() {
 
         paint1 = new Paint();
@@ -56,6 +84,10 @@ public class VueCapteurActivity extends View {
 
     }
 
+    /**
+     * Fonction qui permet de mettre l'orientation a jour
+     * @param orianta
+     */
     public void passage(float orianta) {
         this.orianta = orianta;
     }

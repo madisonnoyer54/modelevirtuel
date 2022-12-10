@@ -38,6 +38,13 @@ public class Mur implements Iterable<Porte>{
 
     }
 
+    /**
+     * Constructeur
+     * @param orientation
+     * @param nom
+     * @param temp
+     * @param loca
+     */
     public Mur(Orientation orientation, String nom,Double temp,String loca) {
         this.nom = nom;
         this.orientation = orientation;
@@ -48,49 +55,79 @@ public class Mur implements Iterable<Porte>{
 
     }
 
+
+    /**
+     * Fonction qui permet de retourner la localisation
+     * @return
+     */
     public String getLoca() {
         return loca;
     }
 
+
+    /**
+     * Fonction qui permet de modifier la localisation
+     * @param loca
+     */
     public void setLoca(String loca) {
         this.loca = loca;
     }
 
+
+    /**
+     * Fonction qui permet de modifier le nom
+     * @param nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+
+    /**
+     * Fonction qui permet de retourner la température
+     * @return
+     */
     public double getTemperature() {
         return temperature;
     }
 
+
+    /**
+     * Fonction qui permet de modifier la temperature
+     * @param temperature
+     */
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
 
-
+    /**
+     * Fonction qui permet de retourner l'orientation
+     * @return
+     */
     public Orientation getOrientation() {
         return orientation;
     }
 
+
+    /**
+     * Fonction qui permet de modifier l'orientation
+     * @param orientation
+     */
     public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
     }
 
 
-
-    public void nouvellePorte(Porte p){
-        listPorte.put(p.getId(),p);
-    }
-
+    /**
+     * Fonction qui retourne la liste des porte
+     * @return
+     */
     public HashMap<Integer, Porte> getListPorte() {
         return listPorte;
     }
 
-    public void setListPorte(HashMap<Integer,Porte> listPorte) {
-        this.listPorte = listPorte;
-    }
+
 
     @NonNull
     @NotNull
@@ -100,6 +137,12 @@ public class Mur implements Iterable<Porte>{
     }
 
 
+    /**
+     * Fonction qui permet d'ajouter une porte
+     * @param id
+     * @param arriver
+     * @param rect
+     */
     public void ajoutePorte(int id, String arriver, Rect rect){
      //   int idp = FabriqueIdentifiant.getInstance().getIdMur();
 
@@ -109,6 +152,11 @@ public class Mur implements Iterable<Porte>{
     }
 
 
+    /**
+     * Fonction qui permet d'ajouter une porte
+     * @param arriver
+     * @param rect
+     */
     public void ajoutePorte( String arriver, Rect rect){
         if(arriver != null){
             int id;
@@ -124,6 +172,10 @@ public class Mur implements Iterable<Porte>{
     }
 
 
+    /**
+     * Fonction qui permet de supprimer la porte
+     * @param id
+     */
     public void suppPorte(int id){
 
 

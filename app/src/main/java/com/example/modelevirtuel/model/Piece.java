@@ -26,27 +26,58 @@ public class Piece {
         this.id = id;
     }
 
+    /**
+     * Fonction qui permet de retourner le nom de la piece
+     * @return
+     */
     public String getNom() {
         return nom;
     }
 
+
+    /**
+     * Fonction qui permet de modifier le nom
+     * @param nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+
+    /**
+     * Fonction qui permet de retourner l'id de la piece
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+
+    /**
+     * Foncton qui permet de modifier l'id de la piece
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
 
+    /**
+     * Fonction qui pertmet de retourner la liste des murs
+     * @return
+     */
     public ArrayList<Mur> getListMur() {
         return listMur;
     }
 
+
+    /**
+     * Fonction qui permet d'ajouter un mur
+     * @param orientation
+     * @param nom
+     * @param temp
+     * @param loca
+     */
     public void ajouterMur(Orientation orientation, String nom,Double temp, String loca ){
         Mur m = new Mur(orientation, nom,temp,loca);
         listMur.add(m);
@@ -54,6 +85,11 @@ public class Piece {
 
     }
 
+    /**
+     * FOnction qui permet d'ajouter un mur
+     * @param orientation
+     * @param nom
+     */
     public void ajouterMur(Orientation orientation, String nom){
         Mur m = new Mur(orientation, nom);
         listMur.add(m);
@@ -61,10 +97,20 @@ public class Piece {
 
     }
 
+
+    /**
+     * Fonction qui permet de retourner le mur selectionner
+     * @return
+     */
     public Mur getMurSelect() {
         return murSelect;
     }
 
+
+    /**
+     * Fonction qui permet de modifier le mur selectionner
+     * @param murSelect
+     */
     public void setMurSelect(Mur murSelect) {
         this.murSelect = murSelect;
     }
@@ -80,6 +126,12 @@ public class Piece {
 
     }
 
+
+    /**
+     * Fonction qui permet de retourner l'orientation a gauhce
+     * @param orientation
+     * @return
+     */
     public Orientation tournerGauche(Orientation orientation){
         if(orientation == Orientation.NORD){
             return Orientation.EST;
@@ -96,6 +148,12 @@ public class Piece {
         return (Orientation.NORD);
     }
 
+
+    /**
+     * Fonction qui permet de retourner l'orientation a droite
+     * @param orientation
+     * @return
+     */
     public Orientation tournerDroite(Orientation orientation){
         if(orientation == Orientation.NORD){
             return (Orientation.OUEST);

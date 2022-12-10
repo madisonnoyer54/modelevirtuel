@@ -75,6 +75,9 @@ public class FabriqueIdentifiant {
         idPiece = -1;
     }
 
+    /**
+     * Fonction qui permet de remove l'idPorte
+     */
     public void removePorte() {
         idPorte = -1;
     }

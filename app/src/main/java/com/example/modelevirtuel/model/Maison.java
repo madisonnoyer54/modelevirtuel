@@ -31,14 +31,29 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         pieceSelect = null;
     }
 
+
+    /**
+     * Fonction qui permet de retourner la piece d e la visualisation
+     * @return
+     */
     public Piece getPieceVisu() {
         return pieceVisu;
     }
 
+
+    /**
+     * Fonction qui permet de modifier la piece de la visualisation
+     * @param pieceVisu
+     */
     public void setPieceVisu(Piece pieceVisu) {
         this.pieceVisu = pieceVisu;
     }
 
+
+    /**
+     * Fonction qui permet de modifer la piece de visualisation
+     * @param pieceVisu
+     */
     public void setPieceVisu(String pieceVisu) {
 
         Iterator<Piece> i = iterator();
@@ -198,15 +213,31 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     }
 
 
-
+    /**
+     * Fonction qui permet d'ajouter une mur
+     * @param o
+     * @param nom
+     */
     public void ajouterMur(Orientation o,String nom){
         pieceSelect.ajouterMur(o, nom);
     }
 
+
+    /**
+     * Fonction qui retourne la piece avec l'id rentrer
+     * @param id
+     * @return
+     */
    public Piece setPiece(int id){
         return listPiece.get(id);
    }
 
+
+    /**
+     * Fonction qui permet de retourner la piece avec le nom rentrer
+     * @param nom
+     * @return
+     */
     public Piece setPiece(String nom){
         Piece f = null;
         Iterator<Piece> i = iterator();
@@ -222,9 +253,10 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
     }
 
 
-
-   
-
+    /**
+     * Fonction qui retourner une array a la place d'une hashmap
+     * @return
+     */
    public ArrayList<String> transformeEnArray(){
         ArrayList<String> piece= new ArrayList<String>();
 

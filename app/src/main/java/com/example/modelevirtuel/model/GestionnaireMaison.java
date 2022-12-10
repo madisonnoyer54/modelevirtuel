@@ -73,11 +73,20 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
 
     }
 
+    /**
+     * Fonction qui permet d'ajouter une maison
+     * @param m
+     */
     public void ajouterUneMaison(String m){
         int num =FabriqueIdentifiant.getInstance().getIdMaison();
         listMaison.put(num,new Maison(m,num));
     }
 
+    /**
+     * FOnction qui retourne vrai si le numero est identique sinon faux
+     * @param numero
+     * @return
+     */
     public boolean numeroIdentique(int numero){
         boolean result = false ;
         Iterator<Maison> i = iterator();

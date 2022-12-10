@@ -55,6 +55,10 @@ public class MaisonAdapter extends RecyclerView.Adapter<MaisonItemViewHolder> {
         return this.list.getListMaison().size();
     }
 
+    /**
+     * Fonction qui permet de modifier la liste
+     * @param maison
+     */
     public void setList(GestionnaireMaison maison) {
        this.list = maison;
     }

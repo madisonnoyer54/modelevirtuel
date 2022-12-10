@@ -16,6 +16,10 @@ public class PieceItemViewHolder extends RecyclerView.ViewHolder  {
    private TextView num;
 
 
+    /**
+     * Constructeur
+     * @param itemView
+     */
     public PieceItemViewHolder( @NonNull @NotNull View itemView) {
         super(itemView);
         nom = itemView.findViewById(R.id.item_Nom_piece);
@@ -23,7 +27,10 @@ public class PieceItemViewHolder extends RecyclerView.ViewHolder  {
     }
 
 
-
+    /**
+     * Fonction update
+     * @param piece
+     */
     public void updatePiece(Piece piece){
         this.piece = piece;
         this.nom.setText(String.valueOf(piece.getNom()));

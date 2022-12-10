@@ -50,7 +50,6 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
         loca = findViewById(R.id.loca);
         imageView = findViewById(R.id.photo_mur_visu);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView_visu);
-
         surfaceView.setZOrderOnTop(true);
 
 
@@ -75,16 +74,8 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
 
             if (event.getPointerCount() == 1 && comparerXY((int) event.getX(0),(int) event.getY(0))) {
 
-           //     Log.i("liste Porte", porteSelect.getArriver().getMur(Orientation.SUD).getListPorte().toString() );
-            //    Log.i("liste Porte", porteSelect.getArriver().getMur(Orientation.OUEST).getListPorte().toString() );
-            //    Log.i("liste Porte", porteSelect.getArriver().getMur(Orientation.EST).getListPorte().toString() );
                 listMaison.getSelectMaison().setPieceVisu(porteSelect.getArriver());
-                Log.i("setArriver",porteSelect.getArriver());
-                Log.i("set",listMaison.getSelectMaison().getPieceVisu().getNom());
 
-             //   Log.i("liste Porte2", porteSelect.getArriver().getMur(Orientation.SUD).getListPorte().toString() );
-              //  Log.i("liste Porte2", porteSelect.getArriver().getMur(Orientation.OUEST).getListPorte().toString() );
-              //  Log.i("liste Porte2", porteSelect.getArriver().getMur(Orientation.EST).getListPorte().toString() );
                 try {
                     reagirPorte();
                 } catch (JSONException e) {
@@ -110,22 +101,12 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
     }
 
 
-    /*
-    public void onStart() {
-        surfaceView = (SurfaceView) findViewById(R.id.surfaceView_visu);
-        surfaceView.setZOrderOnTop(true);
-
-
-        super.onStart();
-        try {
-            reagirPorte();
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }*/
+    /**
+     * Fonction qui permet de declancher le bouton gauche
+     * @param view
+     * @throws JSONException
+     * @throws IOException
+     */
     public void gauche(View view) throws JSONException, IOException {
         orientation = listMaison.getSelectMaison().getPieceVisu().tournerGauche(orientation);
 
@@ -134,7 +115,12 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
     }
 
 
-
+    /**
+     * Fonction qui permet de declanger le bouton droit
+     * @param view
+     * @throws JSONException
+     * @throws IOException
+     */
     public void droite(View view) throws JSONException, IOException {
         orientation = listMaison.getSelectMaison().getPieceVisu().tournerDroite(orientation);
 
@@ -142,6 +128,9 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
         reagirPorte();
     }
 
+    /**
+     * Fonction qui permet de remettre a jour la meteo et l'image
+     */
     public void refreche(){
         FileInputStream fis = null;
         if(listMaison.getSelectMaison().getPieceVisu().getMur(orientation) != null){
@@ -154,7 +143,7 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
                 throw new RuntimeException(e);
             }
             Bitmap bm = BitmapFactory.decodeStream(fis);
-            imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1400,false));
+            imageView.setImageBitmap(Bitmap.createScaledBitmap(bm, 1000,1300,false));
         }else{
 
             temp.setText(" ");
@@ -164,6 +153,12 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
 
     }
 
+    /**
+     * Fonction qui permet de comparer
+     * @param x1
+     * @param y1
+     * @return
+     */
     public boolean comparerXY(int x1, int y1){
         Rect r;
         Mur mur = listMaison.getSelectMaison().getPieceVisu().getMur(orientation);
@@ -178,9 +173,17 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
             }
         }
 
+
+
         return false;
     }
 
+
+    /**
+     * Fonction qui permet de mettre a jour les porte
+     * @throws JSONException
+     * @throws IOException
+     */
     public void reagirPorte() throws JSONException, IOException {
         Porte porte;
         Mur mur = listMaison.getSelectMaison().getPieceVisu().getMur(orientation);

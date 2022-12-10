@@ -17,8 +17,10 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
     private Maison maison;
 
 
-
-
+    /**
+     * Constructeur
+     * @param itemView
+     */
     public MaisonItemViewHolder( View itemView ) {
         super(itemView);
         nom = itemView.findViewById(R.id.item_Nom_maison);
@@ -28,7 +30,10 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
     }
 
 
-
+    /**
+     * Fonction update
+     * @param maison
+     */
     public void updateMaison(Maison maison){
         if(maison != null){
             this.maison = maison;
