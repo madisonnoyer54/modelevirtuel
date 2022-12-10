@@ -11,7 +11,7 @@ import com.example.modelevirtuel.model.Piece;
 import org.jetbrains.annotations.NotNull;
 
 public class PieceItemViewHolder extends RecyclerView.ViewHolder  {
-    private Piece piece;
+
    private TextView nom;
    private TextView num;
 
@@ -32,7 +32,7 @@ public class PieceItemViewHolder extends RecyclerView.ViewHolder  {
      * @param piece
      */
     public void updatePiece(Piece piece){
-        this.piece = piece;
+
         this.nom.setText(String.valueOf(piece.getNom()));
         this.num.setText(String.valueOf(piece.getId()));
 

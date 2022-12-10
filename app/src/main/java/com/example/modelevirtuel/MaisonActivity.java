@@ -67,19 +67,17 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     private Maison ouvertMaison;
     private Dialog dialog;
     private PieceAdapter pieceAdapt;
-
-    static final int PHOTO = 1;
     private Bitmap photo;
     private ImageView imagePhoto;
     private Orientation orientationSelec;
 
     private Sensor sensorMA;
-    VueCapteurActivity vue;
+    private VueCapteurActivity vue;
     private SensorManager sensorManager;
     private Sensor sensorACC;
 
-    float[] magneticVector = new float[3];
-    float[] acceleromterVector = new float[3];
+    private float[] magneticVector = new float[3];
+    private float[] acceleromterVector = new float[3];
 
 
     @RequiresApi(api = Build.VERSION_CODES.S)
@@ -371,11 +369,8 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
     /**
      * Fonction qui ouvre le dialogue de la photo
      * @param view
-     * @throws IOException
-     * @throws InterruptedException
-     * @throws JSONException
      */
-    public void photo(View view) throws IOException, InterruptedException, JSONException {
+    public void photo(View view){
         dialog.cancel();
 
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");

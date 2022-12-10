@@ -31,12 +31,12 @@ import java.util.concurrent.Executors;
 import static java.lang.Thread.sleep;
 
 public class MurActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SurfaceHolder.Callback {
-    GestionnaireMaison listMaison;
-    Maison ouvertMaison;
+    private GestionnaireMaison listMaison;
+    private Maison ouvertMaison;
 
-    Mur selectMur;
+    private Mur selectMur;
 
-    String item;
+    private String item;
 
     private Rect rectangle;
     private SurfaceView surfaceView;

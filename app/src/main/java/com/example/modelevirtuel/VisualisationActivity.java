@@ -37,7 +37,7 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
     private Porte porteSelect;
 
     private  SurfaceHolder sfhTrackHolder;
-    private Maison maisonOuvert;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,6 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
 
         // On recupaire le gestionnaire
         listMaison = GestionnaireMaison.getInstance();
-        maisonOuvert = listMaison.getSelectMaison();
 
 
         FileInputStream fis = null;

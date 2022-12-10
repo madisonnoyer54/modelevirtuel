@@ -14,7 +14,7 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
 
     private TextView nom;
     private TextView num;
-    private Maison maison;
+
 
 
     /**
@@ -36,7 +36,6 @@ public class MaisonItemViewHolder extends RecyclerView.ViewHolder   {
      */
     public void updateMaison(Maison maison){
         if(maison != null){
-            this.maison = maison;
             this.nom.setText(String.valueOf(maison.getNom()));
             this.num.setText(String.valueOf(maison.getId()));
         }
