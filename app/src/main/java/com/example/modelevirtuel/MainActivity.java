@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity implements Observateur, AdapterView.OnItemSelectedListener {
     GestionnaireMaison listMaison;
@@ -66,40 +67,18 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
         listMaison.ajouterObservateur(this);
 
 
+
+
+
+
         try {
            lireEnregistrement();
+           //ajoutePieceArriver();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -351,6 +330,7 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
             lirePiece(id, obj);
         }
 
+
     }
 
 
@@ -394,9 +374,7 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
             JSONObject obj = new JSONObject(array.getString(i));
 
             String orientation = obj.getString("orientation");
-
             String nom = obj.getString("nom");
-
             Double temp = Double.valueOf(obj.getString("temperature"));
             String loca = obj.getString("loca");
 
@@ -437,9 +415,7 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
 
             Rect rect = new Rect(left,top,right,bottom);
 
-
-
-           m.ajoutePorte(id,maison.setPiece(Integer.parseInt(arriver)), rect);
+           m.ajoutePorte(id,arriver, rect);
 
         }
 
@@ -456,4 +432,6 @@ public class MainActivity extends AppCompatActivity implements Observateur, Adap
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
 }

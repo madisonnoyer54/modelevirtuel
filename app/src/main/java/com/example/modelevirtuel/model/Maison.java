@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Maison extends SujetObserve implements Iterable<Piece> {
     private String nom;
@@ -36,6 +37,18 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
 
     public void setPieceVisu(Piece pieceVisu) {
         this.pieceVisu = pieceVisu;
+    }
+
+    public void setPieceVisu(String pieceVisu) {
+
+        Iterator<Piece> i = iterator();
+        while(i.hasNext()){
+            Piece m = i.next();
+            if(Objects.equals(pieceVisu, m.getNom())){
+                this.pieceVisu = m;
+            }
+        }
+
     }
 
     /**
@@ -194,19 +207,21 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         return listPiece.get(id);
    }
 
-    public Piece setPiece(String id){
+    public Piece setPiece(String nom){
         Piece f = null;
         Iterator<Piece> i = iterator();
         while(i.hasNext()){
             Piece m = i.next();
 
-            if(m.getNom() == id){
+            if(m.getNom() == nom){
                 f = m;
             }
 
         }
         return f;
     }
+
+
 
    
 
@@ -223,4 +238,7 @@ public class Maison extends SujetObserve implements Iterable<Piece> {
         return piece;
 
    }
+
+
+
 }

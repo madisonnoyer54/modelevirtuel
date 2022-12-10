@@ -118,14 +118,6 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         this.imageView.setOnTouchListener((v, event) -> {
             event.getActionMasked();
 
-
-
-
-
-
-
-
-
             if (event.getPointerCount() == 2) {
                 select = true;
                 MurActivity.this.x1 = (int) event.getX(0);
@@ -210,7 +202,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
         dialog.cancel();
         Thread.sleep(100);
-        porteSelect.setArriver(ouvertMaison.setPiece(item));
+        porteSelect.setArriver(item);
 
         reagirPorte();
         listMaison.notifierObservateur();
@@ -249,7 +241,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
         dialog.cancel();
         Thread.sleep(100);
-        selectMur.ajoutePorte(ouvertMaison.setPiece(item), rectangle);
+        selectMur.ajoutePorte(item, rectangle);
         listMaison.notifierObservateur();
        reagirPorte();
        listMaison.notifierObservateur();
@@ -333,7 +325,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
             porte = value;
             canvas1.drawRect(porte.getRect(), paint);
 
-            canvas1.drawText(porte.getId()+porte.getArriver().getNom()+porte.getArriver().getId(), porte.getRect().left, porte.getRect().top - 2, paint1);
+            canvas1.drawText(porte.getId()+porte.getArriver(), porte.getRect().left, porte.getRect().top - 2, paint1);
         }
 
         sfhTrackHolder.unlockCanvasAndPost(canvas1);
@@ -344,6 +336,7 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+
         try {
             reagirPorte();
         } catch (IOException e) {
@@ -351,6 +344,8 @@ public class MurActivity extends AppCompatActivity implements AdapterView.OnItem
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
     @Override

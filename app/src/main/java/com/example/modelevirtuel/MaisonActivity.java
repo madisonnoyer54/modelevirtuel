@@ -660,32 +660,33 @@ public class MaisonActivity extends AppCompatActivity implements SensorEventList
                         Log.i("lon", String.valueOf(longitude));
                         Log.i("la", String.valueOf(latitude));
 
-                        String url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=6c2ad30eae15b61aae3d2e90079beb1d&lang=fr";
+                        String url = "http://api.openweathermap.org/data/2.5/weather?lat=" +  latitude + "&lon=" + longitude + "&appid=6c2ad30eae15b61aae3d2e90079beb1d&lang=fr";
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                         InputStream in = null;
                         try {
                             in = new URL(url).openStream();
-
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
 
-                        try {
-                            JSONObject res = readStream(in);
-                            JSONObject desc = (JSONObject) res.getJSONArray("weather").get(0);
 
+                        JSONObject res = null;
+                        try {
+                            res = readStream(in);
+                            //JSONObject desc = (JSONObject) res.getJSONArray("weather").get(0);
 
                             mur.setTemperature(res.getJSONObject("main").getDouble("temp") - 273.15d);
                             mur.setLoca(res.getString("name"));
-                          //  mur.setIcone("http://openweathermap.org/img/wn/" + desc.get("icon") + "@2x.png");
-
+                            //  mur.setIcone("http://openweathermap.org/img/wn/" + desc.get("icon") + "@2x.png");
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
-
-
-
 
                     });
                 }

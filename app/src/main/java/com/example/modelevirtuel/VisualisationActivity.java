@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.modelevirtuel.model.GestionnaireMaison;
+import com.example.modelevirtuel.model.Maison;
 import com.example.modelevirtuel.model.Mur;
 import com.example.modelevirtuel.model.Porte;
 import com.example.modelevirtuel.outils.Orientation;
@@ -36,6 +37,7 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
     private Porte porteSelect;
 
     private  SurfaceHolder sfhTrackHolder;
+    private Maison maisonOuvert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
 
         // On recupaire le gestionnaire
         listMaison = GestionnaireMaison.getInstance();
+        maisonOuvert = listMaison.getSelectMaison();
 
 
         FileInputStream fis = null;
@@ -70,20 +73,25 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
         this.imageView.setOnTouchListener((v, event) -> {
             event.getActionMasked();
 
-
-
-
-            try {
-                reagirPorte();
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-
             if (event.getPointerCount() == 1 && comparerXY((int) event.getX(0),(int) event.getY(0))) {
+
+           //     Log.i("liste Porte", porteSelect.getArriver().getMur(Orientation.SUD).getListPorte().toString() );
+            //    Log.i("liste Porte", porteSelect.getArriver().getMur(Orientation.OUEST).getListPorte().toString() );
+            //    Log.i("liste Porte", porteSelect.getArriver().getMur(Orientation.EST).getListPorte().toString() );
                 listMaison.getSelectMaison().setPieceVisu(porteSelect.getArriver());
+                Log.i("setArriver",porteSelect.getArriver());
+                Log.i("set",listMaison.getSelectMaison().getPieceVisu().getNom());
+
+             //   Log.i("liste Porte2", porteSelect.getArriver().getMur(Orientation.SUD).getListPorte().toString() );
+              //  Log.i("liste Porte2", porteSelect.getArriver().getMur(Orientation.OUEST).getListPorte().toString() );
+              //  Log.i("liste Porte2", porteSelect.getArriver().getMur(Orientation.EST).getListPorte().toString() );
+                try {
+                    reagirPorte();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 refreche();
                 return false;
             }
@@ -204,7 +212,7 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
                 porte = value;
                 canvas1.drawRect(porte.getRect(), paint);
 
-                canvas1.drawText(porte.getArriver().getNom()+porte.getArriver().getId(), porte.getRect().left, porte.getRect().top - 2, paint1);
+                canvas1.drawText(porte.getArriver(), porte.getRect().left, porte.getRect().top - 2, paint1);
             }
 
         }
@@ -215,6 +223,7 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+
         try {
             reagirPorte();
 
@@ -223,6 +232,8 @@ public class VisualisationActivity extends AppCompatActivity implements SurfaceH
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
     @Override

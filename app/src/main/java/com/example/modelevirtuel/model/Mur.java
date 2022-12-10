@@ -100,15 +100,16 @@ public class Mur implements Iterable<Porte>{
     }
 
 
-    public void ajoutePorte(int id, Piece arriver, Rect rect){
+    public void ajoutePorte(int id, String arriver, Rect rect){
      //   int idp = FabriqueIdentifiant.getInstance().getIdMur();
-        if(arriver != null){
+
             listPorte.put(id, new Porte(arriver,id,rect));
-        }
+
 
     }
 
-    public void ajoutePorte( Piece arriver, Rect rect){
+
+    public void ajoutePorte( String arriver, Rect rect){
         if(arriver != null){
             int id;
             if(listPorte.isEmpty()){

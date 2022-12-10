@@ -156,6 +156,8 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
 
 
 
+
+
     // SE QUI CONSERNE L'ENREGISTREMENT
 
 
@@ -216,7 +218,7 @@ public class GestionnaireMaison extends SujetObserve implements Iterable<Maison>
             Log.i("id", String.valueOf(p.getId()));
             if(p.getArriver() != null){
 
-                jsonPorte.put("arriver", p.getArriver().getId());
+                jsonPorte.put("arriver", p.getArriver());
                 jsonPorte.put("id", p.getId());
                 jsonPorte.put("RectTop", p.getRect().top);
                 jsonPorte.put("RectLeft", p.getRect().left);
