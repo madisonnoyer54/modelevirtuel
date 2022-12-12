@@ -42,15 +42,20 @@
             tools:ignore="OnClick"/>
     <TextView
             android:layout_width="wrap_content"
-            android:textColor="#2196F3"
+            android:background="#81FFFFFF"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="20dp"
             android:layout_height="wrap_content" android:id="@+id/loca"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
     />
     <TextView
             android:layout_width="wrap_content"
-            android:textColor="#2196F3"
+            android:textColor="#000000"
+            android:background="#81FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20dp"
             android:layout_height="wrap_content" android:id="@+id/temp"
-
             tools:ignore="MissingConstraints"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
