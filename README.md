@@ -1,0 +1,1 @@
+Projet effectué en Licence 3 Informatique dans le cadre de l'UE Développement Mobile. L'objectif du projet était de réaliser une application modulaire permettant de visiter un lieu en sélectionnant les portes et en tournant sur les quatre faces de la pièce. 
